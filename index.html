@@ -37,6 +37,10 @@
   .spin{animation:spin 1s linear infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .pulse{animation:pulse 1.4s infinite}
+  @keyframes slideUp{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:translateY(0)}
+  }
 
   ::-webkit-scrollbar{width:6px;height:6px}
   ::-webkit-scrollbar-thumb{background:#000;border-radius:3px}
@@ -52,15 +56,12 @@
     padding-bottom:max(10px, env(safe-area-inset-bottom));
   }
 
+  /* HEADER */
   .header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:10px 12px;
     background:#fff;
-    border:2.5px solid #000;
-    border-radius:14px;
+    border:2.5px solid #000;border-radius:14px;
     box-shadow:3px 3px 0 0 #000;
     flex-shrink:0;
   }
@@ -87,6 +88,7 @@
   .status-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;border:1.5px solid #000}
   .status-dot.offline{background:#ef4444}
 
+  /* MODEL BAR */
   .model-bar{position:relative;flex-shrink:0}
   .model-btn{
     width:100%;
@@ -111,8 +113,7 @@
     border:2.5px solid #000;border-radius:12px;
     box-shadow:5px 5px 0 0 #000;
     z-index:100;
-    max-height:60vh;
-    overflow-y:auto;
+    max-height:60vh;overflow-y:auto;
     display:none;
   }
   .dropdown.show{display:block}
@@ -121,7 +122,6 @@
     background:#86EFAC;
     border-bottom:2px solid #000;
     font-weight:800;font-size:9.5px;letter-spacing:1.3px;
-    display:flex;justify-content:space-between;align-items:center;
     position:sticky;top:0;
   }
   .model-item{
@@ -138,24 +138,19 @@
   .model-item .title{font-weight:800;font-size:12px;margin-bottom:1px}
   .model-item .desc{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#666}
 
+  /* CHAT */
   .chat-wrap{
-    flex:1;
-    min-height:0;
+    flex:1;min-height:0;
     background:#fff;
-    border:2.5px solid #000;
-    border-radius:14px;
+    border:2.5px solid #000;border-radius:14px;
     box-shadow:3px 3px 0 0 #000;
-    display:flex;
-    flex-direction:column;
+    display:flex;flex-direction:column;
     overflow:hidden;
   }
   .chat-scroll{
-    flex:1;
-    overflow-y:auto;
+    flex:1;overflow-y:auto;
     padding:14px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+    display:flex;flex-direction:column;gap:10px;
     background:#FDFBF7;
   }
 
@@ -186,32 +181,40 @@
     max-width:200px;max-height:200px;
     border:2px solid #000;border-radius:10px;
     box-shadow:2px 2px 0 0 #000;
-    margin:5px 0;display:block;object-fit:cover;cursor:pointer;
+    margin:0 0 8px 0;
+    display:block;object-fit:cover;cursor:pointer;
   }
+
+  /* FILE BADGE inside message — sekarang tampil di baris sendiri */
   .msg-file{
-    display:inline-flex;
+    display:flex;
     align-items:center;
     gap:8px;
     padding:6px 10px;
     background:#fff;
     border:2px solid #000;border-radius:8px;
     box-shadow:2px 2px 0 0 #000;
-    margin:5px 0;
+    margin-bottom:8px;
     font-family:'JetBrains Mono',monospace;
     font-size:11px;
     max-width:100%;
+    width:fit-content;
   }
   .msg-file .file-ext{
     background:#86EFAC;
     border:1.5px solid #000;border-radius:4px;
-    padding:1px 5px;
+    padding:1px 6px;
     font-weight:800;font-size:9px;
     text-transform:uppercase;
+    flex-shrink:0;
   }
   .msg-file .file-name{
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    font-weight:600;
   }
+  .msg-text{display:block}
 
+  /* CODE BLOCK */
   .code-block{
     background:#101010;color:#D4D4D4;
     border:2px solid #000;border-radius:8px;
@@ -234,9 +237,9 @@
   }
   .code-block pre{white-space:pre-wrap;word-wrap:break-word;max-height:280px;overflow-y:auto}
 
+  /* TYPING */
   .typing{
-    display:none;
-    align-self:flex-start;
+    display:none;align-self:flex-start;
     background:#fff;
     border:2px solid #000;border-radius:14px;
     box-shadow:2px 2px 0 0 #000;
@@ -251,6 +254,7 @@
     30%{transform:translateY(-5px);opacity:1}
   }
 
+  /* ERROR */
   .error-box{
     margin:0 10px 8px;
     padding:9px 12px;
@@ -261,58 +265,109 @@
     display:none;
     font-family:'JetBrains Mono',monospace;
     word-break:break-word;
-    max-height:120px;
-    overflow-y:auto;
+    max-height:120px;overflow-y:auto;
   }
   .error-box.show{display:block}
 
+  /* ============================================
+     INPUT AREA — dengan ATTACH BAR yang baru
+  ============================================ */
   .input-area{
     padding:10px;
     background:#fff;
     border-top:2.5px solid #000;
     flex-shrink:0;
-  }
-
-  .attach-preview{
-    display:none;
-    padding:8px;
-    background:#FDFBF7;
-    border:2px solid #000;border-radius:10px;
-    box-shadow:2px 2px 0 0 #000;
-    margin-bottom:8px;
-    align-items:center;gap:8px;
-  }
-  .attach-preview.show{display:flex}
-  .attach-thumb{
-    width:44px;height:44px;
-    object-fit:cover;border:2px solid #000;border-radius:8px;flex-shrink:0;
-    background:#fff;
-  }
-  .attach-file-icon{
-    width:44px;height:44px;
-    border:2px solid #000;border-radius:8px;flex-shrink:0;
-    background:#86EFAC;
-    display:flex;align-items:center;justify-content:center;
-    font-family:'JetBrains Mono',monospace;
-    font-weight:800;font-size:10px;
-    text-transform:uppercase;
-  }
-  .attach-info{flex:1;min-width:0}
-  .attach-name{font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .attach-size{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#666}
-  .attach-x{
-    width:28px;height:28px;
-    background:#FCA5A5;border:2px solid #000;border-radius:7px;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;flex-shrink:0;
-  }
-
-  .input-row{
     display:flex;
-    align-items:flex-end;
+    flex-direction:column;
     gap:8px;
   }
 
+  /* ATTACH BAR — full width, muncul di atas input, lebih menonjol */
+  .attach-bar{
+    display:none;
+    background:#fff;
+    border:2.5px solid #000;
+    border-radius:12px;
+    box-shadow:3px 3px 0 0 #000;
+    padding:10px;
+    align-items:center;
+    gap:10px;
+    animation:slideUp .2s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .attach-bar.show{display:flex}
+
+  /* colored left strip based on type */
+  .attach-bar::before{
+    content:'';
+    position:absolute;
+    top:0;left:0;bottom:0;
+    width:5px;
+    background:#86EFAC;
+  }
+  .attach-bar.image::before{background:#7DD3FC}
+  .attach-bar.text::before{background:#86EFAC}
+
+  .attach-thumb-wrap{
+    width:48px;height:48px;
+    flex-shrink:0;
+    margin-left:4px;
+  }
+  .attach-thumb{
+    width:48px;height:48px;
+    object-fit:cover;
+    border:2px solid #000;border-radius:10px;
+    background:#fff;
+    display:block;
+  }
+  .attach-file-icon{
+    width:48px;height:48px;
+    border:2px solid #000;border-radius:10px;
+    background:#86EFAC;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    color:#000;
+  }
+
+  .attach-info{flex:1;min-width:0}
+  .attach-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:8.5px;font-weight:700;
+    letter-spacing:1.3px;
+    color:#666;
+    margin-bottom:3px;
+    text-transform:uppercase;
+  }
+  .attach-name{
+    font-size:12.5px;font-weight:800;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    margin-bottom:2px;
+    line-height:1.2;
+  }
+  .attach-size{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;color:#666;font-weight:600;
+  }
+
+  .attach-x{
+    width:34px;height:34px;
+    background:#FCA5A5;
+    border:2px solid #000;border-radius:9px;
+    box-shadow:2px 2px 0 0 #000;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;flex-shrink:0;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .attach-x:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
+
+  /* INPUT ROW */
+  .input-row{
+    display:flex;align-items:flex-end;gap:8px;
+  }
   .icon-btn{
     width:42px;height:42px;flex-shrink:0;
     background:#fff;
@@ -323,10 +378,7 @@
     transition:transform .12s ease,box-shadow .12s ease;
   }
   .icon-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
-  .icon-btn.send{
-    background:#000;color:#fff;
-    border-color:#000;
-  }
+  .icon-btn.send{background:#000;color:#fff;border-color:#000}
   .icon-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:3px 3px 0 0 #000}
 
   textarea.chat-input{
@@ -345,7 +397,6 @@
   textarea.chat-input:focus{box-shadow:4px 4px 0 0 #000}
 
   .input-info{
-    margin-top:7px;
     display:flex;justify-content:space-between;align-items:center;
     font-size:9.5px;color:#666;font-weight:600;
     gap:8px;flex-wrap:wrap;
@@ -358,6 +409,7 @@
     .chat-scroll{padding:10px}
     .input-area{padding:8px}
     .icon-btn{width:40px;height:40px}
+    .attach-thumb-wrap, .attach-thumb, .attach-file-icon{width:42px;height:42px}
   }
 </style>
 </head>
@@ -395,9 +447,7 @@
       </svg>
     </button>
     <div id="dropdown" class="dropdown">
-      <div class="dropdown-header">
-        <span>PILIH MODEL AI</span>
-      </div>
+      <div class="dropdown-header">PILIH MODEL AI</div>
       <div id="modelList"></div>
     </div>
   </div>
@@ -407,15 +457,20 @@
     <div id="errorBox" class="error-box"></div>
 
     <div class="input-area">
-      <div id="attachPreview" class="attach-preview">
-        <img id="attachThumb" class="attach-thumb" style="display:none" alt="">
-        <div id="attachFileIcon" class="attach-file-icon" style="display:none">JS</div>
+
+      <!-- ATTACH BAR — muncul di atas input row, full width -->
+      <div id="attachBar" class="attach-bar">
+        <div class="attach-thumb-wrap">
+          <img id="attachThumb" class="attach-thumb" style="display:none" alt="">
+          <div id="attachFileIcon" class="attach-file-icon" style="display:none">JS</div>
+        </div>
         <div class="attach-info">
-          <div id="attachName" class="attach-name">file</div>
+          <div class="attach-label">File Terlampir</div>
+          <div id="attachName" class="attach-name">file.js</div>
           <div id="attachSize" class="attach-size">0 KB</div>
         </div>
-        <button type="button" id="attachX" class="attach-x">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button type="button" id="attachX" class="attach-x" title="Hapus">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
 
@@ -454,9 +509,10 @@ const CONFIG = {
   PROXY_ENDPOINT: '/api/chat',
   SYSTEM_PROMPT: `Kamu adalah NexusHUB AI, asisten AI canggih yang dikembangkan oleh xs0ciety HUB. Kamu membantu user dengan jawaban yang jelas, akurat, dan ramah. Kamu menguasai banyak topik: coding, teknologi, sains, kreatif, dan lain-lain. Jawab dengan gaya santai tapi profesional dalam Bahasa Indonesia. Kalau user pakai Bahasa Inggris, balas pakai Bahasa Inggris juga. Kalau user kirim gambar, jelaskan isi gambar tersebut dengan detail. Kalau user kirim file code, analisa kodenya dengan teliti dan bantu debug atau jelaskan fungsinya.`,
   TEMPERATURE: 0.7,
-  MAX_TOKENS: 4096,
-  MAX_IMAGE_SIZE_MB: 5,
-  MAX_TEXT_FILE_SIZE_KB: 200
+  MAX_TOKENS: 2048,
+  MAX_IMAGE_SIZE_MB: 3,
+  MAX_TEXT_FILE_SIZE_KB: 80,
+  MAX_TEXT_CHARS: 8000
 };
 
 /* =================================================================
@@ -514,7 +570,7 @@ const MODELS = [
 ];
 
 const DEFAULT_MODEL_ID = MODELS[0].id;
-const MODEL_STORAGE_KEY = 'nexushub.model.v5';
+const MODEL_STORAGE_KEY = 'nexushub.model.v6';
 
 /* =================================================================
    UTILS
@@ -533,7 +589,6 @@ const getFileType = file => {
   const ext = getExt(file.name);
   if (IMAGE_EXT.includes(ext)) return 'image';
   if (TEXT_EXT.includes(ext)) return 'text';
-  // fallback by mime
   if (file.type.startsWith('image/')) return 'image';
   if (file.type.startsWith('text/') || file.type.includes('json') || file.type.includes('javascript')) return 'text';
   return null;
@@ -544,7 +599,7 @@ const getFileType = file => {
 ================================================================= */
 let messageHistory = [];
 let currentModel = getModelById(localStorage.getItem(MODEL_STORAGE_KEY) || DEFAULT_MODEL_ID);
-let pendingFile = null; // { type:'image'|'text', dataUrl?, text?, name, size, ext }
+let pendingFile = null;
 let isSending = false;
 
 /* =================================================================
@@ -563,7 +618,7 @@ const modelNameEl   = document.getElementById('modelName');
 const modelDotEl    = document.getElementById('modelDot');
 const fileInput     = document.getElementById('fileInput');
 const attachBtn     = document.getElementById('attachBtn');
-const attachPreview = document.getElementById('attachPreview');
+const attachBar     = document.getElementById('attachBar');
 const attachThumb   = document.getElementById('attachThumb');
 const attachFileIcon= document.getElementById('attachFileIcon');
 const attachName    = document.getElementById('attachName');
@@ -609,7 +664,6 @@ function selectModel(id){
     { badge: m.name, color: m.color }
   );
 
-  // Kalau ada image pending tapi model baru gak support → clear
   if (pendingFile && pendingFile.type === 'image' && !m.supportVision){
     clearFile();
     showError(`${m.name} tidak support gambar. Attachment dihapus.`);
@@ -647,7 +701,6 @@ function handleFile(file){
     return;
   }
 
-  // Image handling
   if (ftype === 'image'){
     if (!currentModel.supportVision){
       showError(`${currentModel.name} tidak support gambar. Pakai Auto atau Gemma 3.`);
@@ -673,7 +726,6 @@ function handleFile(file){
     return;
   }
 
-  // Text file handling
   if (ftype === 'text'){
     if (file.size > CONFIG.MAX_TEXT_FILE_SIZE_KB * 1024){
       showError(`File text max ${CONFIG.MAX_TEXT_FILE_SIZE_KB} KB.`);
@@ -699,11 +751,16 @@ function handleFile(file){
 function showFilePreview(){
   if (!pendingFile) return;
 
+  // Reset dulu
+  attachBar.classList.remove('image','text');
+
   if (pendingFile.type === 'image'){
+    attachBar.classList.add('image');
     attachThumb.src = pendingFile.dataUrl;
     attachThumb.style.display = 'block';
     attachFileIcon.style.display = 'none';
   } else {
+    attachBar.classList.add('text');
     attachThumb.style.display = 'none';
     attachFileIcon.style.display = 'flex';
     attachFileIcon.textContent = pendingFile.ext.toUpperCase().slice(0, 4);
@@ -711,12 +768,12 @@ function showFilePreview(){
 
   attachName.textContent = pendingFile.name;
   attachSize.textContent = fmtSize(pendingFile.size);
-  attachPreview.classList.add('show');
+  attachBar.classList.add('show');
 }
 
 function clearFile(){
   pendingFile = null;
-  attachPreview.classList.remove('show');
+  attachBar.classList.remove('show','image','text');
   attachThumb.src = '';
 }
 
@@ -747,14 +804,12 @@ async function sendMessage(){
   const hasFile = !!pendingFile;
   if ((!message && !hasFile) || isSending) return;
 
-  // Display message user
   const displayOpts = {};
   if (pendingFile?.type === 'image') displayOpts.image = pendingFile.dataUrl;
   if (pendingFile?.type === 'text') displayOpts.file = { name: pendingFile.name, ext: pendingFile.ext };
 
   addMessage('user', message || (hasFile ? '(mengirim file)' : ''), displayOpts);
 
-  // Build API content
   const apiContent = buildUserContent(message, pendingFile);
 
   chatInput.value = '';
@@ -773,7 +828,7 @@ async function sendMessage(){
     setStatus('READY', true);
   } catch (err){
     hideTyping();
-    showError(err.message); // show raw error now
+    showError(err.message);
     setStatus('ERROR', false);
   }
 
@@ -783,10 +838,8 @@ async function sendMessage(){
 }
 
 function buildUserContent(text, file){
-  // No file → simple string
   if (!file) return text || '';
 
-  // Image → multimodal format
   if (file.type === 'image'){
     const parts = [];
     if (text) parts.push({ type: 'text', text });
@@ -794,19 +847,16 @@ function buildUserContent(text, file){
     return parts;
   }
 
-  // Text file → embed as code block in the string
   if (file.type === 'text'){
     const lang = LANG_MAP[file.ext] || file.ext || 'text';
-    // Truncate kalau kepanjangan (biar gak boros token)
     let fileText = file.text;
-    const MAX_CHARS = 15000;
     let truncated = false;
-    if (fileText.length > MAX_CHARS){
-      fileText = fileText.slice(0, MAX_CHARS);
+    if (fileText.length > CONFIG.MAX_TEXT_CHARS){
+      fileText = fileText.slice(0, CONFIG.MAX_TEXT_CHARS);
       truncated = true;
     }
     const header = text ? `${text}\n\n` : '';
-    const truncNote = truncated ? `\n\n... (file terpotong, hanya 15.000 karakter pertama)` : '';
+    const truncNote = truncated ? `\n\n... (file terpotong, hanya ${CONFIG.MAX_TEXT_CHARS.toLocaleString()} karakter pertama)` : '';
     return `${header}\`\`\`${lang}\n// File: ${file.name}\n${fileText}\`\`\`${truncNote}`;
   }
 
@@ -836,9 +886,24 @@ async function callProxy(userContent){
     body: JSON.stringify(body)
   });
 
+  // Handle non-JSON response (server timeout / gateway error)
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('json')){
+    // Extract error text from HTML error page kalau ada
+    let text = '';
+    try { text = await res.text(); } catch {}
+    if (res.status === 504 || text.includes('timeout')){
+      throw new Error('Server timeout. File atau pesan kamu terlalu besar. Coba perkecil atau kirim bagian tertentu.');
+    }
+    if (res.status === 502 || res.status === 503){
+      throw new Error('Server sedang sibuk. Coba lagi beberapa saat.');
+    }
+    throw new Error(`Server error (HTTP ${res.status}). Response tidak valid.`);
+  }
+
   let data;
   try { data = await res.json(); }
-  catch { throw new Error(`HTTP ${res.status} - response tidak valid`); }
+  catch { throw new Error(`Gagal parsing response. HTTP ${res.status}`); }
 
   if (!res.ok){
     const errMsg = data?.error?.message || data?.message || `HTTP ${res.status}`;
@@ -870,7 +935,9 @@ function addMessage(role, content, opts = {}){
       <span class="file-name">${escapeHtml(opts.file.name)}</span>
     </div>`;
   }
-  html += formatMessage(content);
+  if (content){
+    html += `<span class="msg-text">${formatMessage(content)}</span>`;
+  }
   html += `<div class="msg-time">${nowTime()}</div>`;
 
   wrap.innerHTML = html;
@@ -885,9 +952,10 @@ function addMessage(role, content, opts = {}){
 function formatMessage(content){
   if (Array.isArray(content)){
     const t = content.find(p => p.type === 'text');
-    content = t?.text || '(gambar)';
+    content = t?.text || '';
   }
   if (typeof content !== 'string') content = String(content);
+  if (!content) return '';
 
   if (content.includes('```')){
     const parts = content.split('```');
@@ -960,14 +1028,13 @@ function hideTyping(){
 }
 
 function showError(msg){
-  // Simple fallback kalau panjang banget
   let display = msg;
-  if (display.length > 300) display = display.slice(0, 300) + '...';
+  if (display.length > 400) display = display.slice(0, 400) + '...';
   errorBox.textContent = display;
   errorBox.classList.add('show');
   clearTimeout(errorBox._t);
   errorBox._t = setTimeout(() => errorBox.classList.remove('show'), 15000);
-  console.error('[NexusHUB error]', msg);
+  console.error('[NexusHUB]', msg);
 }
 
 function setStatus(text, ok){
@@ -996,4 +1063,4 @@ initChat();
 chatInput.focus();
 </script>
 </body>
-</html>
+ </html>
