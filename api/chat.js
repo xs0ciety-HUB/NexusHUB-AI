@@ -1,8 +1,6 @@
-// api/chat.js — OpenRouter Proxy
-// API key disimpan di env Vercel, gak keliatan di browser
+// api/chat.js — OpenRouter Proxy dengan timeout handling
 
 export default async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -20,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { model, messages, temperature = 0.7, max_tokens = 2048 } = req.body || {};
+    const { model, messages, temperature = 0.7, max_tokens = 1024 } = req.body || {};
 
     if (!model || !messages || !Array.isArray(messages)) {
       return res.status(400).json({
@@ -28,21 +26,49 @@ export default async function handler(req, res) {
       });
     }
 
-    const upstream = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`,
-        'HTTP-Referer': req.headers.referer || 'https://nexushub-ai.duckdns.org',
-        'X-Title': 'NexusHUB AI'
-      },
-      body: JSON.stringify({ model, messages, temperature, max_tokens })
-    });
+    // Timeout 55 detik (kurang dari maxDuration 60s)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 55000);
+
+    let upstream;
+    try {
+      upstream = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${API_KEY}`,
+          'HTTP-Referer': req.headers.origin || req.headers.referer || 'http://localhost',
+          'X-Title': 'NexusHUB AI'
+        },
+        body: JSON.stringify({ model, messages, temperature, max_tokens }),
+        signal: controller.signal
+      });
+    } catch (fetchErr) {
+      clearTimeout(timeoutId);
+      if (fetchErr.name === 'AbortError') {
+        return res.status(504).json({
+          error: { message: 'AI butuh waktu lebih lama untuk membalas. Coba kirim pesan yang lebih singkat atau file yang lebih kecil.' }
+        });
+      }
+      return res.status(502).json({
+        error: { message: 'Gagal menghubungi server AI. Coba lagi.' }
+      });
+    }
+    clearTimeout(timeoutId);
 
     const data = await upstream.json();
-    return res.status(upstream.status).json(data);
+
+    if (!upstream.ok) {
+      return res.status(upstream.status).json({
+        error: { message: data?.error?.message || `HTTP ${upstream.status}` }
+      });
+    }
+
+    return res.status(200).json(data);
   } catch (err) {
     console.error('[proxy error]', err);
-    return res.status(500).json({ error: { message: err.message || 'Internal server error' } });
+    return res.status(500).json({
+      error: { message: err.message || 'Internal server error' }
+    });
   }
-    }
+}
