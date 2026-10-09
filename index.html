@@ -3,344 +3,426 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NexusHUB AI — Multi-Model Chat</title>
+<title>NexusHUB AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%}
+  html,body{height:100%;overflow:hidden}
   body{
     font-family:'Plus Jakarta Sans',system-ui,sans-serif;
     background:#FDFBF7;color:#000;
     -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-    min-height:100vh;
   }
-  .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+  .mono{font-family:'JetBrains Mono',monospace}
 
   .sh-sm{box-shadow:2px 2px 0 0 #000}
   .sh{box-shadow:3px 3px 0 0 #000}
   .sh-lg{box-shadow:4px 4px 0 0 #000}
-  .sh-xl{box-shadow:5px 5px 0 0 #000}
-  .sh-2xl{box-shadow:6px 6px 0 0 #000}
   .bd{border:2.5px solid #000}
   .bd-2{border:2px solid #000}
-  .bd-3{border:3px solid #000}
-  .btn-brutal{transition:transform .13s ease,box-shadow .13s ease}
-  .btn-brutal:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 0 #000}
-  .btn-brutal:active{transform:translate(2px,2px);box-shadow:1px 1px 0 0 #000}
+  .btn-brutal{transition:transform .12s ease,box-shadow .12s ease}
+  .btn-brutal:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 0 #000}
+  .btn-brutal:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
 
   .pgreen{background:#86EFAC}
   .pyellow{background:#FDE047}
   .porange{background:#FDBA74}
-  .pblue{background:#3B82F6}
   .pred{background:#FCA5A5}
-  .ppurple{background:#C4B5FD}
-  .pcyan{background:#7DD3FC}
   .cream{background:#FDFBF7}
 
-  .pulse{animation:p 1.4s ease-in-out infinite}
-  @keyframes p{0%,100%{opacity:1}50%{opacity:.35}}
-
-  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-  .fade-in{animation:fadeIn .3s ease}
-  .slide-in{animation:slideIn .3s ease}
-
-  @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .spin{animation:spin 1s linear infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .pulse{animation:pulse 1.4s infinite}
 
-  ::-webkit-scrollbar{width:8px;height:8px}
-  ::-webkit-scrollbar-track{background:transparent}
-  ::-webkit-scrollbar-thumb{background:#000;border-radius:999px}
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-thumb{background:#000;border-radius:3px}
 
-  .ico{display:inline-block;vertical-align:middle;flex-shrink:0}
+  /* ================= LAYOUT ================= */
+  .app{
+    height:100dvh;
+    display:flex;
+    flex-direction:column;
+    padding:10px;
+    gap:8px;
+    max-width:900px;
+    margin:0 auto;
+    padding-bottom:max(10px, env(safe-area-inset-bottom));
+  }
 
-  body{display:flex;flex-direction:column;height:100vh;padding:14px;gap:12px;max-width:1100px;margin:0 auto}
+  /* HEADER */
+  .header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 12px;
+    background:#fff;
+    border:2.5px solid #000;
+    border-radius:14px;
+    box-shadow:3px 3px 0 0 #000;
+    flex-shrink:0;
+  }
+  .header-left{display:flex;align-items:center;gap:10px;min-width:0}
+  .logo{
+    width:38px;height:38px;flex-shrink:0;
+    background:#86EFAC;
+    border:2px solid #000;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .brand{min-width:0}
+  .brand-name{font-weight:800;font-size:14px;line-height:1.1;letter-spacing:-.3px}
+  .brand-sub{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:1.5px;opacity:.5;margin-top:2px}
 
-  .chat-messages{
-    flex:1;overflow-y:auto;padding:16px;
-    display:flex;flex-direction:column;gap:12px;
+  .status-pill{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:4px 10px;
+    background:#fff;
+    border:2px solid #000;border-radius:999px;
+    box-shadow:2px 2px 0 0 #000;
+    font-weight:800;font-size:9.5px;letter-spacing:.8px;
+    flex-shrink:0;
+  }
+  .status-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;border:1.5px solid #000}
+  .status-dot.offline{background:#ef4444}
+
+  /* MODEL BAR */
+  .model-bar{
+    position:relative;
+    flex-shrink:0;
+  }
+  .model-btn{
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:10px 12px;
+    background:#fff;
+    border:2.5px solid #000;border-radius:12px;
+    box-shadow:3px 3px 0 0 #000;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:800;font-size:12px;
+    cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .model-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
+  .model-btn-left{display:flex;align-items:center;gap:8px;min-width:0}
+  .model-dot{width:9px;height:9px;border-radius:50%;border:1.5px solid #000;flex-shrink:0}
+  .model-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+
+  .dropdown{
+    position:absolute;top:calc(100% + 6px);left:0;right:0;
+    background:#fff;
+    border:2.5px solid #000;border-radius:12px;
+    box-shadow:5px 5px 0 0 #000;
+    z-index:100;
+    max-height:60vh;
+    overflow-y:auto;
+    display:none;
+  }
+  .dropdown.show{display:block}
+  .dropdown-header{
+    padding:8px 12px;
+    background:#86EFAC;
+    border-bottom:2px solid #000;
+    font-weight:800;font-size:9.5px;letter-spacing:1.3px;
+    display:flex;justify-content:space-between;align-items:center;
+    position:sticky;top:0;
+  }
+  .model-item{
+    padding:10px 12px;
+    border-bottom:1.5px dashed #ddd;
+    cursor:pointer;
+    display:flex;align-items:flex-start;gap:10px;
+  }
+  .model-item:last-child{border-bottom:none}
+  .model-item:active{background:#FEF9C3}
+  .model-item.active{background:#86EFAC}
+  .model-item .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid #000;flex-shrink:0;margin-top:4px}
+  .model-item .info{flex:1;min-width:0}
+  .model-item .title{font-weight:800;font-size:12px;margin-bottom:1px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .model-item .desc{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#666}
+  .model-item .badge-vis{
+    font-size:8px;font-weight:800;
+    background:#7DD3FC;border:1.5px solid #000;border-radius:999px;
+    padding:0 5px;line-height:1.5;
+  }
+
+  /* CHAT AREA */
+  .chat-wrap{
+    flex:1;
     min-height:0;
+    background:#fff;
+    border:2.5px solid #000;
+    border-radius:14px;
+    box-shadow:3px 3px 0 0 #000;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .chat-scroll{
+    flex:1;
+    overflow-y:auto;
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    background:#FDFBF7;
   }
 
   .msg{
-    max-width:85%;padding:12px 14px;
+    max-width:88%;
+    padding:10px 12px;
     border:2px solid #000;border-radius:14px;
-    box-shadow:3px 3px 0 0 #000;
-    font-size:13.5px;line-height:1.65;
-    word-wrap:break-word;white-space:pre-wrap;
+    box-shadow:2px 2px 0 0 #000;
+    font-size:13px;line-height:1.55;
+    word-wrap:break-word;
+    white-space:pre-wrap;
   }
   .msg.user{background:#FDE047;align-self:flex-end;border-bottom-right-radius:4px}
   .msg.assistant{background:#fff;align-self:flex-start;border-bottom-left-radius:4px}
-  .msg-time{font-size:10px;opacity:.55;margin-top:6px;font-family:'JetBrains Mono',monospace}
   .msg-model{
-    display:inline-block;padding:2px 8px;
-    font-size:9.5px;font-weight:800;letter-spacing:.5px;
+    display:inline-block;
+    padding:1px 7px;
+    font-size:9px;font-weight:800;letter-spacing:.4px;
     border:1.5px solid #000;border-radius:999px;
-    margin-bottom:6px;text-transform:uppercase;
+    margin-bottom:5px;text-transform:uppercase;
+  }
+  .msg-time{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px;opacity:.5;
+    margin-top:5px;
   }
   .msg-image{
-    max-width:240px;max-height:240px;
+    max-width:200px;max-height:200px;
     border:2px solid #000;border-radius:10px;
     box-shadow:2px 2px 0 0 #000;
-    margin:6px 0;
-    display:block;
-    object-fit:cover;
-    cursor:pointer;
+    margin:5px 0;display:block;object-fit:cover;cursor:pointer;
   }
 
   .code-block{
     background:#101010;color:#D4D4D4;
-    border:2px solid #000;border-radius:10px;
-    margin:10px 0;padding:10px 12px;
+    border:2px solid #000;border-radius:8px;
+    margin:8px 0;padding:8px 10px;
     font-family:'JetBrains Mono',monospace;
-    font-size:12px;line-height:1.7;
-    overflow-x:auto;box-shadow:2px 2px 0 0 #000;
+    font-size:11px;line-height:1.6;
+    overflow-x:auto;
   }
   .code-header{
     display:flex;justify-content:space-between;align-items:center;
-    padding-bottom:8px;margin-bottom:8px;
-    border-bottom:1px dashed #444;
-    font-size:10.5px;letter-spacing:1px;
+    padding-bottom:6px;margin-bottom:6px;
+    border-bottom:1px dashed #444;font-size:10px;
   }
-  .code-lang{color:#86EFAC;text-transform:uppercase;font-weight:700}
+  .code-lang{color:#86EFAC;text-transform:uppercase;font-weight:700;letter-spacing:.5px}
   .copy-btn{
-    display:inline-flex;align-items:center;gap:4px;
     background:#86EFAC;color:#000;
-    border:2px solid #000;border-radius:6px;
-    padding:3px 8px;font-size:10px;font-weight:800;
+    border:1.5px solid #000;border-radius:5px;
+    padding:2px 7px;font-size:9.5px;font-weight:800;
     cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;
-    transition:transform .12s ease;
   }
-  .copy-btn:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 0 #000}
   .code-block pre{white-space:pre-wrap;word-wrap:break-word}
 
   .typing{
-    display:none;align-self:flex-start;
-    background:#fff;border:2px solid #000;border-radius:14px;
-    box-shadow:3px 3px 0 0 #000;padding:10px 14px;
+    display:none;
+    align-self:flex-start;
+    background:#fff;
+    border:2px solid #000;border-radius:14px;
+    box-shadow:2px 2px 0 0 #000;
+    padding:10px 14px;
   }
-  .typing.show{display:flex;align-items:center;gap:8px}
-  .typing-dot{width:8px;height:8px;border-radius:50%;background:#000;animation:td 1.2s ease-in-out infinite}
+  .typing.show{display:flex;gap:5px;align-items:center}
+  .typing-dot{width:7px;height:7px;border-radius:50%;background:#000;animation:td 1.2s infinite}
   .typing-dot:nth-child(2){animation-delay:.15s}
   .typing-dot:nth-child(3){animation-delay:.3s}
   @keyframes td{
     0%,60%,100%{transform:translateY(0);opacity:.35}
-    30%{transform:translateY(-6px);opacity:1}
+    30%{transform:translateY(-5px);opacity:1}
   }
 
-  .chat-input{
-    font-family:'Plus Jakarta Sans',sans-serif;
-    font-size:14px;font-weight:500;
-    background:#fff;border:2.5px solid #000;border-radius:14px;
-    box-shadow:3px 3px 0 0 #000;
-    padding:12px 14px;width:100%;
-    outline:none;resize:none;
-    min-height:48px;max-height:160px;
-    transition:box-shadow .15s ease,transform .15s ease;
+  /* ERROR */
+  .error-box{
+    margin:0 10px 8px;
+    padding:9px 12px;
+    background:#FCA5A5;
+    border:2px solid #000;border-radius:10px;
+    box-shadow:2px 2px 0 0 #000;
+    font-size:11.5px;font-weight:700;
+    display:none;
   }
-  .chat-input:focus{transform:translate(-1px,-1px);box-shadow:5px 5px 0 0 #000}
-  .chat-input::placeholder{color:#888;font-weight:500}
+  .error-box.show{display:block}
 
-  .model-selector{position:relative;display:inline-block}
-  .model-trigger{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:7px 12px;background:#fff;
-    border:2.5px solid #000;border-radius:12px;
-    box-shadow:3px 3px 0 0 #000;
-    font-family:'Plus Jakarta Sans',sans-serif;
-    font-size:11px;font-weight:800;letter-spacing:.5px;
-    text-transform:uppercase;cursor:pointer;
-    transition:transform .13s ease, box-shadow .13s ease;
-    min-width:0;
+  /* INPUT AREA */
+  .input-area{
+    padding:10px;
+    background:#fff;
+    border-top:2.5px solid #000;
+    flex-shrink:0;
   }
-  .model-trigger:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 0 #000}
-  .model-trigger .dot{width:8px;height:8px;border-radius:50%;border:1.5px solid #000;flex-shrink:0}
-  .model-trigger .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
-
-  .model-menu{
-    position:absolute;top:calc(100% + 8px);left:0;
-    min-width:280px;max-width:calc(100vw - 32px);
-    background:#fff;border:2.5px solid #000;border-radius:14px;
-    box-shadow:5px 5px 0 0 #000;z-index:50;
-    overflow:hidden;display:none;
-  }
-  .model-menu.show{display:block;animation:fadeIn .18s ease}
-  .model-menu-header{
-    padding:10px 12px;background:#FDE047;
-    border-bottom:2.5px solid #000;
-    font-size:10px;font-weight:800;letter-spacing:1.5px;
-    text-transform:uppercase;
-    display:flex;align-items:center;justify-content:space-between;gap:8px;
-  }
-  .model-menu-header .free-badge{
-    font-size:9px;
-    background:#86EFAC;
-    border:1.5px solid #000;
-    border-radius:999px;
-    padding:1px 7px;
-    letter-spacing:.8px;
-  }
-  .model-item{
-    display:flex;align-items:flex-start;gap:10px;
-    padding:10px 12px;border-bottom:1.5px dashed #ddd;
-    cursor:pointer;transition:background .12s ease;
-  }
-  .model-item:last-child{border-bottom:none}
-  .model-item:hover{background:#FEF9C3}
-  .model-item.active{background:#86EFAC}
-  .model-item .dot{width:10px;height:10px;border-radius:50%;border:1.5px solid #000;flex-shrink:0;margin-top:5px}
-  .model-item .info{flex:1;min-width:0}
-  .model-item .name{
-    font-size:12px;font-weight:800;letter-spacing:-.2px;margin-bottom:2px;
-    display:flex;align-items:center;gap:5px;flex-wrap:wrap;
-  }
-  .model-item .name .vision-badge{
-    display:inline-flex;align-items:center;
-    color:#16a34a;
-  }
-  .model-item .name .free-tag{
-    font-size:8.5px;font-weight:800;letter-spacing:.5px;
-    background:#86EFAC;border:1.5px solid #000;border-radius:999px;
-    padding:0 5px;line-height:1.4;
-  }
-  .model-item .desc{font-size:10.5px;color:#666;line-height:1.4;font-family:'JetBrains Mono',monospace}
-  .model-item .check{color:#16a34a;flex-shrink:0;margin-top:3px;opacity:0;transition:opacity .15s ease}
-  .model-item.active .check{opacity:1}
 
   .attach-preview{
-    display:none;padding:10px;background:#fff;
-    border:2.5px solid #000;border-radius:14px;
-    box-shadow:3px 3px 0 0 #000;margin-bottom:8px;
+    display:none;
+    padding:8px;
+    background:#FDFBF7;
+    border:2px solid #000;border-radius:10px;
+    box-shadow:2px 2px 0 0 #000;
+    margin-bottom:8px;
+    align-items:center;gap:8px;
   }
-  .attach-preview.show{display:block;animation:fadeIn .2s ease}
-  .attach-preview-inner{display:flex;align-items:center;gap:10px}
+  .attach-preview.show{display:flex}
   .attach-thumb{
-    width:56px;height:56px;object-fit:cover;
-    border:2px solid #000;border-radius:8px;
-    box-shadow:2px 2px 0 0 #000;flex-shrink:0;
+    width:44px;height:44px;
+    object-fit:cover;border:2px solid #000;border-radius:8px;flex-shrink:0;
   }
   .attach-info{flex:1;min-width:0}
-  .attach-name{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:2px}
-  .attach-size{font-size:10.5px;color:#666;font-family:'JetBrains Mono',monospace}
-  .attach-remove{
-    width:32px;height:32px;
-    background:#FCA5A5;border:2px solid #000;border-radius:8px;
-    box-shadow:2px 2px 0 0 #000;
+  .attach-name{font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .attach-size{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#666}
+  .attach-x{
+    width:28px;height:28px;
+    background:#FCA5A5;border:2px solid #000;border-radius:7px;
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;flex-shrink:0;
-    transition:transform .12s ease;
   }
-  .attach-remove:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 0 #000}
 
-  @media (max-width:768px){
-    body{padding:10px;gap:10px}
-    .msg{max-width:92%}
-    .chat-messages{padding:12px}
-    .model-trigger .label{max-width:90px}
-    .model-menu{min-width:260px;left:auto;right:0}
-    .msg-image{max-width:180px;max-height:180px}
+  .input-row{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+  }
+
+  .icon-btn{
+    width:42px;height:42px;flex-shrink:0;
+    background:#fff;
+    border:2.5px solid #000;border-radius:12px;
+    box-shadow:3px 3px 0 0 #000;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .icon-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
+  .icon-btn.send{
+    background:#000;color:#fff;
+    border-color:#000;
+  }
+  .icon-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:3px 3px 0 0 #000}
+
+  textarea.chat-input{
+    flex:1;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:14px;font-weight:500;
+    background:#fff;
+    border:2.5px solid #000;border-radius:12px;
+    box-shadow:3px 3px 0 0 #000;
+    padding:10px 12px;
+    outline:none;resize:none;
+    min-height:42px;max-height:120px;
+    line-height:1.4;
+  }
+  textarea.chat-input::placeholder{color:#999}
+  textarea.chat-input:focus{box-shadow:4px 4px 0 0 #000}
+
+  .input-info{
+    margin-top:7px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:9.5px;color:#666;font-weight:600;
+    gap:8px;flex-wrap:wrap;
+  }
+  .input-info .mono{font-size:9px}
+
+  @media (max-width:380px){
+    .brand-name{font-size:13px}
+    .msg{max-width:92%;font-size:12.5px}
+    .chat-scroll{padding:10px}
+    .input-area{padding:8px}
+    .icon-btn{width:40px;height:40px}
   }
 </style>
 </head>
 <body>
 
-<!-- ============ TOP BAR ============ -->
-<div class="bg-white bd-2 rounded-2xl sh-lg p-3 sm:p-4 flex items-center justify-between gap-3 flex-wrap">
-  <div class="flex items-center gap-3 min-w-0">
-    <div class="pgreen bd-2 rounded-xl sh-sm w-10 h-10 flex items-center justify-center shrink-0">
-      <svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg>
-    </div>
-    <div class="min-w-0">
-      <div class="font-extrabold text-[15px] tracking-tight leading-none">NexusHUB AI</div>
-      <div class="mono text-[9px] font-semibold tracking-[2px] opacity-60 mt-1 truncate">FREE MODELS · OPENROUTER</div>
-    </div>
-  </div>
+<div class="app">
 
-  <div class="flex items-center gap-2 flex-wrap">
-    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white bd-2 rounded-full sh-sm font-extrabold text-[10px] tracking-[1px]">
-      <span id="statusDot" class="w-1.5 h-1.5 rounded-full bg-green-600 border border-black pulse"></span>
-      <span id="statusText">ONLINE</span>
-    </div>
-
-    <button id="clearChatBtn" class="px-3 py-1.5 bg-white bd-2 rounded-lg sh-sm btn-brutal font-extrabold text-[10.5px] inline-flex items-center gap-1.5">
-      <svg class="ico" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
-      Clear
-    </button>
-  </div>
-</div>
-
-<!-- ============ CHAT CARD ============ -->
-<div class="flex-1 bg-white bd-2 rounded-2xl sh-lg overflow-hidden flex flex-col min-h-0">
-  <div class="pgreen border-b-[2.5px] border-black px-3 sm:px-4 py-2.5 flex items-center justify-between gap-2 flex-wrap">
-    <div class="flex items-center gap-2">
-      <span class="w-2 h-2 rounded-full bg-red-500 border border-black"></span>
-      <span class="w-2 h-2 rounded-full bg-yellow-500 border border-black"></span>
-      <span class="w-2 h-2 rounded-full bg-green-500 border border-black"></span>
-      <span class="mono text-[11.5px] font-bold ml-1 hidden sm:inline">nexushub.chat</span>
-    </div>
-
-    <div class="model-selector">
-      <button id="modelTrigger" class="model-trigger" type="button">
-        <span id="modelDot" class="dot" style="background:#86EFAC"></span>
-        <span id="modelLabel" class="label">Gemini 2.0 Flash</span>
-        <svg class="ico" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:.6"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div id="modelMenu" class="model-menu">
-        <div class="model-menu-header">
-          <span>Pilih Model AI</span>
-          <span class="free-badge">GRATIS</span>
-        </div>
-        <div id="modelList"></div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+        </svg>
+      </div>
+      <div class="brand">
+        <div class="brand-name">NexusHUB AI</div>
+        <div class="brand-sub">BY XS0CIETY</div>
       </div>
     </div>
+    <div class="status-pill">
+      <span id="statusDot" class="status-dot pulse"></span>
+      <span id="statusText">READY</span>
+    </div>
   </div>
 
-  <div id="chatMessages" class="chat-messages cream"></div>
+  <!-- MODEL BAR -->
+  <div class="model-bar">
+    <button id="modelBtn" class="model-btn" type="button">
+      <div class="model-btn-left">
+        <span id="modelDot" class="model-dot" style="background:#86EFAC"></span>
+        <span id="modelName" class="model-name">Llama 3.3 70B</span>
+      </div>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+    <div id="dropdown" class="dropdown">
+      <div class="dropdown-header">
+        <span>PILIH MODEL AI</span>
+      </div>
+      <div id="modelList"></div>
+    </div>
+  </div>
 
-  <div id="errorMessage" class="hidden mx-3 mt-2 p-3 pred bd-2 rounded-xl sh-sm text-[11.5px] font-bold"></div>
+  <!-- CHAT AREA -->
+  <div class="chat-wrap">
+    <div id="chatScroll" class="chat-scroll"></div>
+    <div id="errorBox" class="error-box"></div>
 
-  <!-- INPUT AREA -->
-  <div class="border-t-[2.5px] border-black p-3 sm:p-4 cream">
-
-    <div id="attachPreview" class="attach-preview">
-      <div class="attach-preview-inner">
-        <img id="attachThumb" class="attach-thumb" src="" alt="preview">
+    <!-- INPUT -->
+    <div class="input-area">
+      <div id="attachPreview" class="attach-preview">
+        <img id="attachThumb" class="attach-thumb" alt="">
         <div class="attach-info">
           <div id="attachName" class="attach-name">image.jpg</div>
           <div id="attachSize" class="attach-size">0 KB</div>
         </div>
-        <button type="button" id="attachRemove" class="attach-remove" title="Hapus">
-          <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button type="button" id="attachX" class="attach-x">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
-    </div>
 
-    <form id="chatForm" class="flex items-end gap-2">
       <input type="file" id="fileInput" accept="image/*" style="display:none">
 
-      <button type="button" id="attachBtn"
-        class="shrink-0 w-12 h-12 bg-white bd-2 rounded-xl sh btn-brutal flex items-center justify-center"
-        title="Lampirkan gambar">
-        <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-      </button>
+      <div class="input-row">
+        <button type="button" id="attachBtn" class="icon-btn" title="Lampirkan gambar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/>
+            <circle cx="9" cy="9" r="2"/>
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+          </svg>
+        </button>
 
-      <textarea id="chatInput" class="chat-input flex-1" placeholder="Ketik pesan kamu di sini..." rows="1"></textarea>
+        <textarea id="chatInput" class="chat-input" placeholder="Ketik pesan..." rows="1"></textarea>
 
-      <button type="submit" id="sendButton"
-        class="shrink-0 w-12 h-12 bg-black text-white bd-2 rounded-xl sh btn-brutal flex items-center justify-center">
-        <svg class="ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>
-      </button>
-    </form>
-
-    <div class="flex items-center justify-between mt-2 flex-wrap gap-2">
-      <div class="text-[10px] font-semibold text-gray-500 inline-flex items-center gap-1.5">
-        <svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-        Limit gratis: 50 request/hari · Hanya Gemini yang support gambar
+        <button type="button" id="sendBtn" class="icon-btn send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/>
+            <path d="m21.854 2.147-10.94 10.939"/>
+          </svg>
+        </button>
       </div>
-      <div class="mono text-[10px] font-semibold text-gray-500">© xs0ciety HUB</div>
+
+      <div class="input-info">
+        <span id="infoText">Siap membantu kamu</span>
+        <span class="mono">© xs0ciety HUB</span>
+      </div>
     </div>
   </div>
 </div>
@@ -358,57 +440,45 @@ const CONFIG = {
 };
 
 /* =================================================================
-   MODEL REGISTRY — SEMUA GRATIS
-   Sumber: https://openrouter.ai/models?max_price=0
+   MODEL LIST
 ================================================================= */
 const MODELS = [
   {
-    id: 'gemini-free',
-    name: 'Gemini 2.0 Flash',
-    model: 'google/gemini-2.0-flash-exp:free',
-    desc: 'Gratis · Multimodal · Google',
-    color: '#86EFAC',
-    supportVision: true,
-    isFree: true
-  },
-  {
-    id: 'deepseek-free',
-    name: 'DeepSeek R1',
-    model: 'deepseek/deepseek-r1:free',
-    desc: 'Gratis · Reasoning · DeepSeek',
-    color: '#C4B5FD',
-    supportVision: false,
-    isFree: true
-  },
-  {
-    id: 'qwen-free',
-    name: 'Qwen 3 Coder',
-    model: 'qwen/qwen3-coder:free',
-    desc: 'Gratis · Coding · Alibaba',
-    color: '#FDBA74',
-    supportVision: false,
-    isFree: true
-  },
-  {
-    id: 'llama-free',
+    id: 'llama-3.3-70b',
     name: 'Llama 3.3 70B',
     model: 'meta-llama/llama-3.3-70b-instruct:free',
-    desc: 'Gratis · Open source · Meta',
+    desc: 'General purpose · Fast',
+    color: '#86EFAC',
+    supportVision: false
+  },
+  {
+    id: 'deepseek-r1',
+    name: 'DeepSeek R1',
+    model: 'deepseek/deepseek-r1:free',
+    desc: 'Reasoning · Advanced',
+    color: '#C4B5FD',
+    supportVision: false
+  },
+  {
+    id: 'qwen-2.5-72b',
+    name: 'Qwen 2.5 72B',
+    model: 'qwen/qwen-2.5-72b-instruct:free',
+    desc: 'Chat · Multilingual',
+    color: '#FDBA74',
+    supportVision: false
+  },
+  {
+    id: 'mistral-nemo',
+    name: 'Mistral Nemo',
+    model: 'mistralai/mistral-nemo:free',
+    desc: 'Compact · Efficient',
     color: '#7DD3FC',
-    supportVision: false,
-    isFree: true
+    supportVision: false
   }
 ];
 
 const DEFAULT_MODEL_ID = MODELS[0].id;
-const MODEL_STORAGE_KEY = 'nexushub.model';
-
-/* SVG ICONS */
-const ICONS = {
-  vision: '<svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>',
-  check: '<svg class="ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-  copy: '<svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>'
-};
+const MODEL_STORAGE_KEY = 'nexushub.model.v3';
 
 /* =================================================================
    UTILS
@@ -429,19 +499,21 @@ const fmtSize = bytes => {
 let messageHistory = [];
 let currentModel = getModelById(localStorage.getItem(MODEL_STORAGE_KEY) || DEFAULT_MODEL_ID);
 let pendingImage = null;
+let isSending = false;
 
 /* =================================================================
    DOM
 ================================================================= */
-const chatMessages  = document.getElementById('chatMessages');
-const chatForm      = document.getElementById('chatForm');
+const chatScroll    = document.getElementById('chatScroll');
 const chatInput     = document.getElementById('chatInput');
-const sendButton    = document.getElementById('sendButton');
-const errorMessage  = document.getElementById('errorMessage');
-const modelTrigger  = document.getElementById('modelTrigger');
-const modelMenu     = document.getElementById('modelMenu');
+const sendBtn       = document.getElementById('sendBtn');
+const errorBox      = document.getElementById('errorBox');
+const statusDot     = document.getElementById('statusDot');
+const statusText    = document.getElementById('statusText');
+const modelBtn      = document.getElementById('modelBtn');
+const dropdown      = document.getElementById('dropdown');
 const modelList     = document.getElementById('modelList');
-const modelLabelEl  = document.getElementById('modelLabel');
+const modelNameEl   = document.getElementById('modelName');
 const modelDotEl    = document.getElementById('modelDot');
 const fileInput     = document.getElementById('fileInput');
 const attachBtn     = document.getElementById('attachBtn');
@@ -449,51 +521,47 @@ const attachPreview = document.getElementById('attachPreview');
 const attachThumb   = document.getElementById('attachThumb');
 const attachName    = document.getElementById('attachName');
 const attachSize    = document.getElementById('attachSize');
-const attachRemove  = document.getElementById('attachRemove');
+const attachX       = document.getElementById('attachX');
 
 /* =================================================================
    MODEL SELECTOR
 ================================================================= */
-function renderModelMenu(){
+function renderModelList(){
   modelList.innerHTML = '';
   MODELS.forEach(m => {
     const isActive = m.id === currentModel.id;
-    const item = document.createElement('div');
-    item.className = 'model-item' + (isActive ? ' active' : '');
-    item.innerHTML = `
+    const el = document.createElement('div');
+    el.className = 'model-item' + (isActive ? ' active' : '');
+    el.innerHTML = `
       <span class="dot" style="background:${m.color}"></span>
       <div class="info">
-        <div class="name">
+        <div class="title">
           ${escapeHtml(m.name)}
-          ${m.isFree ? '<span class="free-tag">FREE</span>' : ''}
-          ${m.supportVision ? `<span class="vision-badge" title="Support gambar">${ICONS.vision}</span>` : ''}
+          ${m.supportVision ? '<span class="badge-vis">VISION</span>' : ''}
         </div>
         <div class="desc">${escapeHtml(m.desc)}</div>
       </div>
-      <span class="check">${ICONS.check}</span>
     `;
-    item.addEventListener('click', () => {
+    el.addEventListener('click', () => {
       selectModel(m.id);
-      modelMenu.classList.remove('show');
+      dropdown.classList.remove('show');
     });
-    modelList.appendChild(item);
+    modelList.appendChild(el);
   });
 }
 
 function selectModel(id){
   const m = getModelById(id);
   if (m.id === currentModel.id) return;
-
   currentModel = m;
   localStorage.setItem(MODEL_STORAGE_KEY, m.id);
-
-  modelLabelEl.textContent = m.name;
+  modelNameEl.textContent = m.name;
   modelDotEl.style.background = m.color;
 
   messageHistory = [];
-  chatMessages.innerHTML = '';
+  chatScroll.innerHTML = '';
   addMessage('assistant',
-    `Model berhasil diganti ke **${m.name}**.\n\n${m.desc}\n\nSilakan mulai percakapan baru!`,
+    `Model diganti ke **${m.name}**.\n\n${m.desc}\n\nMulai percakapan baru ya!`,
     { badge: m.name, color: m.color }
   );
 
@@ -501,26 +569,25 @@ function selectModel(id){
     clearImage();
     showError(`${m.name} tidak support gambar. Attachment dihapus.`);
   }
-
-  renderModelMenu();
+  renderModelList();
 }
 
-modelTrigger.addEventListener('click', (e) => {
+modelBtn.addEventListener('click', (e) => {
   e.stopPropagation();
-  modelMenu.classList.toggle('show');
+  dropdown.classList.toggle('show');
 });
 document.addEventListener('click', (e) => {
-  if (!modelMenu.contains(e.target) && e.target !== modelTrigger){
-    modelMenu.classList.remove('show');
+  if (!dropdown.contains(e.target) && e.target !== modelBtn){
+    dropdown.classList.remove('show');
   }
 });
 
 /* =================================================================
-   IMAGE HANDLING
+   IMAGE
 ================================================================= */
 attachBtn.addEventListener('click', () => {
   if (!currentModel.supportVision){
-    showError(`${currentModel.name} tidak support gambar. Pilih Gemini 2.0 Flash untuk kirim gambar.`);
+    showError(`${currentModel.name} tidak support gambar. Coba model lain.`);
     return;
   }
   fileInput.click();
@@ -535,12 +602,11 @@ fileInput.addEventListener('change', (e) => {
 
 function handleFile(file){
   if (!file.type.startsWith('image/')){
-    showError('Hanya bisa upload file gambar (JPG, PNG, WEBP, GIF).');
+    showError('Hanya file gambar (JPG, PNG, WEBP, GIF).');
     return;
   }
-  const maxBytes = CONFIG.MAX_IMAGE_SIZE_MB * 1024 * 1024;
-  if (file.size > maxBytes){
-    showError(`Ukuran gambar terlalu besar. Max ${CONFIG.MAX_IMAGE_SIZE_MB} MB.`);
+  if (file.size > CONFIG.MAX_IMAGE_SIZE_MB * 1024 * 1024){
+    showError(`Max ukuran ${CONFIG.MAX_IMAGE_SIZE_MB} MB.`);
     return;
   }
   const reader = new FileReader();
@@ -548,7 +614,6 @@ function handleFile(file){
     pendingImage = { dataUrl: ev.target.result, name: file.name, size: file.size };
     showAttachPreview();
   };
-  reader.onerror = () => showError('Gagal baca file gambar.');
   reader.readAsDataURL(file);
 }
 
@@ -566,53 +631,42 @@ function clearImage(){
   attachThumb.src = '';
 }
 
-attachRemove.addEventListener('click', clearImage);
+attachX.addEventListener('click', clearImage);
 
 /* =================================================================
-   INIT CHAT
-================================================================= */
-function initChat(){
-  modelLabelEl.textContent = currentModel.name;
-  modelDotEl.style.background = currentModel.color;
-  renderModelMenu();
-
-  chatMessages.innerHTML = '';
-  messageHistory = [];
-
-  addMessage('assistant',
-    `Halo! Saya **NexusHUB AI** siap bantu kamu.\n\nModel aktif: **${currentModel.name}** (GRATIS)\n\nKamu bisa kirim teks atau lampirkan gambar (klik icon gambar di kiri).`,
-    { badge: currentModel.name, color: currentModel.color }
-  );
-}
-
-/* =================================================================
-   INPUT AUTO-RESIZE
+   INPUT
 ================================================================= */
 chatInput.addEventListener('input', () => {
   chatInput.style.height = 'auto';
-  chatInput.style.height = Math.min(chatInput.scrollHeight, 160) + 'px';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
 });
 
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+sendBtn.addEventListener('click', sendMessage);
+
 /* =================================================================
-   SEND MESSAGE
+   SEND
 ================================================================= */
-chatForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+async function sendMessage(){
   const message = chatInput.value.trim();
   const hasImage = !!pendingImage;
+  if ((!message && !hasImage) || isSending) return;
 
-  if (!message && !hasImage) return;
-  if (sendButton.disabled) return;
+  isSending = true;
+  sendBtn.disabled = true;
 
-  const displayContent = message || (hasImage ? '(mengirim gambar)' : '');
-  addMessage('user', displayContent, { image: pendingImage?.dataUrl });
-
+  addMessage('user', message || '(mengirim gambar)', { image: pendingImage?.dataUrl });
   const apiContent = buildUserContent(message, pendingImage);
 
   chatInput.value = '';
   chatInput.style.height = 'auto';
   clearImage();
-  sendButton.disabled = true;
   showTyping();
 
   try {
@@ -621,16 +675,17 @@ chatForm.addEventListener('submit', async (e) => {
     addMessage('assistant', reply, { badge: currentModel.name, color: currentModel.color });
     messageHistory.push({ role: 'user', content: apiContent });
     messageHistory.push({ role: 'assistant', content: reply });
-    updateApiStatus(true);
+    setStatus('READY', true);
   } catch (err){
     hideTyping();
-    showError('Error: ' + err.message);
-    updateApiStatus(false);
+    showError(formatError(err.message));
+    setStatus('ERROR', false);
   }
 
-  sendButton.disabled = false;
+  isSending = false;
+  sendBtn.disabled = false;
   chatInput.focus();
-});
+}
 
 function buildUserContent(text, image){
   if (!image) return text || '';
@@ -640,23 +695,35 @@ function buildUserContent(text, image){
   return parts;
 }
 
-/* =================================================================
-   CLEAR CHAT
-================================================================= */
-document.getElementById('clearChatBtn').addEventListener('click', () => {
-  chatMessages.innerHTML = '';
-  messageHistory = [];
-  addMessage('assistant', 'Percakapan telah dihapus. Ada yang bisa NexusHUB AI bantu?',
-    { badge: currentModel.name, color: currentModel.color });
-});
+function formatError(msg){
+  if (/no endpoints found/i.test(msg)){
+    return 'Model ini sedang tidak tersedia. Ganti ke model lain di menu atas.';
+  }
+  if (/rate limit|429/i.test(msg)){
+    return 'Terlalu banyak request. Coba lagi beberapa saat.';
+  }
+  if (/401|unauthorized|no auth/i.test(msg)){
+    return 'Konfigurasi server belum lengkap. Hubungi admin.';
+  }
+  if (/402|insufficient/i.test(msg)){
+    return 'Layanan sedang tidak tersedia. Coba model lain.';
+  }
+  if (/timeout/i.test(msg)){
+    return 'Server lama merespon. Coba kirim ulang.';
+  }
+  if (/network|fetch|failed to fetch/i.test(msg)){
+    return 'Koneksi ke server gagal. Cek internet kamu.';
+  }
+  return 'Terjadi kesalahan. Coba lagi.';
+}
 
 /* =================================================================
-   CALL PROXY
+   API
 ================================================================= */
 async function callProxy(userContent){
   const messages = [
     { role: 'system', content: CONFIG.SYSTEM_PROMPT },
-    ...messageHistory.slice(-20),
+    ...messageHistory.slice(-15),
     { role: 'user', content: userContent }
   ];
 
@@ -673,60 +740,55 @@ async function callProxy(userContent){
     body: JSON.stringify(body)
   });
 
+  let data;
+  try { data = await res.json(); }
+  catch { throw new Error(`HTTP ${res.status}`); }
+
   if (!res.ok){
-    let errMsg = `HTTP ${res.status}`;
-    try {
-      const errJson = await res.json();
-      if (errJson.error?.message) errMsg = errJson.error.message;
-    } catch {}
-    throw new Error(errMsg);
+    throw new Error(data?.error?.message || `HTTP ${res.status}`);
   }
 
-  const data = await res.json();
   const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error('Response tidak valid dari server.');
+  if (!content) throw new Error('Response kosong dari server.');
   return content;
 }
 
 /* =================================================================
-   RENDER MESSAGE
+   RENDER
 ================================================================= */
 function addMessage(role, content, opts = {}){
   const wrap = document.createElement('div');
-  wrap.className = 'msg ' + role + ' slide-in';
+  wrap.className = 'msg ' + role;
 
   let html = '';
-
   if (role === 'assistant' && opts.badge){
     html += `<span class="msg-model" style="background:${opts.color || '#86EFAC'}">${escapeHtml(opts.badge)}</span>`;
   }
-
   if (opts.image){
-    html += `<img src="${opts.image}" class="msg-image" onclick="openImage('${opts.image}')" alt="attachment">`;
+    html += `<img src="${opts.image}" class="msg-image" onclick="openImage(this.src)" alt="">`;
   }
-
   html += formatMessage(content);
   html += `<div class="msg-time">${nowTime()}</div>`;
 
   wrap.innerHTML = html;
 
   const typing = document.getElementById('typingIndicator');
-  if (typing) chatMessages.insertBefore(wrap, typing);
-  else chatMessages.appendChild(wrap);
+  if (typing) chatScroll.insertBefore(wrap, typing);
+  else chatScroll.appendChild(wrap);
 
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  chatScroll.scrollTop = chatScroll.scrollHeight;
 }
 
 function formatMessage(content){
   if (Array.isArray(content)){
-    const textPart = content.find(p => p.type === 'text');
-    content = textPart?.text || '(gambar)';
+    const t = content.find(p => p.type === 'text');
+    content = t?.text || '(gambar)';
   }
   if (typeof content !== 'string') content = String(content);
 
-  let html = '';
   if (content.includes('```')){
     const parts = content.split('```');
+    let html = '';
     for (let i = 0; i < parts.length; i++){
       if (i % 2 === 0){
         html += renderInline(parts[i]);
@@ -738,9 +800,7 @@ function formatMessage(content){
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">${escapeHtml(lang)}</span>
-              <button class="copy-btn" onclick="copyCode(this)">
-                ${ICONS.copy} Salin
-              </button>
+              <button class="copy-btn" onclick="copyCode(this)">Salin</button>
             </div>
             <pre><code>${escapeHtml(code)}</code></pre>
           </div>`;
@@ -754,19 +814,18 @@ function formatMessage(content){
 function renderInline(text){
   let s = escapeHtml(text);
   s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
-  s = s.replace(/`([^`]+)`/g, '<code style="background:#f3f3f3;padding:1px 6px;border-radius:4px;border:1.5px solid #000;font-family:\'JetBrains Mono\',monospace;font-size:11.5px">$1</code>');
+  s = s.replace(/`([^`]+)`/g, '<code style="background:#eee;padding:1px 5px;border-radius:4px;border:1px solid #000;font-family:JetBrains Mono,monospace;font-size:11px">$1</code>');
   s = s.replace(/\n/g, '<br>');
   return s;
 }
 
 window.copyCode = function(btn){
-  const block = btn.closest('.code-block');
-  const code = block.querySelector('code').textContent;
+  const code = btn.closest('.code-block').querySelector('code').textContent;
   navigator.clipboard.writeText(code).then(() => {
-    const orig = btn.innerHTML;
-    btn.innerHTML = `${ICONS.check} Disalin`;
-    setTimeout(() => { btn.innerHTML = orig; }, 1500);
-  }).catch(() => alert('Gagal menyalin kode.'));
+    const orig = btn.textContent;
+    btn.textContent = 'OK';
+    setTimeout(() => { btn.textContent = orig; }, 1200);
+  });
 };
 
 window.openImage = function(src){
@@ -780,25 +839,17 @@ window.openImage = function(src){
 /* =================================================================
    TYPING / STATUS / ERROR
 ================================================================= */
-function ensureTypingExists(){
+function showTyping(){
   let t = document.getElementById('typingIndicator');
   if (!t){
     t = document.createElement('div');
     t.id = 'typingIndicator';
     t.className = 'typing';
-    t.innerHTML = `
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-    `;
-    chatMessages.appendChild(t);
+    t.innerHTML = `<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>`;
+    chatScroll.appendChild(t);
   }
-  return t;
-}
-function showTyping(){
-  const t = ensureTypingExists();
   t.classList.add('show');
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  chatScroll.scrollTop = chatScroll.scrollHeight;
 }
 function hideTyping(){
   const t = document.getElementById('typingIndicator');
@@ -806,22 +857,36 @@ function hideTyping(){
 }
 
 function showError(msg){
-  errorMessage.textContent = msg;
-  errorMessage.classList.remove('hidden');
-  setTimeout(() => errorMessage.classList.add('hidden'), 5000);
+  errorBox.textContent = msg;
+  errorBox.classList.add('show');
+  clearTimeout(errorBox._t);
+  errorBox._t = setTimeout(() => errorBox.classList.remove('show'), 8000);
 }
 
-function updateApiStatus(ok){
-  const dot = document.getElementById('statusDot');
-  const txt = document.getElementById('statusText');
-  if (ok){ dot.style.background = '#16a34a'; txt.textContent = 'ONLINE'; }
-  else   { dot.style.background = '#ef4444'; txt.textContent = 'OFFLINE'; }
+function setStatus(text, ok){
+  statusText.textContent = text;
+  statusDot.classList.toggle('offline', !ok);
 }
 
 /* =================================================================
    INIT
 ================================================================= */
+function initChat(){
+  modelNameEl.textContent = currentModel.name;
+  modelDotEl.style.background = currentModel.color;
+  renderModelList();
+
+  chatScroll.innerHTML = '';
+  messageHistory = [];
+
+  addMessage('assistant',
+    `Halo! Saya **NexusHUB AI**.\n\nModel aktif: **${currentModel.name}**\n\nKetik pesan buat mulai ngobrol.`,
+    { badge: currentModel.name, color: currentModel.color }
+  );
+}
+
 initChat();
+chatInput.focus();
 </script>
 </body>
-   </html>
+ </html>
