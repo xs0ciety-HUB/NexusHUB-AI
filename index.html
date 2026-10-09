@@ -370,15 +370,12 @@
   textarea.chat-input::placeholder{color:#999}
 
   .input-info{
-    display:flex;justify-content:space-between;align-items:center;
+    display:flex;justify-content:flex-end;align-items:center;
     font-size:9.5px;color:#666;font-weight:600;
-    gap:8px;flex-wrap:wrap;
   }
   .input-info .mono{font-size:9px}
 
-  /* ============================================================
-     BOTTOM SHEET — Attachment picker
-  ============================================================ */
+  /* Bottom sheet */
   .sheet-backdrop{
     position:fixed;inset:0;
     background:rgba(0,0,0,.55);
@@ -635,9 +632,10 @@
       </div>
 
       <div class="input-row">
-        <button type="button" id="attachBtn" class="icon-btn" title="Lampirkan file">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+        <button type="button" id="attachBtn" class="icon-btn" title="Tambah file">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
         </button>
 
@@ -652,14 +650,13 @@
       </div>
 
       <div class="input-info">
-        <span id="infoText">Bisa kirim teks, gambar, atau file code</span>
         <span class="mono">© xs0ciety HUB</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ============ BOTTOM SHEET ============ -->
+<!-- BOTTOM SHEET -->
 <div id="sheetBackdrop" class="sheet-backdrop"></div>
 
 <div id="attachSheet" class="attach-sheet">
@@ -716,7 +713,6 @@
   </div>
 </div>
 
-<!-- Hidden file inputs -->
 <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
 <input type="file" id="albumInput" accept="image/*" style="display:none">
 <input type="file" id="docInput" accept=".js,.jsx,.ts,.tsx,.py,.json,.txt,.md,.html,.htm,.css,.scss,.php,.rb,.go,.rs,.java,.c,.cpp,.h,.hpp,.cs,.swift,.kt,.sql,.sh,.bash,.yaml,.yml,.xml,.toml,.ini,.env,.log,.csv" style="display:none">
@@ -770,7 +766,7 @@ const MODELS = [
 ];
 
 const DEFAULT_MODEL_ID = MODELS[0].id;
-const MODEL_STORAGE_KEY = 'nexushub.model.v8';
+const MODEL_STORAGE_KEY = 'nexushub.model.v9';
 const RECENT_KEY = 'nexushub.recent';
 const MAX_RECENT = 12;
 
@@ -840,7 +836,7 @@ const actionAlbum   = document.getElementById('actionAlbum');
 const actionDoc     = document.getElementById('actionDoc');
 
 /* =================================================================
-   RECENT FILES STORAGE
+   RECENT FILES
 ================================================================= */
 function loadRecent(){
   try {
@@ -903,7 +899,6 @@ async function addToRecent(file, type, dataUrl){
   };
 
   recentItems = loadRecent();
-  // Skip kalau udah ada (by name + size)
   recentItems = recentItems.filter(x => !(x.name === item.name && x.size === item.size));
   recentItems.unshift(item);
   recentItems = recentItems.slice(0, MAX_RECENT);
@@ -935,7 +930,6 @@ function renderRecent(){
     </div>`;
   }).join('');
 
-  // Remove handlers
   recentGrid.querySelectorAll('[data-remove]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -971,20 +965,13 @@ function closeSheet(){
   document.body.style.overflow = '';
 }
 
-attachBtn.addEventListener('click', () => {
-  if (!currentModel.supportVision){
-    // masih bisa kirim file text
-  }
-  openSheet();
-});
-
+attachBtn.addEventListener('click', openSheet);
 sheetBackdrop.addEventListener('click', closeSheet);
 sheetClose.addEventListener('click', closeSheet);
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && attachSheet.classList.contains('show')) closeSheet();
 });
 
-// Swipe down to close
 let sheetStartY = 0, sheetDragging = false;
 attachSheet.addEventListener('touchstart', e => {
   if (attachSheet.scrollTop <= 0){
@@ -995,20 +982,16 @@ attachSheet.addEventListener('touchstart', e => {
 attachSheet.addEventListener('touchmove', e => {
   if (!sheetDragging) return;
   const dy = e.touches[0].clientY - sheetStartY;
-  if (dy > 0){
-    attachSheet.style.transform = `translateY(${dy}px)`;
-  }
+  if (dy > 0) attachSheet.style.transform = `translateY(${dy}px)`;
 }, { passive: true });
 attachSheet.addEventListener('touchend', e => {
   if (!sheetDragging) return;
   sheetDragging = false;
-  const endY = e.changedTouches[0].clientY;
-  const dy = endY - sheetStartY;
+  const dy = e.changedTouches[0].clientY - sheetStartY;
   attachSheet.style.transform = '';
   if (dy > 100) closeSheet();
 });
 
-// Action buttons
 actionCamera.addEventListener('click', () => cameraInput.click());
 actionAlbum.addEventListener('click',  () => albumInput.click());
 actionDoc.addEventListener('click',    () => docInput.click());
@@ -1048,7 +1031,7 @@ function selectModel(id){
   messageHistory = [];
   chatScroll.innerHTML = '';
   addMessage('assistant',
-    `Model diganti ke **${m.name}**.\n\n${m.desc}\n\nMulai percakapan baru ya!`,
+    `Model diganti ke **${m.name}**.\n\n${m.desc}`,
     { badge: m.name, color: m.color }
   );
 
@@ -1475,11 +1458,10 @@ function initChat(){
   messageHistory = [];
 
   addMessage('assistant',
-    `Halo! Saya **NexusHUB AI**.\n\nModel aktif: **${currentModel.name}**\n\nKlik icon klip buat kirim gambar atau file code.`,
+    `Halo! Saya **NexusHUB AI**.\n\nModel aktif: **${currentModel.name}**`,
     { badge: currentModel.name, color: currentModel.color }
   );
 
-  // Load recent files
   recentItems = loadRecent();
   renderRecent();
 }
