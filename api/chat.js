@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${API_KEY}`,
-        'HTTP-Referer': req.headers.referer || 'https://nexushub.ai',
+        'HTTP-Referer': req.headers.referer || 'https://nexushub-ai.duckdns.org',
         'X-Title': 'NexusHUB AI'
       },
       body: JSON.stringify({ model, messages, temperature, max_tokens })
