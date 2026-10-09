@@ -2,13 +2,13 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>NexusHUB AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{height:100%;overflow:hidden}
   body{
     font-family:'Plus Jakarta Sans',system-ui,sans-serif;
@@ -23,8 +23,6 @@
   .bd{border:2.5px solid #000}
   .bd-2{border:2px solid #000}
   .btn-brutal{transition:transform .12s ease,box-shadow .12s ease}
-  .btn-brutal:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 0 #000}
-  .btn-brutal:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
 
   .pgreen{background:#86EFAC}
   .pyellow{background:#FDE047}
@@ -33,14 +31,9 @@
   .pcyan{background:#7DD3FC}
   .cream{background:#FDFBF7}
 
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .spin{animation:spin 1s linear infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .pulse{animation:pulse 1.4s infinite}
-  @keyframes slideUp{
-    from{opacity:0;transform:translateY(8px)}
-    to{opacity:1;transform:translateY(0)}
-  }
+  @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
   ::-webkit-scrollbar{width:6px;height:6px}
   ::-webkit-scrollbar-thumb{background:#000;border-radius:3px}
@@ -56,7 +49,6 @@
     padding-bottom:max(10px, env(safe-area-inset-bottom));
   }
 
-  /* HEADER */
   .header{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:10px 12px;
@@ -87,8 +79,8 @@
   }
   .status-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;border:1.5px solid #000}
   .status-dot.offline{background:#ef4444}
+  .status-dot.busy{background:#eab308}
 
-  /* MODEL BAR */
   .model-bar{position:relative;flex-shrink:0}
   .model-btn{
     width:100%;
@@ -100,9 +92,7 @@
     font-family:'Plus Jakarta Sans',sans-serif;
     font-weight:800;font-size:12px;
     cursor:pointer;
-    transition:transform .12s ease,box-shadow .12s ease;
   }
-  .model-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
   .model-btn-left{display:flex;align-items:center;gap:8px;min-width:0}
   .model-dot{width:9px;height:9px;border-radius:50%;border:1.5px solid #000;flex-shrink:0}
   .model-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
@@ -131,14 +121,12 @@
     display:flex;align-items:flex-start;gap:10px;
   }
   .model-item:last-child{border-bottom:none}
-  .model-item:active{background:#FEF9C3}
   .model-item.active{background:#86EFAC}
   .model-item .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid #000;flex-shrink:0;margin-top:4px}
   .model-item .info{flex:1;min-width:0}
   .model-item .title{font-weight:800;font-size:12px;margin-bottom:1px}
   .model-item .desc{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#666}
 
-  /* CHAT */
   .chat-wrap{
     flex:1;min-height:0;
     background:#fff;
@@ -185,7 +173,6 @@
     display:block;object-fit:cover;cursor:pointer;
   }
 
-  /* FILE BADGE inside message — sekarang tampil di baris sendiri */
   .msg-file{
     display:flex;
     align-items:center;
@@ -214,7 +201,6 @@
   }
   .msg-text{display:block}
 
-  /* CODE BLOCK */
   .code-block{
     background:#101010;color:#D4D4D4;
     border:2px solid #000;border-radius:8px;
@@ -237,7 +223,6 @@
   }
   .code-block pre{white-space:pre-wrap;word-wrap:break-word;max-height:280px;overflow-y:auto}
 
-  /* TYPING */
   .typing{
     display:none;align-self:flex-start;
     background:#fff;
@@ -254,7 +239,6 @@
     30%{transform:translateY(-5px);opacity:1}
   }
 
-  /* ERROR */
   .error-box{
     margin:0 10px 8px;
     padding:9px 12px;
@@ -269,9 +253,6 @@
   }
   .error-box.show{display:block}
 
-  /* ============================================
-     INPUT AREA — dengan ATTACH BAR yang baru
-  ============================================ */
   .input-area{
     padding:10px;
     background:#fff;
@@ -282,7 +263,6 @@
     gap:8px;
   }
 
-  /* ATTACH BAR — full width, muncul di atas input, lebih menonjol */
   .attach-bar{
     display:none;
     background:#fff;
@@ -297,8 +277,6 @@
     overflow:hidden;
   }
   .attach-bar.show{display:flex}
-
-  /* colored left strip based on type */
   .attach-bar::before{
     content:'';
     position:absolute;
@@ -360,11 +338,8 @@
     box-shadow:2px 2px 0 0 #000;
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;flex-shrink:0;
-    transition:transform .12s ease,box-shadow .12s ease;
   }
-  .attach-x:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
 
-  /* INPUT ROW */
   .input-row{
     display:flex;align-items:flex-end;gap:8px;
   }
@@ -375,11 +350,10 @@
     box-shadow:3px 3px 0 0 #000;
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;
-    transition:transform .12s ease,box-shadow .12s ease;
   }
   .icon-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
   .icon-btn.send{background:#000;color:#fff;border-color:#000}
-  .icon-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:3px 3px 0 0 #000}
+  .icon-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:3px 3px 0 0 #000}
 
   textarea.chat-input{
     flex:1;
@@ -394,7 +368,6 @@
     line-height:1.4;
   }
   textarea.chat-input::placeholder{color:#999}
-  textarea.chat-input:focus{box-shadow:4px 4px 0 0 #000}
 
   .input-info{
     display:flex;justify-content:space-between;align-items:center;
@@ -403,6 +376,190 @@
   }
   .input-info .mono{font-size:9px}
 
+  /* ============================================================
+     BOTTOM SHEET — Attachment picker
+  ============================================================ */
+  .sheet-backdrop{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:200;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  .sheet-backdrop.show{opacity:1;pointer-events:auto}
+
+  .attach-sheet{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    z-index:201;
+    background:#fff;
+    border-top:3px solid #000;
+    border-radius:22px 22px 0 0;
+    box-shadow:0 -5px 0 0 #000;
+    transform:translateY(105%);
+    transition:transform .28s cubic-bezier(.22,.9,.3,1);
+    max-height:80vh;
+    overflow-y:auto;
+    padding-bottom:max(16px, env(safe-area-inset-bottom));
+    max-width:900px;
+    margin:0 auto;
+  }
+  .attach-sheet.show{transform:translateY(0)}
+
+  .sheet-handle{
+    width:44px;height:5px;
+    background:#000;
+    border-radius:3px;
+    margin:10px auto 4px;
+    opacity:.25;
+  }
+
+  .sheet-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:6px 18px 12px;
+    border-bottom:2px solid #000;
+  }
+  .sheet-title{
+    font-weight:800;font-size:15px;
+    letter-spacing:-.3px;
+  }
+  .sheet-close{
+    width:32px;height:32px;
+    background:#FCA5A5;
+    border:2px solid #000;border-radius:9px;
+    box-shadow:2px 2px 0 0 #000;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .sheet-close:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
+
+  .sheet-body{padding:16px 18px}
+
+  .sheet-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;font-weight:700;
+    letter-spacing:1.5px;color:#666;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .sheet-label .clear-recent{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:10px;font-weight:800;
+    color:#dc2626;
+    text-transform:none;
+    letter-spacing:0;
+    cursor:pointer;
+    background:none;border:none;
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+
+  .recent-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(72px, 1fr));
+    gap:10px;
+    margin-bottom:20px;
+    min-height:80px;
+  }
+
+  .recent-item{
+    aspect-ratio:1;
+    border:2px solid #000;
+    border-radius:12px;
+    box-shadow:2px 2px 0 0 #000;
+    position:relative;
+    overflow:hidden;
+    background:#FDFBF7;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .recent-item:active{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
+
+  .recent-item img{
+    width:100%;height:100%;object-fit:cover;
+  }
+  .recent-item .file-preview{
+    width:100%;height:100%;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:4px;
+  }
+  .recent-item .file-ext-badge{
+    background:#86EFAC;
+    border:1.5px solid #000;border-radius:5px;
+    padding:2px 6px;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  .recent-item .file-ext-sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:8px;color:#666;
+    overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;max-width:90%;
+    padding:0 4px;
+  }
+  .recent-item .recent-x{
+    position:absolute;top:-4px;right:-4px;
+    width:20px;height:20px;
+    background:#FCA5A5;
+    border:1.5px solid #000;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    z-index:2;
+    box-shadow:1px 1px 0 0 #000;
+  }
+  .recent-item .recent-x svg{width:9px;height:9px}
+
+  .recent-empty{
+    grid-column:1/-1;
+    padding:24px 12px;
+    text-align:center;
+    border:2px dashed #bbb;
+    border-radius:12px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:#888;
+    line-height:1.5;
+  }
+
+  .sheet-actions{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+  }
+  .sheet-action{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:9px;
+    padding:14px 6px 12px;
+    background:#fff;
+    border:2.5px solid #000;border-radius:14px;
+    box-shadow:3px 3px 0 0 #000;
+    cursor:pointer;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:800;font-size:11.5px;
+    color:#000;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .sheet-action:active{
+    transform:translate(1px,1px);
+    box-shadow:1px 1px 0 0 #000;
+  }
+  .action-icon{
+    width:44px;height:44px;
+    border:2px solid #000;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .action-icon.camera{background:#86EFAC}
+  .action-icon.album{background:#7DD3FC}
+  .action-icon.doc{background:#FDE047}
+
   @media (max-width:380px){
     .brand-name{font-size:13px}
     .msg{max-width:92%;font-size:12.5px}
@@ -410,6 +567,10 @@
     .input-area{padding:8px}
     .icon-btn{width:40px;height:40px}
     .attach-thumb-wrap, .attach-thumb, .attach-file-icon{width:42px;height:42px}
+    .recent-grid{grid-template-columns:repeat(auto-fill, minmax(64px, 1fr));gap:8px}
+    .sheet-actions{gap:8px}
+    .sheet-action{padding:12px 4px 10px;font-size:11px}
+    .action-icon{width:40px;height:40px}
   }
 </style>
 </head>
@@ -458,7 +619,6 @@
 
     <div class="input-area">
 
-      <!-- ATTACH BAR — muncul di atas input row, full width -->
       <div id="attachBar" class="attach-bar">
         <div class="attach-thumb-wrap">
           <img id="attachThumb" class="attach-thumb" style="display:none" alt="">
@@ -473,8 +633,6 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
-
-      <input type="file" id="fileInput" accept="image/*,.js,.jsx,.ts,.tsx,.py,.json,.txt,.md,.html,.htm,.css,.scss,.php,.rb,.go,.rs,.java,.c,.cpp,.h,.hpp,.cs,.swift,.kt,.sql,.sh,.bash,.yaml,.yml,.xml,.toml,.ini,.env,.log,.csv" style="display:none">
 
       <div class="input-row">
         <button type="button" id="attachBtn" class="icon-btn" title="Lampirkan file">
@@ -501,22 +659,92 @@
   </div>
 </div>
 
+<!-- ============ BOTTOM SHEET ============ -->
+<div id="sheetBackdrop" class="sheet-backdrop"></div>
+
+<div id="attachSheet" class="attach-sheet">
+  <div class="sheet-handle"></div>
+
+  <div class="sheet-header">
+    <div class="sheet-title">Kirim File</div>
+    <button id="sheetClose" class="sheet-close" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="sheet-body">
+
+    <div class="sheet-label">
+      <span>File Terbaru</span>
+      <button type="button" id="clearRecent" class="clear-recent">Hapus Semua</button>
+    </div>
+    <div id="recentGrid" class="recent-grid"></div>
+
+    <div class="sheet-actions">
+      <button type="button" class="sheet-action" id="actionCamera">
+        <div class="action-icon camera">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+            <circle cx="12" cy="13" r="3"/>
+          </svg>
+        </div>
+        <span>Kamera</span>
+      </button>
+
+      <button type="button" class="sheet-action" id="actionAlbum">
+        <div class="action-icon album">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/>
+            <circle cx="9" cy="9" r="2"/>
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+          </svg>
+        </div>
+        <span>Album</span>
+      </button>
+
+      <button type="button" class="sheet-action" id="actionDoc">
+        <div class="action-icon doc">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <span>Dokumen</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Hidden file inputs -->
+<input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
+<input type="file" id="albumInput" accept="image/*" style="display:none">
+<input type="file" id="docInput" accept=".js,.jsx,.ts,.tsx,.py,.json,.txt,.md,.html,.htm,.css,.scss,.php,.rb,.go,.rs,.java,.c,.cpp,.h,.hpp,.cs,.swift,.kt,.sql,.sh,.bash,.yaml,.yml,.xml,.toml,.ini,.env,.log,.csv" style="display:none">
+
 <script>
 /* =================================================================
    CONFIG
 ================================================================= */
 const CONFIG = {
   PROXY_ENDPOINT: '/api/chat',
-  SYSTEM_PROMPT: `Kamu adalah NexusHUB AI, asisten AI canggih yang dikembangkan oleh xs0ciety HUB. Kamu membantu user dengan jawaban yang jelas, akurat, dan ramah. Kamu menguasai banyak topik: coding, teknologi, sains, kreatif, dan lain-lain. Jawab dengan gaya santai tapi profesional dalam Bahasa Indonesia. Kalau user pakai Bahasa Inggris, balas pakai Bahasa Inggris juga. Kalau user kirim gambar, jelaskan isi gambar tersebut dengan detail. Kalau user kirim file code, analisa kodenya dengan teliti dan bantu debug atau jelaskan fungsinya.`,
-  TEMPERATURE: 0.7,
-  MAX_TOKENS: 2048,
+  SYSTEM_PROMPT: `Kamu adalah NexusHUB AI, asisten AI canggih dari xs0ciety HUB. Jawab dengan gaya santai tapi profesional dalam Bahasa Indonesia (atau Inggris kalau user pakai Inggris).
+
+PENTING — ATURAN PANJANG JAWABAN:
+- Jawab RINGKAS dan PADAT. Hindari basa-basi.
+- Kalau user kirim kode/file: fokus ke poin utama. Jangan tulis tabel panjang atau analisa bertele-tele.
+- Struktur ideal: 1) Ringkasan 2-3 baris, 2) Poin perbaikan (bullet, max 5-7 poin), 3) Contoh code kalau perlu (max 1 blok kecil).
+- Kalau user minta analisa panjang, baru boleh detail — tapi tetap terstruktur.
+- Jangan tulis "Berikut adalah..." atau "Semoga membantu!" — langsung ke isi.`,
+  TEMPERATURE: 0.6,
+  MAX_TOKENS: 1024,
   MAX_IMAGE_SIZE_MB: 3,
-  MAX_TEXT_FILE_SIZE_KB: 80,
-  MAX_TEXT_CHARS: 8000
+  MAX_TEXT_FILE_SIZE_KB: 50,
+  MAX_TEXT_CHARS: 4000,
+  FETCH_TIMEOUT_MS: 90000
 };
 
 /* =================================================================
-   FILE TYPE CONFIG
+   FILE TYPES
 ================================================================= */
 const IMAGE_EXT = ['jpg','jpeg','png','gif','webp','bmp'];
 const TEXT_EXT  = ['js','jsx','ts','tsx','py','json','txt','md','html','htm','css','scss','php','rb','go','rs','java','c','cpp','h','hpp','cs','swift','kt','sql','sh','bash','yaml','yml','xml','toml','ini','env','log','csv'];
@@ -532,45 +760,19 @@ const LANG_MAP = {
 };
 
 /* =================================================================
-   MODEL LIST
+   MODELS
 ================================================================= */
 const MODELS = [
-  {
-    id: 'auto-smart',
-    name: 'Auto (Smart)',
-    model: 'openrouter/free',
-    desc: 'Auto-route ke model terbaik',
-    color: '#86EFAC',
-    supportVision: true
-  },
-  {
-    id: 'qwen3-coder',
-    name: 'Qwen3 Coder',
-    model: 'qwen/qwen3-coder:free',
-    desc: 'Coding · High performance',
-    color: '#FDBA74',
-    supportVision: false
-  },
-  {
-    id: 'gpt-oss-120b',
-    name: 'GPT-OSS 120B',
-    model: 'openai/gpt-oss-120b:free',
-    desc: 'General purpose · Large',
-    color: '#C4B5FD',
-    supportVision: false
-  },
-  {
-    id: 'gemma-3-27b',
-    name: 'Gemma 3 27B',
-    model: 'google/gemma-3-27b-it:free',
-    desc: 'Multimodal · Google',
-    color: '#7DD3FC',
-    supportVision: true
-  }
+  { id:'auto-smart',  name:'Auto (Smart)', model:'openrouter/free',           desc:'Auto-route ke model terbaik', color:'#86EFAC', supportVision:true  },
+  { id:'qwen3-coder', name:'Qwen3 Coder',  model:'qwen/qwen3-coder:free',     desc:'Coding · High performance',   color:'#FDBA74', supportVision:false },
+  { id:'gpt-oss-120b',name:'GPT-OSS 120B', model:'openai/gpt-oss-120b:free',  desc:'General purpose · Large',     color:'#C4B5FD', supportVision:false },
+  { id:'gemma-3-27b', name:'Gemma 3 27B',  model:'google/gemma-3-27b-it:free',desc:'Multimodal · Google',         color:'#7DD3FC', supportVision:true  }
 ];
 
 const DEFAULT_MODEL_ID = MODELS[0].id;
-const MODEL_STORAGE_KEY = 'nexushub.model.v6';
+const MODEL_STORAGE_KEY = 'nexushub.model.v8';
+const RECENT_KEY = 'nexushub.recent';
+const MAX_RECENT = 12;
 
 /* =================================================================
    UTILS
@@ -584,7 +786,7 @@ const fmtSize = bytes => {
   if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
   return (bytes/1048576).toFixed(2) + ' MB';
 };
-const getExt = name => name.split('.').pop().toLowerCase();
+const getExt = name => (name.split('.').pop() || '').toLowerCase();
 const getFileType = file => {
   const ext = getExt(file.name);
   if (IMAGE_EXT.includes(ext)) return 'image';
@@ -601,6 +803,8 @@ let messageHistory = [];
 let currentModel = getModelById(localStorage.getItem(MODEL_STORAGE_KEY) || DEFAULT_MODEL_ID);
 let pendingFile = null;
 let isSending = false;
+let activeController = null;
+let recentItems = [];
 
 /* =================================================================
    DOM
@@ -616,7 +820,6 @@ const dropdown      = document.getElementById('dropdown');
 const modelList     = document.getElementById('modelList');
 const modelNameEl   = document.getElementById('modelName');
 const modelDotEl    = document.getElementById('modelDot');
-const fileInput     = document.getElementById('fileInput');
 const attachBtn     = document.getElementById('attachBtn');
 const attachBar     = document.getElementById('attachBar');
 const attachThumb   = document.getElementById('attachThumb');
@@ -624,6 +827,191 @@ const attachFileIcon= document.getElementById('attachFileIcon');
 const attachName    = document.getElementById('attachName');
 const attachSize    = document.getElementById('attachSize');
 const attachX       = document.getElementById('attachX');
+const cameraInput   = document.getElementById('cameraInput');
+const albumInput    = document.getElementById('albumInput');
+const docInput      = document.getElementById('docInput');
+const sheetBackdrop = document.getElementById('sheetBackdrop');
+const attachSheet   = document.getElementById('attachSheet');
+const sheetClose    = document.getElementById('sheetClose');
+const recentGrid    = document.getElementById('recentGrid');
+const clearRecentBtn= document.getElementById('clearRecent');
+const actionCamera  = document.getElementById('actionCamera');
+const actionAlbum   = document.getElementById('actionAlbum');
+const actionDoc     = document.getElementById('actionDoc');
+
+/* =================================================================
+   RECENT FILES STORAGE
+================================================================= */
+function loadRecent(){
+  try {
+    const arr = JSON.parse(localStorage.getItem(RECENT_KEY));
+    return Array.isArray(arr) ? arr : [];
+  } catch { return []; }
+}
+
+function saveRecent(items){
+  try {
+    while (items.length > 1) {
+      try {
+        localStorage.setItem(RECENT_KEY, JSON.stringify(items));
+        return;
+      } catch { items.pop(); }
+    }
+    if (items.length === 1){
+      try { localStorage.setItem(RECENT_KEY, JSON.stringify(items)); return; }
+      catch { localStorage.removeItem(RECENT_KEY); }
+    }
+  } catch {}
+}
+
+async function makeThumbFromImage(dataUrl){
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const size = 96;
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const ratio = Math.max(size / img.width, size / img.height);
+        const w = img.width * ratio;
+        const h = img.height * ratio;
+        ctx.drawImage(img, (size - w)/2, (size - h)/2, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.55));
+      } catch { resolve(null); }
+    };
+    img.onerror = () => resolve(null);
+    img.src = dataUrl;
+  });
+}
+
+async function addToRecent(file, type, dataUrl){
+  let thumb = null;
+  if (type === 'image' && dataUrl){
+    thumb = await makeThumbFromImage(dataUrl);
+  }
+
+  const item = {
+    id: Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    name: file.name,
+    ext: getExt(file.name),
+    size: file.size,
+    type,
+    thumb,
+    ts: Date.now()
+  };
+
+  recentItems = loadRecent();
+  // Skip kalau udah ada (by name + size)
+  recentItems = recentItems.filter(x => !(x.name === item.name && x.size === item.size));
+  recentItems.unshift(item);
+  recentItems = recentItems.slice(0, MAX_RECENT);
+  saveRecent(recentItems);
+  renderRecent();
+}
+
+function renderRecent(){
+  if (!recentItems.length){
+    recentGrid.innerHTML = `<div class="recent-empty">Belum ada file terkirim.<br>File yang kamu kirim bakal muncul di sini.</div>`;
+    return;
+  }
+
+  recentGrid.innerHTML = recentItems.map(it => {
+    let inner = '';
+    if (it.type === 'image' && it.thumb){
+      inner = `<img src="${it.thumb}" alt="">`;
+    } else {
+      inner = `<div class="file-preview">
+        <div class="file-ext-badge">${escapeHtml(it.ext.toUpperCase().slice(0,4))}</div>
+        <div class="file-ext-sub">${escapeHtml(it.name)}</div>
+      </div>`;
+    }
+    return `<div class="recent-item" data-id="${it.id}" title="${escapeHtml(it.name)} (${fmtSize(it.size)})">
+      <button class="recent-x" data-remove="${it.id}" aria-label="Hapus">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      ${inner}
+    </div>`;
+  }).join('');
+
+  // Remove handlers
+  recentGrid.querySelectorAll('[data-remove]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.remove;
+      recentItems = recentItems.filter(x => x.id !== id);
+      saveRecent(recentItems);
+      renderRecent();
+    });
+  });
+}
+
+clearRecentBtn.addEventListener('click', () => {
+  if (!recentItems.length) return;
+  if (!confirm('Hapus semua riwayat file terbaru?')) return;
+  recentItems = [];
+  saveRecent(recentItems);
+  renderRecent();
+});
+
+/* =================================================================
+   BOTTOM SHEET
+================================================================= */
+function openSheet(){
+  sheetBackdrop.classList.add('show');
+  attachSheet.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  renderRecent();
+}
+
+function closeSheet(){
+  sheetBackdrop.classList.remove('show');
+  attachSheet.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+attachBtn.addEventListener('click', () => {
+  if (!currentModel.supportVision){
+    // masih bisa kirim file text
+  }
+  openSheet();
+});
+
+sheetBackdrop.addEventListener('click', closeSheet);
+sheetClose.addEventListener('click', closeSheet);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && attachSheet.classList.contains('show')) closeSheet();
+});
+
+// Swipe down to close
+let sheetStartY = 0, sheetDragging = false;
+attachSheet.addEventListener('touchstart', e => {
+  if (attachSheet.scrollTop <= 0){
+    sheetStartY = e.touches[0].clientY;
+    sheetDragging = true;
+  }
+}, { passive: true });
+attachSheet.addEventListener('touchmove', e => {
+  if (!sheetDragging) return;
+  const dy = e.touches[0].clientY - sheetStartY;
+  if (dy > 0){
+    attachSheet.style.transform = `translateY(${dy}px)`;
+  }
+}, { passive: true });
+attachSheet.addEventListener('touchend', e => {
+  if (!sheetDragging) return;
+  sheetDragging = false;
+  const endY = e.changedTouches[0].clientY;
+  const dy = endY - sheetStartY;
+  attachSheet.style.transform = '';
+  if (dy > 100) closeSheet();
+});
+
+// Action buttons
+actionCamera.addEventListener('click', () => cameraInput.click());
+actionAlbum.addEventListener('click',  () => albumInput.click());
+actionDoc.addEventListener('click',    () => docInput.click());
 
 /* =================================================================
    MODEL SELECTOR
@@ -684,13 +1072,28 @@ document.addEventListener('click', (e) => {
 /* =================================================================
    FILE HANDLING
 ================================================================= */
-attachBtn.addEventListener('click', () => fileInput.click());
-
-fileInput.addEventListener('change', (e) => {
+cameraInput.addEventListener('change', e => {
   const file = e.target.files[0];
   if (!file) return;
   handleFile(file);
-  fileInput.value = '';
+  cameraInput.value = '';
+  closeSheet();
+});
+
+albumInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  handleFile(file);
+  albumInput.value = '';
+  closeSheet();
+});
+
+docInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  handleFile(file);
+  docInput.value = '';
+  closeSheet();
 });
 
 function handleFile(file){
@@ -712,14 +1115,16 @@ function handleFile(file){
     }
     const reader = new FileReader();
     reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
       pendingFile = {
         type: 'image',
-        dataUrl: ev.target.result,
+        dataUrl,
         name: file.name,
         size: file.size,
         ext: getExt(file.name)
       };
       showFilePreview();
+      addToRecent(file, 'image', dataUrl);
     };
     reader.onerror = () => showError('Gagal baca gambar.');
     reader.readAsDataURL(file);
@@ -741,6 +1146,7 @@ function handleFile(file){
         ext: getExt(file.name)
       };
       showFilePreview();
+      addToRecent(file, 'text', null);
     };
     reader.onerror = () => showError('Gagal baca file.');
     reader.readAsText(file);
@@ -750,10 +1156,7 @@ function handleFile(file){
 
 function showFilePreview(){
   if (!pendingFile) return;
-
-  // Reset dulu
   attachBar.classList.remove('image','text');
-
   if (pendingFile.type === 'image'){
     attachBar.classList.add('image');
     attachThumb.src = pendingFile.dataUrl;
@@ -765,7 +1168,6 @@ function showFilePreview(){
     attachFileIcon.style.display = 'flex';
     attachFileIcon.textContent = pendingFile.ext.toUpperCase().slice(0, 4);
   }
-
   attachName.textContent = pendingFile.name;
   attachSize.textContent = fmtSize(pendingFile.size);
   attachBar.classList.add('show');
@@ -817,6 +1219,7 @@ async function sendMessage(){
   clearFile();
   isSending = true;
   sendBtn.disabled = true;
+  setStatus('THINKING', null);
   showTyping();
 
   try {
@@ -834,6 +1237,7 @@ async function sendMessage(){
 
   isSending = false;
   sendBtn.disabled = false;
+  activeController = null;
   chatInput.focus();
 }
 
@@ -867,9 +1271,14 @@ function buildUserContent(text, file){
    API
 ================================================================= */
 async function callProxy(userContent){
+  if (activeController) activeController.abort();
+  activeController = new AbortController();
+
+  const timeoutId = setTimeout(() => activeController.abort(), CONFIG.FETCH_TIMEOUT_MS);
+
   const messages = [
     { role: 'system', content: CONFIG.SYSTEM_PROMPT },
-    ...messageHistory.slice(-15),
+    ...messageHistory.slice(-12),
     { role: 'user', content: userContent }
   ];
 
@@ -880,25 +1289,35 @@ async function callProxy(userContent){
     max_tokens: CONFIG.MAX_TOKENS
   };
 
-  const res = await fetch(CONFIG.PROXY_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
+  let res;
+  try {
+    res = await fetch(CONFIG.PROXY_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: activeController.signal
+    });
+  } catch (err){
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError'){
+      throw new Error('Request dibatalkan atau timeout. Coba lagi dengan pesan lebih singkat.');
+    }
+    throw new Error('Koneksi ke server gagal. Cek internet kamu.');
+  }
+  clearTimeout(timeoutId);
 
-  // Handle non-JSON response (server timeout / gateway error)
   const contentType = res.headers.get('content-type') || '';
   if (!contentType.includes('json')){
-    // Extract error text from HTML error page kalau ada
-    let text = '';
-    try { text = await res.text(); } catch {}
-    if (res.status === 504 || text.includes('timeout')){
-      throw new Error('Server timeout. File atau pesan kamu terlalu besar. Coba perkecil atau kirim bagian tertentu.');
+    if (res.status === 504){
+      throw new Error('AI butuh waktu lebih lama. Coba kirim file atau pesan yang lebih kecil.');
     }
     if (res.status === 502 || res.status === 503){
-      throw new Error('Server sedang sibuk. Coba lagi beberapa saat.');
+      throw new Error('Server sedang sibuk. Coba lagi sebentar.');
     }
-    throw new Error(`Server error (HTTP ${res.status}). Response tidak valid.`);
+    if (res.status === 413){
+      throw new Error('File atau pesan terlalu besar. Perkecil dulu.');
+    }
+    throw new Error(`Server error (HTTP ${res.status}). Coba lagi.`);
   }
 
   let data;
@@ -911,7 +1330,7 @@ async function callProxy(userContent){
   }
 
   const content = data.choices?.[0]?.message?.content;
-  if (!content) throw new Error('Response kosong dari server.');
+  if (!content) throw new Error('AI tidak membalas dengan benar. Coba lagi.');
   return content;
 }
 
@@ -1039,7 +1458,9 @@ function showError(msg){
 
 function setStatus(text, ok){
   statusText.textContent = text;
-  statusDot.classList.toggle('offline', !ok);
+  statusDot.classList.remove('offline','busy');
+  if (ok === false) statusDot.classList.add('offline');
+  else if (ok === null) statusDot.classList.add('busy');
 }
 
 /* =================================================================
@@ -1054,9 +1475,13 @@ function initChat(){
   messageHistory = [];
 
   addMessage('assistant',
-    `Halo! Saya **NexusHUB AI**.\n\nModel aktif: **${currentModel.name}**\n\nKamu bisa kirim teks, gambar, atau file code (js, py, json, dll).`,
+    `Halo! Saya **NexusHUB AI**.\n\nModel aktif: **${currentModel.name}**\n\nKlik icon klip buat kirim gambar atau file code.`,
     { badge: currentModel.name, color: currentModel.color }
   );
+
+  // Load recent files
+  recentItems = loadRecent();
+  renderRecent();
 }
 
 initChat();
