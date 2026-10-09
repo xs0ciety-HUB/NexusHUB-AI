@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexusHUB AI — Multi-Model Control Plane</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    background:#FDFBF7;color:#000;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+  .sh-sm{box-shadow:2px 2px 0 0 #000}
+  .sh{box-shadow:3px 3px 0 0 #000}
+  .sh-lg{box-shadow:4px 4px 0 0 #000}
+  .sh-xl{box-shadow:5px 5px 0 0 #000}
+  .sh-2xl{box-shadow:6px 6px 0 0 #000}
+  .bd{border:2.5px solid #000}
+  .bd-2{border:2px solid #000}
+  .bd-3{border:3px solid #000}
+  .btn-brutal{transition:transform .13s ease,box-shadow .13s ease}
+  .btn-brutal:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 0 #000}
+  .btn-brutal:active{transform:translate(2px,2px);box-shadow:1px 1px 0 0 #000}
+
+  .pgreen{background:#86EFAC}
+  .pyellow{background:#FDE047}
+  .porange{background:#FDBA74}
+  .pblue{background:#3B82F6}
+  .pred{background:#FCA5A5}
+  .ppurple{background:#C4B5FD}
+  .pcyan{background:#7DD3FC}
+  .cream{background:#FDFBF7}
+
+  .pulse{animation:p 1.4s ease-in-out infinite}
+  @keyframes p{0%,100%{opacity:1}50%{opacity:.35}}
+
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:fadeIn .3s ease}
+  .slide-in{animation:slideIn .3s ease}
+
+  @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  .spin{animation:spin 1s linear infinite}
+
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:#000;border-radius:999px}
+
+  .view{display:none}
+  .view.active{display:block;animation:fadeIn .3s ease}
+
+  #loginView{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}
+  .login-wrap{width:100%;max-width:420px}
+
+  #chatView{display:none;flex-direction:column;height:100vh;padding:16px;gap:14px;max-width:1100px;margin:0 auto}
+  #chatView.active{display:flex}
+
+  .chat-messages{
+    flex:1;overflow-y:auto;padding:16px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+
+  .msg{
+    max-width:85%;padding:12px 14px;
+    border:2px solid #000;border-radius:14px;
+    box-shadow:3px 3px 0 0 #000;
+    font-size:13.5px;line-height:1.65;
+    word-wrap:break-word;white-space:pre-wrap;
+  }
+  .msg.user{background:#FDE047;align-self:flex-end;border-bottom-right-radius:4px}
+  .msg.assistant{background:#fff;align-self:flex-start;border-bottom-left-radius:4px}
+  .msg-time{font-size:10px;opacity:.55;margin-top:6px;font-family:'JetBrains Mono',monospace}
+  .msg-model{
+    display:inline-block;padding:2px 8px;
+    font-size:9.5px;font-weight:800;letter-spacing:.5px;
+    border:1.5px solid #000;border-radius:999px;
+    margin-bottom:6px;text-transform:uppercase;
+  }
+
+  .code-block{
+    background:#101010;color:#D4D4D4;
+    border:2px solid #000;border-radius:10px;
+    margin:10px 0;padding:10px 12px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;line-height:1.7;
+    overflow-x:auto;box-shadow:2px 2px 0 0 #000;
+  }
+  .code-header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-bottom:8px;margin-bottom:8px;
+    border-bottom:1px dashed #444;
+    font-size:10.5px;letter-spacing:1px;
+  }
+  .code-lang{color:#86EFAC;text-transform:uppercase;font-weight:700}
+  .copy-btn{
+    background:#86EFAC;color:#000;
+    border:2px solid #000;border-radius:6px;
+    padding:3px 8px;font-size:10px;font-weight:800;
+    cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;
+    transition:transform .12s ease;
+  }
+  .copy-btn:hover{transform:translate(-1px,-1px);box-shadow:2px 2px 0 0 #000}
+  .code-block pre{white-space:pre-wrap;word-wrap:break-word}
+
+  .typing{
+    display:none;align-self:flex-start;
+    background:#fff;border:2px solid #000;border-radius:14px;
+    box-shadow:3px 3px 0 0 #000;padding:10px 14px;
+  }
+  .typing.show{display:flex;align-items:center;gap:8px}
+  .typing-dot{width:8px;height:8px;border-radius:50%;background:#000;animation:td 1.2s ease-in-out infinite}
+  .typing-dot:nth-child(2){animation-delay:.15s}
+  .typing-dot:nth-child(3){animation-delay:.3s}
+  @keyframes td{
+    0%,60%,100%{transform:translateY(0);opacity:.35}
+    30%{transform:translateY(-6px);opacity:1}
+  }
+
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,.55);
+    z-index:100;display:none;align-items:center;justify-content:center;
+    padding:16px;backdrop-filter:blur(3px);
+  }
+  .modal-backdrop.show{display:flex}
+  .modal-card{
+    background:#fff;border:3px solid #000;border-radius:20px;
+    box-shadow:8px 8px 0 0 #000;
+    max-width:560px;width:100%;max-height:92vh;overflow:hidden;
+    display:flex;flex-direction:column;animation:fadeIn .28s ease;
+  }
+  .modal-body{padding:18px;overflow-y:auto}
+
+  .chat-input{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:14px;font-weight:500;
+    background:#fff;border:2.5px solid #000;border-radius:14px;
+    box-shadow:3px 3px 0 0 #000;
+    padding:12px 14px;width:100%;
+    outline:none;resize:none;
+    min-height:48px;max-height:160px;
+    transition:box-shadow .15s ease,transform .15s ease;
+  }
+  .chat-input:focus{transform:translate(-1px,-1px);box-shadow:5px 5px 0 0 #000}
+  .chat-input::placeholder{color:#888;font-weight:500}
+
+  .user-row{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:10px;background:#FDFBF7;
+    border:2px solid #000;border-radius:12px;
+    box-shadow:2px 2px 0 0 #000;
+    padding:10px 12px;margin-bottom:8px;flex-wrap:wrap;
+  }
+
+  .badge{
+    display:inline-block;
+    padding:2px 8px;border:2px solid #000;border-radius:999px;
+    font-size:9.5px;font-weight:800;letter-spacing:.5px;
+    text-transform:uppercase;
+  }
+
+  .model-selector{position:relative;display:inline-block}
+  .model-trigger{
+    display:flex;align-items:center;gap:8px;
+    padding:7px 12px;background:#fff;
+    border:2.5px solid #000;border-radius:12px;
+    box-shadow:3px 3px 0 0 #000;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:11px;font-weight:800;letter-spacing:.5px;
+    text-transform:uppercase;cursor:pointer;
+    transition:transform .13s ease, box-shadow .13s ease;
+    min-width:0;
+  }
+  .model-trigger:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 0 #000}
+  .model-trigger .dot{width:8px;height:8px;border-radius:50%;border:1.5px solid #000;flex-shrink:0}
+  .model-trigger .label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+
+  .model-menu{
+    position:absolute;top:calc(100% + 8px);left:0;
+    min-width:280px;max-width:calc(100vw - 32px);
+    background:#fff;border:2.5px solid #000;border-radius:14px;
+    box-shadow:5px 5px 0 0 #000;z-index:50;
+    overflow:hidden;display:none;
+  }
+  .model-menu.show{display:block;animation:fadeIn .18s ease}
+  .model-menu-header{
+    padding:10px 12px;background:#FDE047;
+    border-bottom:2.5px solid #000;
+    font-size:10px;font-weight:800;letter-spacing:1.5px;
+    text-transform:uppercase;
+  }
+  .model-item{
+    display:flex;align-items:flex-start;gap:10px;
+    padding:10px 12px;border-bottom:1.5px dashed #ddd;
+    cursor:pointer;transition:background .12s ease;
+  }
+  .model-item:last-child{border-bottom:none}
+  .model-item:hover{background:#FEF9C3}
+  .model-item.active{background:#86EFAC}
+  .model-item .dot{width:10px;height:10px;border-radius:50%;border:1.5px solid #000;flex-shrink:0;margin-top:5px}
+  .model-item .info{flex:1;min-width:0}
+  .model-item .name{font-size:12px;font-weight:800;letter-spacing:-.2px;margin-bottom:2px}
+  .model-item .desc{font-size:10.5px;color:#666;line-height:1.4;font-family:'JetBrains Mono',monospace}
+  .model-item .check{color:#16a34a;font-size:14px;flex-shrink:0;margin-top:3px;opacity:0;transition:opacity .15s ease}
+  .model-item.active .check{opacity:1}
+
+  @media (max-width:768px){
+    #chatView{padding:10px;gap:10px}
+    .msg{max-width:92%}
+    .chat-messages{padding:12px}
+    .model-trigger .label{max-width:90px}
+    .model-menu{min-width:260px;left:auto;right:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN VIEW ============ -->
+<div id="loginView" class="view active">
+  <div class="login-wrap">
+    <div class="bg-white bd-3 rounded-3xl sh-2xl overflow-hidden">
+      <div class="pgreen border-b-[2.5px] border-black px-5 py-4 flex items-center gap-3">
+        <div class="w-11 h-11 bg-white bd-2 rounded-2xl sh-sm flex items-center justify-center shrink-0">
+          <i class="fas fa-brain" style="color:#000;font-size:20px"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="font-extrabold text-[17px] tracking-tight leading-none">NexusHUB AI</div>
+          <div class="mono text-[9px] font-semibold tracking-[2.5px] opacity-70 mt-1">BY XS0CIETY HUB</div>
+        </div>
+      </div>
+
+      <div class="p-5 sm:p-6">
+        <div class="text-center mb-6">
+          <h1 class="font-extrabold text-[24px] tracking-tight leading-tight mb-2">Welcome Back</h1>
+          <p class="text-[13px] font-medium text-gray-600">Login untuk mengakses NexusHUB AI.</p>
+        </div>
+
+        <div class="pyellow bd-2 rounded-xl sh-sm p-3 mb-5 flex items-start gap-2.5">
+          <i class="fas fa-circle-info" style="margin-top:2px"></i>
+          <div class="text-[11.5px] font-semibold leading-relaxed">
+            Sesi akun kamu akan expired dalam <b id="expiryDays">30</b> hari.
+          </div>
+        </div>
+
+        <form id="loginForm" class="flex flex-col gap-4">
+          <div>
+            <label class="block text-[11px] font-extrabold tracking-[1.5px] uppercase mb-2">Username</label>
+            <input type="text" id="username" class="chat-input" placeholder="Masukkan username" autocomplete="username" required>
+          </div>
+          <div>
+            <label class="block text-[11px] font-extrabold tracking-[1.5px] uppercase mb-2">Password</label>
+            <input type="password" id="password" class="chat-input" placeholder="Masukkan password" autocomplete="current-password" required>
+          </div>
+
+          <button type="submit" id="loginBtn"
+            class="w-full bg-black text-white font-extrabold text-[14px] py-3.5 rounded-xl border-2 border-black sh btn-brutal mt-2">
+            <i class="fas fa-sign-in-alt mr-2"></i> Login
+          </button>
+        </form>
+
+        <div id="loginLoading" class="hidden mt-4 text-center">
+          <div class="inline-flex items-center gap-2 px-3 py-2 bg-cream bd-2 rounded-full sh-sm">
+            <div class="w-3 h-3 border-2 border-black border-t-transparent rounded-full spin"></div>
+            <span class="text-[11.5px] font-extrabold">Memeriksa akun...</span>
+          </div>
+        </div>
+
+        <div id="loginError" class="hidden mt-4 p-3 pred bd-2 rounded-xl sh-sm text-[12px] font-bold"></div>
+        <div id="loginSuccess" class="hidden mt-4 p-3 pgreen bd-2 rounded-xl sh-sm text-[12px] font-bold"></div>
+      </div>
+
+      <div class="px-5 py-3 border-t-[2.5px] border-black bg-cream">
+        <div class="text-center mono text-[10px] font-semibold tracking-[1.5px] text-gray-500">
+          © 2025 NEXUSHUB AI — BY XS0CIETY HUB
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CHAT VIEW ============ -->
+<div id="chatView" class="view">
+
+  <div class="bg-white bd-2 rounded-2xl sh-lg p-3 sm:p-4 flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="pgreen bd-2 rounded-xl sh-sm w-10 h-10 flex items-center justify-center shrink-0">
+        <i class="fas fa-brain" style="color:#000;font-size:18px"></i>
+      </div>
+      <div class="min-w-0">
+        <div class="font-extrabold text-[15px] tracking-tight leading-none">NexusHUB AI</div>
+        <div class="mono text-[9px] font-semibold tracking-[2px] opacity-60 mt-1 truncate">MULTI-MODEL · OPENROUTER</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 flex-wrap">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white bd-2 rounded-full sh-sm font-extrabold text-[10px] tracking-[1px]">
+        <span id="statusDot" class="w-1.5 h-1.5 rounded-full bg-green-600 border border-black pulse"></span>
+        <span id="statusText">ONLINE</span>
+      </div>
+
+      <span id="userRole" class="badge badge-user">USER</span>
+
+      <button id="manageUsersBtn" class="hidden px-3 py-1.5 porange bd-2 rounded-lg sh-sm btn-brutal font-extrabold text-[10.5px]">
+        <i class="fas fa-users-cog"></i> Kelola User
+      </button>
+      <button id="clearChatBtn" class="px-3 py-1.5 bg-white bd-2 rounded-lg sh-sm btn-brutal font-extrabold text-[10.5px]">
+        <i class="fas fa-broom"></i>
+      </button>
+      <button id="logoutBtn" class="px-3 py-1.5 pred bd-2 rounded-lg sh-sm btn-brutal font-extrabold text-[10.5px]">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-1 bg-white bd-2 rounded-2xl sh-lg overflow-hidden flex flex-col min-h-0">
+    <div class="pgreen border-b-[2.5px] border-black px-3 sm:px-4 py-2.5 flex items-center justify-between gap-2 flex-wrap">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-red-500 border border-black"></span>
+        <span class="w-2 h-2 rounded-full bg-yellow-500 border border-black"></span>
+        <span class="w-2 h-2 rounded-full bg-green-500 border border-black"></span>
+        <span class="mono text-[11.5px] font-bold ml-1 hidden sm:inline">nexushub.chat</span>
+      </div>
+
+      <div class="model-selector">
+        <button id="modelTrigger" class="model-trigger" type="button">
+          <span id="modelDot" class="dot" style="background:#86EFAC"></span>
+          <span id="modelLabel" class="label">Gemini 2.5 Flash</span>
+          <i class="fas fa-chevron-down" style="font-size:9px;opacity:.6"></i>
+        </button>
+        <div id="modelMenu" class="model-menu">
+          <div class="model-menu-header">Pilih Model AI</div>
+          <div id="modelList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="chatMessages" class="chat-messages cream"></div>
+
+    <div id="errorMessage" class="hidden mx-3 mt-2 p-3 pred bd-2 rounded-xl sh-sm text-[11.5px] font-bold"></div>
+    <div id="successMessage" class="hidden mx-3 mt-2 p-3 pgreen bd-2 rounded-xl sh-sm text-[11.5px] font-bold"></div>
+
+    <div class="border-t-[2.5px] border-black p-3 sm:p-4 cream">
+      <form id="chatForm" class="flex items-end gap-2">
+        <textarea id="chatInput" class="chat-input flex-1" placeholder="Ketik pesan kamu di sini..." rows="1"></textarea>
+        <button type="submit" id="sendButton"
+          class="shrink-0 w-12 h-12 bg-black text-white bd-2 rounded-xl sh btn-brutal flex items-center justify-center">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+      <div class="flex items-center justify-between mt-2 flex-wrap gap-2">
+        <button type="button" id="newChatBtn" class="text-[10.5px] font-extrabold tracking-wide underline-offset-2 hover:underline">
+          <i class="fas fa-plus-circle"></i> Chat Baru
+        </button>
+        <div class="mono text-[10px] font-semibold text-gray-500">Secure proxy · API key hidden</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mono text-[10px] font-semibold tracking-[1.5px] text-gray-500 py-1">
+    © 2025 NEXUSHUB AI — BY XS0CIETY HUB
+  </div>
+
+</div>
+
+<!-- ============ MANAGE USERS MODAL ============ -->
+<div id="manageUsersModal" class="modal-backdrop">
+  <div class="modal-card">
+    <div class="pgreen border-b-[2.5px] border-black px-4 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 font-extrabold text-[14px]">
+        <i class="fas fa-users-cog"></i> Kelola Pengguna
+      </div>
+      <button id="closeModal" class="w-8 h-8 bg-white bd-2 rounded-lg sh-sm btn-brutal flex items-center justify-center">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form id="addUserForm" class="flex flex-col gap-3 mb-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-extrabold tracking-[1.5px] uppercase mb-1.5">Username</label>
+            <input type="text" id="newUsername" class="chat-input" placeholder="Username baru" required>
+          </div>
+          <div>
+            <label class="block text-[10px] font-extrabold tracking-[1.5px] uppercase mb-1.5">Password</label>
+            <input type="password" id="newPassword" class="chat-input" placeholder="Password" required>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-extrabold tracking-[1.5px] uppercase mb-1.5">Role</label>
+            <select id="newRole" class="chat-input" required>
+              <option value="user">User</option>
+              <option value="vip">VIP</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-extrabold tracking-[1.5px] uppercase mb-1.5">Expiry</label>
+            <input type="date" id="newExpiry" class="chat-input" required>
+          </div>
+        </div>
+        <button type="submit" class="bg-black text-white font-extrabold text-[13px] py-3 rounded-xl bd-2 sh btn-brutal">
+          <i class="fas fa-user-plus mr-1"></i> Tambah User
+        </button>
+      </form>
+
+      <div class="text-[10px] font-extrabold tracking-[1.5px] uppercase mb-2 text-gray-600">Daftar User</div>
+      <div id="userList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =================================================================
+   CONFIG
+================================================================= */
+const CONFIG = {
+  // Endpoint proxy lokal (Vercel serverless). API key disimpan di ENV Vercel.
+  PROXY_ENDPOINT: '/api/chat',
+
+  SYSTEM_PROMPT: `Kamu adalah NexusHUB AI, asisten AI canggih yang dikembangkan oleh xs0ciety HUB. Kamu membantu user dengan jawaban yang jelas, akurat, dan ramah. Kamu menguasai banyak topik: coding, teknologi, sains, kreatif, dan lain-lain. Jawab dengan gaya santai tapi profesional dalam Bahasa Indonesia. Kalau user pakai Bahasa Inggris, balas pakai Bahasa Inggris juga.`,
+
+  TEMPERATURE: 0.7,
+  MAX_TOKENS: 2048
+};
+
+/* =================================================================
+   MODEL REGISTRY — TAMBAH MODEL BARU DI SINI
+   Cek daftar lengkap model di: https://openrouter.ai/models
+================================================================= */
+const MODELS = [
+  {
+    id: 'gemini-flash',
+    name: 'Gemini 2.5 Flash',
+    model: 'google/gemini-2.5-flash',
+    desc: 'Cepat & multimodal · Google',
+    color: '#86EFAC'
+  },
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT 4o Mini',
+    model: 'openai/gpt-4o-mini',
+    desc: 'Cerdas & hemat · OpenAI',
+    color: '#FDBA74'
+  },
+  {
+    id: 'deepseek',
+    name: 'DeepSeek V3.2',
+    model: 'deepseek/deepseek-v3.2',
+    desc: 'Reasoning murah · DeepSeek',
+    color: '#C4B5FD'
+  },
+  {
+    id: 'claude',
+    name: 'Claude Sonnet 4.5',
+    model: 'anthropic/claude-sonnet-4.5',
+    desc: 'Top Arena · Anthropic',
+    color: '#7DD3FC'
+  }
+  // ─── TAMBAH MODEL BARU DI BAWAH SINI ─────────────────────
+  // Cukup copy 1 blok { id, name, model, desc, color }
+  // contoh:
+  // {
+  //   id: 'llama-4',
+  //   name: 'Llama 4 Maverick',
+  //   model: 'meta-llama/llama-4-maverick',
+  //   desc: 'Open source · Meta',
+  //   color: '#FDE047'
+  // },
+];
+
+const DEFAULT_MODEL_ID = MODELS[0].id;
+const MODEL_STORAGE_KEY = 'nexushub.model';
+
+/* =================================================================
+   UTILS
+================================================================= */
+const pad = n => String(n).padStart(2,'0');
+const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}.${pad(d.getMinutes())}`; };
+const escapeHtml = t => { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; };
+const getModelById = id => MODELS.find(m => m.id === id) || MODELS[0];
+
+/* =================================================================
+   STATE
+================================================================= */
+let userData = null;
+let userDatabase = [];
+let messageHistory = [];
+let currentModel = getModelById(localStorage.getItem(MODEL_STORAGE_KEY) || DEFAULT_MODEL_ID);
+
+/* =================================================================
+   USER DATABASE (localStorage)
+================================================================= */
+function loadUserDatabase(){
+  try {
+    const stored = localStorage.getItem('nexushub.users');
+    if (stored){ userDatabase = JSON.parse(stored); return; }
+  } catch {}
+  userDatabase = [
+    { username: 'm11',    password: 'm11',    role: 'admin', expiry: '2300-12-31' },
+    { username: 'anezz',  password: 'anezz',  role: 'user',  expiry: '2025-11-30' },
+    { username: 'vip01',  password: 'vip01',  role: 'vip',   expiry: '2026-12-31' }
+  ];
+  saveUserDatabase();
+}
+function saveUserDatabase(){
+  try { localStorage.setItem('nexushub.users', JSON.stringify(userDatabase)); } catch {}
+}
+
+/* =================================================================
+   LOGIN
+================================================================= */
+const loginForm    = document.getElementById('loginForm');
+const loginBtn     = document.getElementById('loginBtn');
+const loginLoading = document.getElementById('loginLoading');
+const loginError   = document.getElementById('loginError');
+const loginSuccess = document.getElementById('loginSuccess');
+const loginView    = document.getElementById('loginView');
+const chatView     = document.getElementById('chatView');
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password){ showLoginError('Username dan password harus diisi.'); return; }
+
+  loginBtn.disabled = true;
+  loginLoading.classList.remove('hidden');
+  loginError.classList.add('hidden');
+  loginSuccess.classList.add('hidden');
+
+  await new Promise(r => setTimeout(r, 600));
+
+  const user = userDatabase.find(u => u.username === username && u.password === password);
+  if (!user){
+    showLoginError('Username atau password salah.');
+    loginBtn.disabled = false;
+    loginLoading.classList.add('hidden');
+    return;
+  }
+
+  if (new Date(user.expiry) < new Date()){
+    showLoginError('Akun sudah expired.');
+    loginBtn.disabled = false;
+    loginLoading.classList.add('hidden');
+    return;
+  }
+
+  userData = user;
+  showLoginSuccess('Login berhasil. Mengalihkan...');
+
+  setTimeout(() => {
+    loginView.classList.remove('active');
+    chatView.classList.add('active');
+    document.getElementById('userRole').textContent = user.role.toUpperCase();
+    document.getElementById('userRole').className = 'badge badge-' + user.role;
+
+    if (user.role === 'admin' || user.role === 'vip'){
+      document.getElementById('manageUsersBtn').classList.remove('hidden');
+    }
+
+    initChat();
+    loginBtn.disabled = false;
+    loginLoading.classList.add('hidden');
+    loginSuccess.classList.add('hidden');
+  }, 700);
+});
+
+function showLoginError(msg){ loginError.textContent = msg; loginError.classList.remove('hidden'); }
+function showLoginSuccess(msg){ loginSuccess.textContent = msg; loginSuccess.classList.remove('hidden'); }
+
+(function updateExpiryInfo(){
+  if (userDatabase.length){
+    const d = new Date(userDatabase[0].expiry);
+    const diff = Math.ceil((d - new Date()) / (1000*60*60*24));
+    const el = document.getElementById('expiryDays');
+    if (el) el.textContent = diff > 0 ? diff : 0;
+  }
+})();
+
+/* =================================================================
+   LOGOUT
+================================================================= */
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  userData = null;
+  messageHistory = [];
+  chatView.classList.remove('active');
+  loginView.classList.add('active');
+  loginForm.reset();
+  loginError.classList.add('hidden');
+  loginSuccess.classList.add('hidden');
+  document.getElementById('manageUsersBtn').classList.add('hidden');
+  document.getElementById('chatMessages').innerHTML = '';
+});
+
+/* =================================================================
+   MODEL SELECTOR
+================================================================= */
+const modelTrigger = document.getElementById('modelTrigger');
+const modelMenu    = document.getElementById('modelMenu');
+const modelList    = document.getElementById('modelList');
+const modelLabelEl = document.getElementById('modelLabel');
+const modelDotEl   = document.getElementById('modelDot');
+
+function renderModelMenu(){
+  modelList.innerHTML = '';
+  MODELS.forEach(m => {
+    const isActive = m.id === currentModel.id;
+    const item = document.createElement('div');
+    item.className = 'model-item' + (isActive ? ' active' : '');
+    item.innerHTML = `
+      <span class="dot" style="background:${m.color}"></span>
+      <div class="info">
+        <div class="name">${escapeHtml(m.name)}</div>
+        <div class="desc">${escapeHtml(m.desc)}</div>
+      </div>
+      <i class="fas fa-check check"></i>
+    `;
+    item.addEventListener('click', () => {
+      selectModel(m.id);
+      modelMenu.classList.remove('show');
+    });
+    modelList.appendChild(item);
+  });
+}
+
+function selectModel(id){
+  const m = getModelById(id);
+  if (m.id === currentModel.id) return;
+
+  currentModel = m;
+  localStorage.setItem(MODEL_STORAGE_KEY, m.id);
+
+  modelLabelEl.textContent = m.name;
+  modelDotEl.style.background = m.color;
+
+  messageHistory = [];
+  document.getElementById('chatMessages').innerHTML = '';
+  addMessage('assistant',
+    `Model berhasil diganti ke **${m.name}**.\n\n${m.desc}\n\nSilakan mulai percakapan baru!`,
+    { badge: m.name, color: m.color }
+  );
+
+  renderModelMenu();
+  showSuccess(`Model diganti ke ${m.name}.`);
+}
+
+modelTrigger.addEventListener('click', (e) => {
+  e.stopPropagation();
+  modelMenu.classList.toggle('show');
+});
+document.addEventListener('click', (e) => {
+  if (!modelMenu.contains(e.target) && e.target !== modelTrigger){
+    modelMenu.classList.remove('show');
+  }
+});
+
+/* =================================================================
+   INIT CHAT
+================================================================= */
+function initChat(){
+  modelLabelEl.textContent = currentModel.name;
+  modelDotEl.style.background = currentModel.color;
+  renderModelMenu();
+
+  document.getElementById('chatMessages').innerHTML = '';
+  messageHistory = [];
+
+  addMessage('assistant',
+    `Halo! Saya **NexusHUB AI** siap bantu kamu.\n\nModel aktif: **${currentModel.name}**`,
+    { badge: currentModel.name, color: currentModel.color }
+  );
+}
+
+/* =================================================================
+   CHAT
+================================================================= */
+const chatMessages  = document.getElementById('chatMessages');
+const chatForm      = document.getElementById('chatForm');
+const chatInput     = document.getElementById('chatInput');
+const sendButton    = document.getElementById('sendButton');
+const errorMessage  = document.getElementById('errorMessage');
+const successMessage = document.getElementById('successMessage');
+
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 160) + 'px';
+});
+
+chatForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const message = chatInput.value.trim();
+  if (!message || sendButton.disabled) return;
+
+  addMessage('user', message);
+  chatInput.value = '';
+  chatInput.style.height = 'auto';
+  sendButton.disabled = true;
+  showTyping();
+
+  try {
+    const reply = await callProxy(message);
+    hideTyping();
+    addMessage('assistant', reply, { badge: currentModel.name, color: currentModel.color });
+    updateApiStatus(true);
+    messageHistory.push({ role: 'user', content: message });
+    messageHistory.push({ role: 'assistant', content: reply });
+  } catch (err){
+    hideTyping();
+    showError('Error: ' + err.message);
+    updateApiStatus(false);
+  }
+
+  sendButton.disabled = false;
+  chatInput.focus();
+});
+
+document.getElementById('clearChatBtn').addEventListener('click', () => {
+  chatMessages.innerHTML = '';
+  messageHistory = [];
+  addMessage('assistant', 'Percakapan telah dihapus. Ada yang bisa NexusHUB AI bantu?',
+    { badge: currentModel.name, color: currentModel.color });
+});
+
+document.getElementById('newChatBtn').addEventListener('click', () => {
+  chatMessages.innerHTML = '';
+  messageHistory = [];
+  addMessage('assistant', `Chat baru dimulai dengan **${currentModel.name}**. Tanyakan apa aja!`,
+    { badge: currentModel.name, color: currentModel.color });
+});
+
+/* =================================================================
+   CALL PROXY
+================================================================= */
+async function callProxy(userMessage){
+  const messages = [
+    { role: 'system', content: CONFIG.SYSTEM_PROMPT },
+    ...messageHistory.slice(-20),
+    { role: 'user', content: userMessage }
+  ];
+
+  const body = {
+    model: currentModel.model,
+    messages,
+    temperature: CONFIG.TEMPERATURE,
+    max_tokens: CONFIG.MAX_TOKENS
+  };
+
+  const res = await fetch(CONFIG.PROXY_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok){
+    let errMsg = `HTTP ${res.status}`;
+    try {
+      const errJson = await res.json();
+      if (errJson.error?.message) errMsg = errJson.error.message;
+    } catch {}
+    throw new Error(errMsg);
+  }
+
+  const data = await res.json();
+  const content = data.choices?.[0]?.message?.content;
+  if (!content) throw new Error('Response tidak valid dari server.');
+  return content;
+}
+
+/* =================================================================
+   RENDER MESSAGE
+================================================================= */
+function addMessage(role, content, opts = {}){
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + role + ' slide-in';
+
+  let badgeHtml = '';
+  if (role === 'assistant' && opts.badge){
+    badgeHtml = `<span class="msg-model" style="background:${opts.color || '#86EFAC'}">${escapeHtml(opts.badge)}</span>`;
+  }
+
+  wrap.innerHTML = badgeHtml + formatMessage(content) + `<div class="msg-time">${nowTime()}</div>`;
+
+  const typing = document.getElementById('typingIndicator');
+  if (typing) chatMessages.insertBefore(wrap, typing);
+  else chatMessages.appendChild(wrap);
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function formatMessage(content){
+  let html = '';
+  if (content.includes('```')){
+    const parts = content.split('```');
+    for (let i = 0; i < parts.length; i++){
+      if (i % 2 === 0){
+        html += renderInline(parts[i]);
+      } else {
+        const lines = parts[i].split('\n');
+        const lang = (lines[0] || 'code').trim() || 'code';
+        const code = lines.slice(1).join('\n');
+        html += `
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">${escapeHtml(lang)}</span>
+              <button class="copy-btn" onclick="copyCode(this)">
+                <i class="far fa-copy"></i> Salin
+              </button>
+            </div>
+            <pre><code>${escapeHtml(code)}</code></pre>
+          </div>`;
+      }
+    }
+    return html;
+  }
+  return renderInline(content);
+}
+
+function renderInline(text){
+  let s = escapeHtml(text);
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  s = s.replace(/`([^`]+)`/g, '<code style="background:#f3f3f3;padding:1px 6px;border-radius:4px;border:1.5px solid #000;font-family:\'JetBrains Mono\',monospace;font-size:11.5px">$1</code>');
+  s = s.replace(/\n/g, '<br>');
+  return s;
+}
+
+window.copyCode = function(btn){
+  const block = btn.closest('.code-block');
+  const code = block.querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Disalin';
+    setTimeout(() => { btn.innerHTML = orig; }, 1500);
+  }).catch(() => alert('Gagal menyalin kode.'));
+};
+
+/* =================================================================
+   TYPING / STATUS / ERROR
+================================================================= */
+function ensureTypingExists(){
+  let t = document.getElementById('typingIndicator');
+  if (!t){
+    t = document.createElement('div');
+    t.id = 'typingIndicator';
+    t.className = 'typing';
+    t.innerHTML = `
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    `;
+    chatMessages.appendChild(t);
+  }
+  return t;
+}
+function showTyping(){
+  const t = ensureTypingExists();
+  t.classList.add('show');
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+function hideTyping(){
+  const t = document.getElementById('typingIndicator');
+  if (t) t.classList.remove('show');
+}
+
+function showError(msg){
+  errorMessage.textContent = msg;
+  errorMessage.classList.remove('hidden');
+  setTimeout(() => errorMessage.classList.add('hidden'), 5000);
+}
+function showSuccess(msg){
+  successMessage.textContent = msg;
+  successMessage.classList.remove('hidden');
+  setTimeout(() => successMessage.classList.add('hidden'), 3000);
+}
+
+function updateApiStatus(ok){
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  if (ok){ dot.style.background = '#16a34a'; txt.textContent = 'ONLINE'; }
+  else   { dot.style.background = '#ef4444'; txt.textContent = 'OFFLINE'; }
+}
+
+/* =================================================================
+   MANAGE USERS MODAL
+================================================================= */
+const manageUsersModal = document.getElementById('manageUsersModal');
+const closeModalBtn    = document.getElementById('closeModal');
+const addUserForm      = document.getElementById('addUserForm');
+const userListEl       = document.getElementById('userList');
+
+document.getElementById('manageUsersBtn').addEventListener('click', () => {
+  manageUsersModal.classList.add('show');
+  renderUserList();
+  const d = new Date(); d.setDate(d.getDate() + 30);
+  document.getElementById('newExpiry').value = d.toISOString().split('T')[0];
+});
+closeModalBtn.addEventListener('click', () => manageUsersModal.classList.remove('show'));
+manageUsersModal.addEventListener('click', (e) => {
+  if (e.target === manageUsersModal) manageUsersModal.classList.remove('show');
+});
+
+addUserForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const username = document.getElementById('newUsername').value.trim();
+  const password = document.getElementById('newPassword').value.trim();
+  const role     = document.getElementById('newRole').value;
+  const expiry   = document.getElementById('newExpiry').value;
+
+  if (!username || !password || !expiry){ showError('Semua field wajib diisi.'); return; }
+  if (userDatabase.find(u => u.username === username)){ showError('Username sudah terdaftar.'); return; }
+
+  userDatabase.push({ username, password, role, expiry });
+  saveUserDatabase();
+  renderUserList();
+  addUserForm.reset();
+  showSuccess('User baru berhasil ditambahkan.');
+});
+
+function renderUserList(){
+  userListEl.innerHTML = '';
+  userDatabase.forEach((u, idx) => {
+    const active = new Date(u.expiry) > new Date();
+    const row = document.createElement('div');
+    row.className = 'user-row';
+    row.innerHTML = `
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <span class="font-extrabold text-[13px]">${escapeHtml(u.username)}</span>
+          <span class="badge badge-${u.role}">${u.role}</span>
+          <span class="badge ${active ? 'pgreen' : 'pred'}">${active ? 'AKTIF' : 'EXPIRED'}</span>
+        </div>
+        <div class="mono text-[10px] text-gray-600">Expiry: ${u.expiry}</div>
+      </div>
+      ${canDelete(u) ? `<button class="delete-btn px-3 py-1.5 pred bd-2 rounded-lg sh-sm btn-brutal font-extrabold text-[10.5px]" data-idx="${idx}">
+        <i class="fas fa-trash"></i>
+      </button>` : ''}
+    `;
+    userListEl.appendChild(row);
+  });
+  userListEl.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => deleteUser(parseInt(btn.dataset.idx, 10)));
+  });
+}
+
+function canDelete(target){
+  if (!userData) return false;
+  if (target.username === userData.username) return false;
+  if (userData.role === 'admin') return true;
+  if (userData.role === 'vip' && target.role !== 'admin') return true;
+  return false;
+}
+
+function deleteUser(idx){
+  if (!confirm('Yakin mau hapus user ini?')) return;
+  userDatabase.splice(idx, 1);
+  saveUserDatabase();
+  renderUserList();
+  showSuccess('User berhasil dihapus.');
+}
+
+/* =================================================================
+   INIT
+================================================================= */
+loadUserDatabase();
+</script>
+</body>
+</html>
