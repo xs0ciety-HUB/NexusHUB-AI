@@ -40,7 +40,6 @@
   ::-webkit-scrollbar{width:6px;height:6px}
   ::-webkit-scrollbar-thumb{background:#000;border-radius:3px}
 
-  /* ================= LAYOUT ================= */
   .app{
     height:100dvh;
     display:flex;
@@ -52,7 +51,6 @@
     padding-bottom:max(10px, env(safe-area-inset-bottom));
   }
 
-  /* HEADER */
   .header{
     display:flex;
     align-items:center;
@@ -88,11 +86,7 @@
   .status-dot{width:6px;height:6px;border-radius:50%;background:#16a34a;border:1.5px solid #000}
   .status-dot.offline{background:#ef4444}
 
-  /* MODEL BAR */
-  .model-bar{
-    position:relative;
-    flex-shrink:0;
-  }
+  .model-bar{position:relative;flex-shrink:0}
   .model-btn{
     width:100%;
     display:flex;align-items:center;justify-content:space-between;gap:8px;
@@ -142,13 +136,7 @@
   .model-item .info{flex:1;min-width:0}
   .model-item .title{font-weight:800;font-size:12px;margin-bottom:1px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
   .model-item .desc{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#666}
-  .model-item .badge-vis{
-    font-size:8px;font-weight:800;
-    background:#7DD3FC;border:1.5px solid #000;border-radius:999px;
-    padding:0 5px;line-height:1.5;
-  }
 
-  /* CHAT AREA */
   .chat-wrap{
     flex:1;
     min-height:0;
@@ -239,7 +227,6 @@
     30%{transform:translateY(-5px);opacity:1}
   }
 
-  /* ERROR */
   .error-box{
     margin:0 10px 8px;
     padding:9px 12px;
@@ -251,7 +238,6 @@
   }
   .error-box.show{display:block}
 
-  /* INPUT AREA */
   .input-area{
     padding:10px;
     background:#fff;
@@ -341,7 +327,6 @@
 
 <div class="app">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
       <div class="logo">
@@ -361,12 +346,11 @@
     </div>
   </div>
 
-  <!-- MODEL BAR -->
   <div class="model-bar">
     <button id="modelBtn" class="model-btn" type="button">
       <div class="model-btn-left">
         <span id="modelDot" class="model-dot" style="background:#86EFAC"></span>
-        <span id="modelName" class="model-name">Llama 3.3 70B</span>
+        <span id="modelName" class="model-name">Auto (Smart)</span>
       </div>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
         <polyline points="6 9 12 15 18 9"/>
@@ -380,12 +364,10 @@
     </div>
   </div>
 
-  <!-- CHAT AREA -->
   <div class="chat-wrap">
     <div id="chatScroll" class="chat-scroll"></div>
     <div id="errorBox" class="error-box"></div>
 
-    <!-- INPUT -->
     <div class="input-area">
       <div id="attachPreview" class="attach-preview">
         <img id="attachThumb" class="attach-thumb" alt="">
@@ -440,45 +422,46 @@ const CONFIG = {
 };
 
 /* =================================================================
-   MODEL LIST
+   MODEL LIST — pakai router otomatis + model spesifik yang masih aktif
+   Update: gunakan model yang sudah diverifikasi aktif per 2026
 ================================================================= */
 const MODELS = [
   {
-    id: 'llama-3.3-70b',
-    name: 'Llama 3.3 70B',
-    model: 'meta-llama/llama-3.3-70b-instruct:free',
-    desc: 'General purpose · Fast',
+    id: 'auto-smart',
+    name: 'Auto (Smart)',
+    model: 'openrouter/free',
+    desc: 'Auto-route ke model terbaik',
     color: '#86EFAC',
-    supportVision: false
+    supportVision: true
   },
   {
-    id: 'deepseek-r1',
-    name: 'DeepSeek R1',
-    model: 'deepseek/deepseek-r1:free',
-    desc: 'Reasoning · Advanced',
-    color: '#C4B5FD',
-    supportVision: false
-  },
-  {
-    id: 'qwen-2.5-72b',
-    name: 'Qwen 2.5 72B',
-    model: 'qwen/qwen-2.5-72b-instruct:free',
-    desc: 'Chat · Multilingual',
+    id: 'qwen3-coder',
+    name: 'Qwen3 Coder',
+    model: 'qwen/qwen3-coder:free',
+    desc: 'Coding · High performance',
     color: '#FDBA74',
     supportVision: false
   },
   {
-    id: 'mistral-nemo',
-    name: 'Mistral Nemo',
-    model: 'mistralai/mistral-nemo:free',
-    desc: 'Compact · Efficient',
-    color: '#7DD3FC',
+    id: 'gpt-oss-120b',
+    name: 'GPT-OSS 120B',
+    model: 'openai/gpt-oss-120b:free',
+    desc: 'General purpose · Large',
+    color: '#C4B5FD',
     supportVision: false
+  },
+  {
+    id: 'gemma-3-27b',
+    name: 'Gemma 3 27B',
+    model: 'google/gemma-3-27b-it:free',
+    desc: 'Multimodal · Google',
+    color: '#7DD3FC',
+    supportVision: true
   }
 ];
 
 const DEFAULT_MODEL_ID = MODELS[0].id;
-const MODEL_STORAGE_KEY = 'nexushub.model.v3';
+const MODEL_STORAGE_KEY = 'nexushub.model.v4';
 
 /* =================================================================
    UTILS
@@ -535,10 +518,7 @@ function renderModelList(){
     el.innerHTML = `
       <span class="dot" style="background:${m.color}"></span>
       <div class="info">
-        <div class="title">
-          ${escapeHtml(m.name)}
-          ${m.supportVision ? '<span class="badge-vis">VISION</span>' : ''}
-        </div>
+        <div class="title">${escapeHtml(m.name)}</div>
         <div class="desc">${escapeHtml(m.desc)}</div>
       </div>
     `;
@@ -696,11 +676,11 @@ function buildUserContent(text, image){
 }
 
 function formatError(msg){
-  if (/no endpoints found/i.test(msg)){
-    return 'Model ini sedang tidak tersedia. Ganti ke model lain di menu atas.';
+  if (/no endpoints found|404|unavailable|not available/i.test(msg)){
+    return 'Model ini sedang tidak tersedia. Coba ganti ke model lain.';
   }
-  if (/rate limit|429/i.test(msg)){
-    return 'Terlalu banyak request. Coba lagi beberapa saat.';
+  if (/rate limit|429|too many/i.test(msg)){
+    return 'Terlalu banyak request. Tunggu beberapa saat.';
   }
   if (/401|unauthorized|no auth/i.test(msg)){
     return 'Konfigurasi server belum lengkap. Hubungi admin.';
