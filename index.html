@@ -30,6 +30,7 @@
   .pyellow{background:#FDE047}
   .porange{background:#FDBA74}
   .pred{background:#FCA5A5}
+  .pcyan{background:#7DD3FC}
   .cream{background:#FDFBF7}
 
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -134,7 +135,7 @@
   .model-item.active{background:#86EFAC}
   .model-item .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid #000;flex-shrink:0;margin-top:4px}
   .model-item .info{flex:1;min-width:0}
-  .model-item .title{font-weight:800;font-size:12px;margin-bottom:1px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .model-item .title{font-weight:800;font-size:12px;margin-bottom:1px}
   .model-item .desc{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#666}
 
   .chat-wrap{
@@ -187,6 +188,29 @@
     box-shadow:2px 2px 0 0 #000;
     margin:5px 0;display:block;object-fit:cover;cursor:pointer;
   }
+  .msg-file{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 10px;
+    background:#fff;
+    border:2px solid #000;border-radius:8px;
+    box-shadow:2px 2px 0 0 #000;
+    margin:5px 0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    max-width:100%;
+  }
+  .msg-file .file-ext{
+    background:#86EFAC;
+    border:1.5px solid #000;border-radius:4px;
+    padding:1px 5px;
+    font-weight:800;font-size:9px;
+    text-transform:uppercase;
+  }
+  .msg-file .file-name{
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
 
   .code-block{
     background:#101010;color:#D4D4D4;
@@ -208,7 +232,7 @@
     padding:2px 7px;font-size:9.5px;font-weight:800;
     cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;
   }
-  .code-block pre{white-space:pre-wrap;word-wrap:break-word}
+  .code-block pre{white-space:pre-wrap;word-wrap:break-word;max-height:280px;overflow-y:auto}
 
   .typing{
     display:none;
@@ -233,8 +257,12 @@
     background:#FCA5A5;
     border:2px solid #000;border-radius:10px;
     box-shadow:2px 2px 0 0 #000;
-    font-size:11.5px;font-weight:700;
+    font-size:11px;font-weight:600;
     display:none;
+    font-family:'JetBrains Mono',monospace;
+    word-break:break-word;
+    max-height:120px;
+    overflow-y:auto;
   }
   .error-box.show{display:block}
 
@@ -258,6 +286,16 @@
   .attach-thumb{
     width:44px;height:44px;
     object-fit:cover;border:2px solid #000;border-radius:8px;flex-shrink:0;
+    background:#fff;
+  }
+  .attach-file-icon{
+    width:44px;height:44px;
+    border:2px solid #000;border-radius:8px;flex-shrink:0;
+    background:#86EFAC;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;font-size:10px;
+    text-transform:uppercase;
   }
   .attach-info{flex:1;min-width:0}
   .attach-name{font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -370,9 +408,10 @@
 
     <div class="input-area">
       <div id="attachPreview" class="attach-preview">
-        <img id="attachThumb" class="attach-thumb" alt="">
+        <img id="attachThumb" class="attach-thumb" style="display:none" alt="">
+        <div id="attachFileIcon" class="attach-file-icon" style="display:none">JS</div>
         <div class="attach-info">
-          <div id="attachName" class="attach-name">image.jpg</div>
+          <div id="attachName" class="attach-name">file</div>
           <div id="attachSize" class="attach-size">0 KB</div>
         </div>
         <button type="button" id="attachX" class="attach-x">
@@ -380,14 +419,12 @@
         </button>
       </div>
 
-      <input type="file" id="fileInput" accept="image/*" style="display:none">
+      <input type="file" id="fileInput" accept="image/*,.js,.jsx,.ts,.tsx,.py,.json,.txt,.md,.html,.htm,.css,.scss,.php,.rb,.go,.rs,.java,.c,.cpp,.h,.hpp,.cs,.swift,.kt,.sql,.sh,.bash,.yaml,.yml,.xml,.toml,.ini,.env,.log,.csv" style="display:none">
 
       <div class="input-row">
-        <button type="button" id="attachBtn" class="icon-btn" title="Lampirkan gambar">
+        <button type="button" id="attachBtn" class="icon-btn" title="Lampirkan file">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="18" height="18" x="3" y="3" rx="2"/>
-            <circle cx="9" cy="9" r="2"/>
-            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+            <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
           </svg>
         </button>
 
@@ -402,7 +439,7 @@
       </div>
 
       <div class="input-info">
-        <span id="infoText">Siap membantu kamu</span>
+        <span id="infoText">Bisa kirim teks, gambar, atau file code</span>
         <span class="mono">© xs0ciety HUB</span>
       </div>
     </div>
@@ -415,15 +452,31 @@
 ================================================================= */
 const CONFIG = {
   PROXY_ENDPOINT: '/api/chat',
-  SYSTEM_PROMPT: `Kamu adalah NexusHUB AI, asisten AI canggih yang dikembangkan oleh xs0ciety HUB. Kamu membantu user dengan jawaban yang jelas, akurat, dan ramah. Kamu menguasai banyak topik: coding, teknologi, sains, kreatif, dan lain-lain. Jawab dengan gaya santai tapi profesional dalam Bahasa Indonesia. Kalau user pakai Bahasa Inggris, balas pakai Bahasa Inggris juga. Kalau user kirim gambar, jelaskan isi gambar tersebut dengan detail.`,
+  SYSTEM_PROMPT: `Kamu adalah NexusHUB AI, asisten AI canggih yang dikembangkan oleh xs0ciety HUB. Kamu membantu user dengan jawaban yang jelas, akurat, dan ramah. Kamu menguasai banyak topik: coding, teknologi, sains, kreatif, dan lain-lain. Jawab dengan gaya santai tapi profesional dalam Bahasa Indonesia. Kalau user pakai Bahasa Inggris, balas pakai Bahasa Inggris juga. Kalau user kirim gambar, jelaskan isi gambar tersebut dengan detail. Kalau user kirim file code, analisa kodenya dengan teliti dan bantu debug atau jelaskan fungsinya.`,
   TEMPERATURE: 0.7,
-  MAX_TOKENS: 2048,
-  MAX_IMAGE_SIZE_MB: 5
+  MAX_TOKENS: 4096,
+  MAX_IMAGE_SIZE_MB: 5,
+  MAX_TEXT_FILE_SIZE_KB: 200
 };
 
 /* =================================================================
-   MODEL LIST — pakai router otomatis + model spesifik yang masih aktif
-   Update: gunakan model yang sudah diverifikasi aktif per 2026
+   FILE TYPE CONFIG
+================================================================= */
+const IMAGE_EXT = ['jpg','jpeg','png','gif','webp','bmp'];
+const TEXT_EXT  = ['js','jsx','ts','tsx','py','json','txt','md','html','htm','css','scss','php','rb','go','rs','java','c','cpp','h','hpp','cs','swift','kt','sql','sh','bash','yaml','yml','xml','toml','ini','env','log','csv'];
+
+const LANG_MAP = {
+  js:'javascript', jsx:'javascript', ts:'typescript', tsx:'typescript',
+  py:'python', rb:'ruby', go:'go', rs:'rust', java:'java',
+  c:'c', cpp:'cpp', h:'c', hpp:'cpp', cs:'csharp', swift:'swift', kt:'kotlin',
+  html:'html', htm:'html', css:'css', scss:'scss',
+  php:'php', sql:'sql', sh:'bash', bash:'bash',
+  yaml:'yaml', yml:'yaml', xml:'xml', toml:'toml', ini:'ini', env:'bash',
+  json:'json', md:'markdown', txt:'text', log:'text', csv:'csv'
+};
+
+/* =================================================================
+   MODEL LIST
 ================================================================= */
 const MODELS = [
   {
@@ -461,7 +514,7 @@ const MODELS = [
 ];
 
 const DEFAULT_MODEL_ID = MODELS[0].id;
-const MODEL_STORAGE_KEY = 'nexushub.model.v4';
+const MODEL_STORAGE_KEY = 'nexushub.model.v5';
 
 /* =================================================================
    UTILS
@@ -475,13 +528,23 @@ const fmtSize = bytes => {
   if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
   return (bytes/1048576).toFixed(2) + ' MB';
 };
+const getExt = name => name.split('.').pop().toLowerCase();
+const getFileType = file => {
+  const ext = getExt(file.name);
+  if (IMAGE_EXT.includes(ext)) return 'image';
+  if (TEXT_EXT.includes(ext)) return 'text';
+  // fallback by mime
+  if (file.type.startsWith('image/')) return 'image';
+  if (file.type.startsWith('text/') || file.type.includes('json') || file.type.includes('javascript')) return 'text';
+  return null;
+};
 
 /* =================================================================
    STATE
 ================================================================= */
 let messageHistory = [];
 let currentModel = getModelById(localStorage.getItem(MODEL_STORAGE_KEY) || DEFAULT_MODEL_ID);
-let pendingImage = null;
+let pendingFile = null; // { type:'image'|'text', dataUrl?, text?, name, size, ext }
 let isSending = false;
 
 /* =================================================================
@@ -502,6 +565,7 @@ const fileInput     = document.getElementById('fileInput');
 const attachBtn     = document.getElementById('attachBtn');
 const attachPreview = document.getElementById('attachPreview');
 const attachThumb   = document.getElementById('attachThumb');
+const attachFileIcon= document.getElementById('attachFileIcon');
 const attachName    = document.getElementById('attachName');
 const attachSize    = document.getElementById('attachSize');
 const attachX       = document.getElementById('attachX');
@@ -545,8 +609,9 @@ function selectModel(id){
     { badge: m.name, color: m.color }
   );
 
-  if (!m.supportVision && pendingImage){
-    clearImage();
+  // Kalau ada image pending tapi model baru gak support → clear
+  if (pendingFile && pendingFile.type === 'image' && !m.supportVision){
+    clearFile();
     showError(`${m.name} tidak support gambar. Attachment dihapus.`);
   }
   renderModelList();
@@ -563,15 +628,9 @@ document.addEventListener('click', (e) => {
 });
 
 /* =================================================================
-   IMAGE
+   FILE HANDLING
 ================================================================= */
-attachBtn.addEventListener('click', () => {
-  if (!currentModel.supportVision){
-    showError(`${currentModel.name} tidak support gambar. Coba model lain.`);
-    return;
-  }
-  fileInput.click();
-});
+attachBtn.addEventListener('click', () => fileInput.click());
 
 fileInput.addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -581,37 +640,87 @@ fileInput.addEventListener('change', (e) => {
 });
 
 function handleFile(file){
-  if (!file.type.startsWith('image/')){
-    showError('Hanya file gambar (JPG, PNG, WEBP, GIF).');
+  const ftype = getFileType(file);
+
+  if (!ftype){
+    showError(`Tipe file tidak didukung: .${getExt(file.name)}`);
     return;
   }
-  if (file.size > CONFIG.MAX_IMAGE_SIZE_MB * 1024 * 1024){
-    showError(`Max ukuran ${CONFIG.MAX_IMAGE_SIZE_MB} MB.`);
+
+  // Image handling
+  if (ftype === 'image'){
+    if (!currentModel.supportVision){
+      showError(`${currentModel.name} tidak support gambar. Pakai Auto atau Gemma 3.`);
+      return;
+    }
+    if (file.size > CONFIG.MAX_IMAGE_SIZE_MB * 1024 * 1024){
+      showError(`Gambar max ${CONFIG.MAX_IMAGE_SIZE_MB} MB.`);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      pendingFile = {
+        type: 'image',
+        dataUrl: ev.target.result,
+        name: file.name,
+        size: file.size,
+        ext: getExt(file.name)
+      };
+      showFilePreview();
+    };
+    reader.onerror = () => showError('Gagal baca gambar.');
+    reader.readAsDataURL(file);
     return;
   }
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    pendingImage = { dataUrl: ev.target.result, name: file.name, size: file.size };
-    showAttachPreview();
-  };
-  reader.readAsDataURL(file);
+
+  // Text file handling
+  if (ftype === 'text'){
+    if (file.size > CONFIG.MAX_TEXT_FILE_SIZE_KB * 1024){
+      showError(`File text max ${CONFIG.MAX_TEXT_FILE_SIZE_KB} KB.`);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      pendingFile = {
+        type: 'text',
+        text: ev.target.result,
+        name: file.name,
+        size: file.size,
+        ext: getExt(file.name)
+      };
+      showFilePreview();
+    };
+    reader.onerror = () => showError('Gagal baca file.');
+    reader.readAsText(file);
+    return;
+  }
 }
 
-function showAttachPreview(){
-  if (!pendingImage) return;
-  attachThumb.src = pendingImage.dataUrl;
-  attachName.textContent = pendingImage.name;
-  attachSize.textContent = fmtSize(pendingImage.size);
+function showFilePreview(){
+  if (!pendingFile) return;
+
+  if (pendingFile.type === 'image'){
+    attachThumb.src = pendingFile.dataUrl;
+    attachThumb.style.display = 'block';
+    attachFileIcon.style.display = 'none';
+  } else {
+    attachThumb.style.display = 'none';
+    attachFileIcon.style.display = 'flex';
+    attachFileIcon.textContent = pendingFile.ext.toUpperCase().slice(0, 4);
+  }
+
+  attachName.textContent = pendingFile.name;
+  attachSize.textContent = fmtSize(pendingFile.size);
   attachPreview.classList.add('show');
 }
 
-function clearImage(){
-  pendingImage = null;
+function clearFile(){
+  pendingFile = null;
   attachPreview.classList.remove('show');
   attachThumb.src = '';
 }
 
-attachX.addEventListener('click', clearImage);
+attachX.addEventListener('click', clearFile);
 
 /* =================================================================
    INPUT
@@ -635,18 +744,24 @@ sendBtn.addEventListener('click', sendMessage);
 ================================================================= */
 async function sendMessage(){
   const message = chatInput.value.trim();
-  const hasImage = !!pendingImage;
-  if ((!message && !hasImage) || isSending) return;
+  const hasFile = !!pendingFile;
+  if ((!message && !hasFile) || isSending) return;
 
-  isSending = true;
-  sendBtn.disabled = true;
+  // Display message user
+  const displayOpts = {};
+  if (pendingFile?.type === 'image') displayOpts.image = pendingFile.dataUrl;
+  if (pendingFile?.type === 'text') displayOpts.file = { name: pendingFile.name, ext: pendingFile.ext };
 
-  addMessage('user', message || '(mengirim gambar)', { image: pendingImage?.dataUrl });
-  const apiContent = buildUserContent(message, pendingImage);
+  addMessage('user', message || (hasFile ? '(mengirim file)' : ''), displayOpts);
+
+  // Build API content
+  const apiContent = buildUserContent(message, pendingFile);
 
   chatInput.value = '';
   chatInput.style.height = 'auto';
-  clearImage();
+  clearFile();
+  isSending = true;
+  sendBtn.disabled = true;
   showTyping();
 
   try {
@@ -658,7 +773,7 @@ async function sendMessage(){
     setStatus('READY', true);
   } catch (err){
     hideTyping();
-    showError(formatError(err.message));
+    showError(err.message); // show raw error now
     setStatus('ERROR', false);
   }
 
@@ -667,34 +782,35 @@ async function sendMessage(){
   chatInput.focus();
 }
 
-function buildUserContent(text, image){
-  if (!image) return text || '';
-  const parts = [];
-  if (text) parts.push({ type: 'text', text });
-  parts.push({ type: 'image_url', image_url: { url: image.dataUrl } });
-  return parts;
-}
+function buildUserContent(text, file){
+  // No file → simple string
+  if (!file) return text || '';
 
-function formatError(msg){
-  if (/no endpoints found|404|unavailable|not available/i.test(msg)){
-    return 'Model ini sedang tidak tersedia. Coba ganti ke model lain.';
+  // Image → multimodal format
+  if (file.type === 'image'){
+    const parts = [];
+    if (text) parts.push({ type: 'text', text });
+    parts.push({ type: 'image_url', image_url: { url: file.dataUrl } });
+    return parts;
   }
-  if (/rate limit|429|too many/i.test(msg)){
-    return 'Terlalu banyak request. Tunggu beberapa saat.';
+
+  // Text file → embed as code block in the string
+  if (file.type === 'text'){
+    const lang = LANG_MAP[file.ext] || file.ext || 'text';
+    // Truncate kalau kepanjangan (biar gak boros token)
+    let fileText = file.text;
+    const MAX_CHARS = 15000;
+    let truncated = false;
+    if (fileText.length > MAX_CHARS){
+      fileText = fileText.slice(0, MAX_CHARS);
+      truncated = true;
+    }
+    const header = text ? `${text}\n\n` : '';
+    const truncNote = truncated ? `\n\n... (file terpotong, hanya 15.000 karakter pertama)` : '';
+    return `${header}\`\`\`${lang}\n// File: ${file.name}\n${fileText}\`\`\`${truncNote}`;
   }
-  if (/401|unauthorized|no auth/i.test(msg)){
-    return 'Konfigurasi server belum lengkap. Hubungi admin.';
-  }
-  if (/402|insufficient/i.test(msg)){
-    return 'Layanan sedang tidak tersedia. Coba model lain.';
-  }
-  if (/timeout/i.test(msg)){
-    return 'Server lama merespon. Coba kirim ulang.';
-  }
-  if (/network|fetch|failed to fetch/i.test(msg)){
-    return 'Koneksi ke server gagal. Cek internet kamu.';
-  }
-  return 'Terjadi kesalahan. Coba lagi.';
+
+  return text || '';
 }
 
 /* =================================================================
@@ -722,10 +838,11 @@ async function callProxy(userContent){
 
   let data;
   try { data = await res.json(); }
-  catch { throw new Error(`HTTP ${res.status}`); }
+  catch { throw new Error(`HTTP ${res.status} - response tidak valid`); }
 
   if (!res.ok){
-    throw new Error(data?.error?.message || `HTTP ${res.status}`);
+    const errMsg = data?.error?.message || data?.message || `HTTP ${res.status}`;
+    throw new Error(errMsg);
   }
 
   const content = data.choices?.[0]?.message?.content;
@@ -734,7 +851,7 @@ async function callProxy(userContent){
 }
 
 /* =================================================================
-   RENDER
+   RENDER MESSAGE
 ================================================================= */
 function addMessage(role, content, opts = {}){
   const wrap = document.createElement('div');
@@ -746,6 +863,12 @@ function addMessage(role, content, opts = {}){
   }
   if (opts.image){
     html += `<img src="${opts.image}" class="msg-image" onclick="openImage(this.src)" alt="">`;
+  }
+  if (opts.file){
+    html += `<div class="msg-file">
+      <span class="file-ext">${escapeHtml(opts.file.ext)}</span>
+      <span class="file-name">${escapeHtml(opts.file.name)}</span>
+    </div>`;
   }
   html += formatMessage(content);
   html += `<div class="msg-time">${nowTime()}</div>`;
@@ -837,10 +960,14 @@ function hideTyping(){
 }
 
 function showError(msg){
-  errorBox.textContent = msg;
+  // Simple fallback kalau panjang banget
+  let display = msg;
+  if (display.length > 300) display = display.slice(0, 300) + '...';
+  errorBox.textContent = display;
   errorBox.classList.add('show');
   clearTimeout(errorBox._t);
-  errorBox._t = setTimeout(() => errorBox.classList.remove('show'), 8000);
+  errorBox._t = setTimeout(() => errorBox.classList.remove('show'), 15000);
+  console.error('[NexusHUB error]', msg);
 }
 
 function setStatus(text, ok){
@@ -860,7 +987,7 @@ function initChat(){
   messageHistory = [];
 
   addMessage('assistant',
-    `Halo! Saya **NexusHUB AI**.\n\nModel aktif: **${currentModel.name}**\n\nKetik pesan buat mulai ngobrol.`,
+    `Halo! Saya **NexusHUB AI**.\n\nModel aktif: **${currentModel.name}**\n\nKamu bisa kirim teks, gambar, atau file code (js, py, json, dll).`,
     { badge: currentModel.name, color: currentModel.color }
   );
 }
@@ -869,4 +996,4 @@ initChat();
 chatInput.focus();
 </script>
 </body>
- </html>
+</html>
