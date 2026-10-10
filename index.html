@@ -834,7 +834,7 @@
       <div class="composer-info">
         <span class="tag" id="engineTag">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span id="engineLabel">Nexus Fast</span>
+          <span id="engineLabel">Nexus Auto</span>
         </span>
         <span class="tag">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
@@ -983,9 +983,25 @@ const CONFIG = {
 ============================================================ */
 const ENGINES = [
   {
+    id: 'auto',
+    label: 'Nexus Auto',
+    model: 'auto',
+    desc: 'Routing otomatis · Bergantian antar engine',
+    color: '#F9A8D4',
+    vision: false
+  },
+  {
+    id: 'fusion',
+    label: 'Nexus Fusion',
+    model: 'fusion',
+    desc: 'Semua engine jawab · digabung jadi 1 balasan',
+    color: '#FDE68A',
+    vision: false
+  },
+  {
     id: 'fast',
     label: 'Nexus Fast',
-    model: 'meta-llama/llama-3.3-70b-instruct:free',
+    model: 'nexus-fast',
     desc: 'Cepat · Serbaguna',
     color: '#86EFAC',
     vision: false
@@ -993,7 +1009,7 @@ const ENGINES = [
   {
     id: 'reason',
     label: 'Nexus Reasoning',
-    model: 'deepseek/deepseek-r1:free',
+    model: 'nexus-reason',
     desc: 'Analitis · Logika kuat',
     color: '#C4B5FD',
     vision: false
@@ -1001,7 +1017,7 @@ const ENGINES = [
   {
     id: 'balanced',
     label: 'Nexus Balanced',
-    model: 'qwen/qwen-2.5-72b-instruct:free',
+    model: 'nexus-balanced',
     desc: 'Seimbang · Multibahasa',
     color: '#FDBA74',
     vision: false
@@ -1009,9 +1025,17 @@ const ENGINES = [
   {
     id: 'lite',
     label: 'Nexus Lite',
-    model: 'mistralai/mistral-nemo:free',
+    model: 'nexus-lite',
     desc: 'Ringan · Efisien',
     color: '#7DD3FC',
+    vision: false
+  },
+  {
+    id: 'flash',
+    label: 'Nexus Flash',
+    model: 'nexus-flash',
+    desc: 'Kilat · Jawaban singkat',
+    color: '#FCA5A5',
     vision: false
   }
 ];
@@ -1814,7 +1838,7 @@ function formatError(msg = '') {
   if (/timeout|504/i.test(msg)) return 'Server butuh waktu lama merespon. Coba kirim pesan lebih singkat atau ganti engine.';
   if (/rate limit|429/i.test(msg)) return 'Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi.';
   if (/401|403|auth/i.test(msg)) return 'Kunci akses engine bermasalah. Coba refresh halaman.';
-  if (/unavailable|not found|404/i.test(msg)) return 'Engine ini sedang tidak tersedia. Ganti ke engine lain.';
+  if (/unavailable|not found|no endpoints|404/i.test(msg)) return 'Engine ini sedang tidak tersedia. Ganti ke engine lain. (' + String(msg).slice(0, 120) + ')';
   if (/network|fetch/i.test(msg)) return 'Koneksi ke server gagal. Cek internet kamu.';
   return 'Terjadi kesalahan tak terduga. Coba lagi sebentar lagi.';
 }
@@ -1933,10 +1957,12 @@ async function callChatAPI(userContent, webContext = '') {
   try { data = await res.json(); } catch { throw new Error(`HTTP ${res.status}`); }
 
   if (!res.ok) {
+    console.error('[chat error]', res.status, data);
     throw new Error(data?.error?.message || data?.error || `HTTP ${res.status}`);
   }
 
-  const reply = data.choices?.[0]?.message?.content;
+  const m0 = data.choices?.[0]?.message;
+  const reply = m0?.content || m0?.reasoning;
   if (!reply) throw new Error('Empty response');
   return reply;
 }
@@ -2307,4 +2333,4 @@ init();
 })();
 </script>
 </body>
-</html>
+  </html>
