@@ -40,7 +40,11 @@ export default async function handler(req, res) {
           'HTTP-Referer': req.headers.origin || req.headers.referer || 'http://localhost',
           'X-Title': 'NexusHUB AI'
         },
-        body: JSON.stringify({ model, messages, temperature, max_tokens }),
+        // Fallback otomatis: kalau model utama mati/rate limit, OpenRouter coba model gratis lain
+        body: JSON.stringify({
+          models: [model, 'openrouter/free'],
+          messages, temperature, max_tokens
+        }),
         signal: controller.signal
       });
     } catch (fetchErr) {
