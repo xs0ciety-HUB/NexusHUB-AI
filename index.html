@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="google-site-verification" content="D1oUHv6dGj1dX7cihsmCFHur-ww9WxDmfzoywawpfPI" />
+<meta name="theme-color" content="#FDFBF7" />
+<title>NexusHUB AI &mdash; Asisten Cerdas oleh xs0ciety HUB</title>
+<meta name="description" content="NexusHUB AI adalah asisten cerdas berbasis AI yang dikembangkan oleh xs0ciety HUB. Gratis, cepat, dengan dukungan multi-engine, pencarian web real-time, dan voice input." />
+<meta name="keywords" content="NexusHUB AI, xs0ciety HUB, AI Indonesia, asisten cerdas, chatbot AI, AI gratis, xprimesociety" />
+<meta name="author" content="xs0ciety HUB" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href="https://nexushub-ai.duckdns.org/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://nexushub-ai.duckdns.org/" />
+<meta property="og:title" content="NexusHUB AI &mdash; Asisten Cerdas oleh xs0ciety HUB" />
+<meta property="og:description" content="Asisten AI gratis dengan multi-engine, web search, dan voice input." />
+<meta property="og:image" content="https://nexushub-ai.duckdns.org/og-image.png" />
+<meta property="og:site_name" content="NexusHUB AI" />
+<meta property="og:locale" content="id_ID" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NexusHUB AI" />
+<meta name="twitter:description" content="Asisten AI gratis dengan multi-engine." />
+<meta name="twitter:image" content="https://nexushub-ai.duckdns.org/og-image.png" />
+<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "NexusHUB AI",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://nexushub-ai.duckdns.org/",
+  "description": "Asisten cerdas berbasis AI dengan multi-engine, pencarian web real-time, dan voice input.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "IDR" },
+  "author": {
+    "@type": "Person",
+    "name": "xs0ciety HUB",
+    "url": "https://nexushub-ai.duckdns.org/about",
+    "sameAs": [
+      "https://www.tiktok.com/@xprimesociety",
+      "https://www.instagram.com/xs0cietyhub",
+      "https://t.me/xs0cietyHUB"
+    ]
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FDFBF7; --white:#FFF; --black:#000;
+    --green:#86EFAC; --yellow:#FDE047; --orange:#FDBA74;
+    --red:#FCA5A5; --blue:#93C5FD; --purple:#C4B5FD;
+    --bg:var(--cream); --card:var(--white); --card-2:var(--cream); --card-3:#F3F1EB;
+    --text:var(--black); --muted:#5a5a5a; --muted-2:#8a8a8a;
+    --code-bg:#101010; --code-text:#D4D4D4;
+    --bd:2.5px solid #000; --bd-2:2px solid #000; --bd-3:3px solid #000;
+    --sh-sm:2px 2px 0 0 #000; --sh:3px 3px 0 0 #000; --sh-lg:4px 4px 0 0 #000;
+    --r-sm:10px; --r:14px; --r-lg:18px; --r-xl:22px; --r-pill:999px;
+    --ease:cubic-bezier(.2,.9,.3,1);
+  }
+  [data-theme="dark"]{
+    --bg:#0b0b0b; --card:#181818; --card-2:#0f0f0f; --card-3:#222;
+    --text:#FDFBF7; --muted:#a0a0a0; --muted-2:#707070;
+    --bd:2.5px solid #FDFBF7; --bd-2:2px solid #FDFBF7; --bd-3:3px solid #FDFBF7;
+    --sh-sm:2px 2px 0 0 #FDFBF7; --sh:3px 3px 0 0 #FDFBF7; --sh-lg:4px 4px 0 0 #FDFBF7;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    background:var(--bg); color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  button,input,textarea,select{font:inherit;color:inherit;background:none;border:0}
+  button{cursor:pointer}
+  ul,ol{list-style:none}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid #000;outline-offset:2px;border-radius:6px}
+  [data-theme="dark"] :focus-visible{outline-color:#FDFBF7}
+
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-thumb{background:#000;border-radius:99px;border:2px solid var(--bg);background-clip:padding-box}
+  [data-theme="dark"] ::-webkit-scrollbar-thumb{background:#FDFBF7}
+
+  .app{
+    height:100dvh;
+    display:flex; flex-direction:column;
+    padding:10px; gap:8px;
+    max-width:960px; margin:0 auto;
+    padding-bottom:max(10px, env(safe-area-inset-bottom));
+  }
+
+  .topbar{
+    display:flex; align-items:center; gap:8px;
+    padding:10px 12px;
+    background:var(--card);
+    border:var(--bd); border-radius:var(--r-lg);
+    box-shadow:var(--sh-lg);
+    flex-shrink:0; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:8px; min-width:0; flex-shrink:0;}
+  .brand-logo{
+    width:36px; height:36px;
+    background:var(--green);
+    border:var(--bd-2); border-radius:11px;
+    box-shadow:2px 2px 0 0 #000;
+    display:grid; place-items:center;
+    flex-shrink:0;
+  }
+  .brand-logo svg{width:19px;height:19px}
+  .brand-text{min-width:0}
+  .brand-name{font-weight:800; font-size:13px; line-height:1; letter-spacing:-.02em;white-space:nowrap}
+  .brand-sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:8px; font-weight:700;
+    letter-spacing:.15em; opacity:.5; margin-top:3px;
+    text-transform:uppercase;
+  }
+
+  .status-pill{
+    display:inline-flex; align-items:center; gap:5px;
+    padding:4px 10px;
+    background:var(--card-2);
+    border:var(--bd-2); border-radius:var(--r-pill);
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800; font-size:9.5px; letter-spacing:.8px;
+    flex-shrink:0;
+  }
+  .status-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:#16a34a; border:1.5px solid #000;
+    animation:pulse 1.6s infinite;
+    flex-shrink:0;
+  }
+  .status-dot.offline{background:#ef4444; animation:none}
+  .status-dot.busy{background:#eab308}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  .clock-box{
+    display:flex; align-items:center; gap:6px;
+    padding:5px 10px;
+    background:var(--yellow);
+    border:var(--bd-2); border-radius:var(--r-sm);
+    box-shadow:2px 2px 0 0 #000;
+    flex-shrink:0;
+  }
+  [data-theme="dark"] .clock-box{color:#000}
+  .clock-icon{width:13px; height:13px; flex-shrink:0;}
+  .clock-live{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700; font-size:12px;
+    font-variant-numeric:tabular-nums;
+    letter-spacing:-.02em;
+  }
+  .clock-uptime{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px; font-weight:600;
+    opacity:.6;
+    border-left:1.5px solid rgba(0,0,0,.25);
+    padding-left:7px;
+  }
+
+  .icon-btn{
+    width:36px; height:36px;
+    background:var(--card);
+    border:var(--bd); border-radius:var(--r-sm);
+    box-shadow:var(--sh-sm);
+    display:grid; place-items:center;
+    flex-shrink:0;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s;
+  }
+  .icon-btn:hover{transform:translate(-1px,-1px); box-shadow:var(--sh)}
+  .icon-btn:active{transform:translate(1px,1px); box-shadow:1px 1px 0 0 currentColor}
+  .icon-btn svg{width:16px;height:16px; flex-shrink:0}
+  .icon-btn.active{background:var(--green)}
+
+  .spacer{flex:1; min-width:0}
+
+  .chipbar{
+    display:flex; align-items:center; gap:6px;
+    flex-wrap:wrap;
+    flex-shrink:0;
+    padding:0 2px;
+  }
+  .chip{
+    display:inline-flex; align-items:center; gap:5px;
+    padding:5px 10px;
+    background:var(--card);
+    border:var(--bd-2); border-radius:var(--r-pill);
+    box-shadow:2px 2px 0 0 currentColor;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; font-weight:700;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+    white-space:nowrap;
+  }
+  .chip:hover{transform:translate(-1px,-1px); box-shadow:3px 3px 0 0 currentColor}
+  .chip:active{transform:translate(1px,1px); box-shadow:1px 1px 0 0 currentColor}
+  .chip svg{width:11px;height:11px; flex-shrink:0}
+  .chip .val{
+    background:rgba(0,0,0,.08);
+    padding:0 6px; border-radius:99px;
+    font-weight:800;
+  }
+  [data-theme="dark"] .chip .val{background:rgba(255,255,255,.12)}
+  .chip.accent{background:var(--green); color:#000}
+  .chip.active{background:var(--green); color:#000}
+
+  .chat-wrap{
+    flex:1; min-height:0;
+    background:var(--card);
+    border:var(--bd); border-radius:var(--r-xl);
+    box-shadow:var(--sh-lg);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+  }
+  .chat-scroll{
+    flex:1; overflow-y:auto;
+    padding:16px;
+    display:flex; flex-direction:column; gap:12px;
+    background:var(--card-2);
+    min-height:0;
+  }
+
+  .msg{display:flex; gap:10px; max-width:100%; animation:msgIn .3s var(--ease);}
+  @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .msg.user{flex-direction:row-reverse}
+
+  .avatar{
+    width:34px; height:34px;
+    border-radius:10px;
+    flex-shrink:0;
+    display:grid; place-items:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px; font-weight:800;
+    background:var(--yellow); color:#000;
+    border:var(--bd-2);
+    box-shadow:2px 2px 0 0 #000;
+  }
+  .msg.ai .avatar{background:var(--green)}
+  .avatar svg{width:15px;height:15px}
+
+  .msg-body{
+    max-width:min(680px, 82%);
+    min-width:0;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .msg.user .msg-body{align-items:flex-end}
+
+  .bubble{
+    padding:11px 14px;
+    background:var(--card);
+    border:var(--bd-2); border-radius:var(--r);
+    box-shadow:var(--sh-sm);
+    font-size:13.5px; line-height:1.65;
+    word-wrap:break-word;
+    overflow-wrap:anywhere;
+  }
+  .msg.user .bubble{
+    background:var(--yellow); color:#000;
+    border-radius:var(--r) var(--r) 4px var(--r);
+    box-shadow:2px 2px 0 0 currentColor;
+  }
+  .msg.ai .bubble{border-radius:var(--r) var(--r) var(--r) 4px;}
+
+  .bubble p{margin-bottom:8px}
+  .bubble p:last-child{margin-bottom:0}
+  .bubble strong{font-weight:800}
+  .bubble em{font-style:italic}
+  .bubble ul,.bubble ol{margin:6px 0; padding-inline-start:20px}
+  .bubble ul{list-style:disc}
+  .bubble ol{list-style:decimal}
+  .bubble li{margin:3px 0}
+  .bubble h4{font-size:13.5px; font-weight:800; margin:10px 0 6px;}
+  .bubble h4:first-child{margin-top:0}
+  .bubble a{text-decoration:underline; text-underline-offset:2px; font-weight:700}
+  .bubble blockquote{
+    margin:8px 0; padding:8px 12px;
+    border-left:3.5px solid #000;
+    background:var(--card-3);
+    border-radius:0 8px 8px 0;
+    font-size:12.5px; font-style:italic;
+  }
+  [data-theme="dark"] .bubble blockquote{border-left-color:#FDFBF7}
+  .bubble pre{
+    position:relative;
+    background:var(--code-bg); color:var(--code-text);
+    border:2px solid #000; border-radius:8px;
+    padding:11px 12px; margin:8px 0;
+    overflow-x:auto;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px; line-height:1.6;
+    box-shadow:2px 2px 0 0 #000;
+  }
+  [data-theme="dark"] .bubble pre{border-color:#FDFBF7; box-shadow:2px 2px 0 0 #FDFBF7}
+  .bubble pre[data-lang]::before{
+    content:attr(data-lang);
+    position:absolute; top:0; right:0;
+    font-size:9px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:2px 8px;
+    color:#86EFAC; background:#000;
+    border-left:2px solid #000; border-bottom:2px solid #000;
+    border-radius:0 6px 0 6px;
+  }
+  .bubble :not(pre)>code{
+    font-family:'JetBrains Mono',monospace;
+    background:var(--card-3);
+    padding:1px 5px; border-radius:5px;
+    border:1.5px solid #000;
+    font-size:11.5px; font-weight:600;
+  }
+  [data-theme="dark"] .bubble :not(pre)>code{border-color:#FDFBF7}
+  .msg.user .bubble :not(pre)>code{background:rgba(0,0,0,.1); color:#000}
+
+  .bubble img{
+    max-width:100%; border:2px solid #000;
+    border-radius:8px; margin:5px 0;
+    box-shadow:2px 2px 0 0 #000;
+    display:block;
+  }
+
+  .web-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase;
+    background:var(--blue);
+    color:#000;
+    border:1.5px solid #000; border-radius:99px;
+    padding:2px 8px;
+    margin-bottom:6px;
+  }
+  .web-badge svg{width:10px;height:10px}
+
+  .msg-tools{
+    display:flex; align-items:center; gap:3px;
+    padding:0 4px;
+    opacity:0; transition:opacity .18s;
+  }
+  .msg:hover .msg-tools, .msg:focus-within .msg-tools{opacity:1}
+  @media (max-width:640px){.msg-tools{opacity:1}}
+
+  .mini{
+    width:28px; height:28px;
+    border-radius:8px;
+    background:var(--card);
+    border:2px solid #000;
+    box-shadow:1.5px 1.5px 0 0 #000;
+    display:grid; place-items:center;
+    transition:transform .12s, box-shadow .12s;
+  }
+  [data-theme="dark"] .mini{border-color:#FDFBF7; box-shadow:1.5px 1.5px 0 0 #FDFBF7}
+  .mini:hover{transform:translate(-1px,-1px); box-shadow:2.5px 2.5px 0 0 #000}
+  [data-theme="dark"] .mini:hover{box-shadow:2.5px 2.5px 0 0 #FDFBF7}
+  .mini svg{width:13px;height:13px}
+  .mini.liked{background:var(--green); color:#000}
+  .mini.disliked{background:var(--red); color:#000}
+  .mini.speaking{background:var(--blue); color:#000}
+
+  .msg-time{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px; opacity:.5;
+    margin-left:4px;
+  }
+
+  .typing{display:inline-flex; gap:4px; align-items:center; padding:2px 0}
+  .typing i{
+    width:7px; height:7px; border-radius:50%;
+    background:#000;
+    animation:bounce 1.2s ease-in-out infinite;
+  }
+  [data-theme="dark"] .typing i{background:#FDFBF7}
+  .typing i:nth-child(2){animation-delay:.15s}
+  .typing i:nth-child(3){animation-delay:.3s}
+  @keyframes bounce{0%,100%{transform:translateY(0); opacity:.4}50%{transform:translateY(-5px); opacity:1}}
+
+  .cursor::after{
+    content:""; display:inline-block;
+    width:7px; height:1.05em; vertical-align:-2px;
+    background:#000; margin-left:3px; border-radius:1.5px;
+    animation:blink .9s steps(2,end) infinite;
+  }
+  [data-theme="dark"] .cursor::after{background:#FDFBF7}
+  @keyframes blink{50%{opacity:0}}
+
+  .composer-wrap{
+    padding:12px 14px 14px;
+    background:var(--card);
+    border-top:var(--bd);
+    flex-shrink:0;
+    display:flex; flex-direction:column; gap:8px;
+  }
+
+  .attach-preview{
+    display:none;
+    background:var(--card-2);
+    border:var(--bd-2); border-radius:var(--r-sm);
+    box-shadow:2px 2px 0 0 currentColor;
+    padding:8px 10px;
+    align-items:center; gap:10px;
+  }
+  .attach-preview.show{display:flex; animation:msgIn .2s ease}
+  .attach-thumb{
+    width:42px; height:42px;
+    object-fit:cover; border:2px solid #000;
+    border-radius:8px; flex-shrink:0;
+    background:var(--card);
+  }
+  .attach-file-icon{
+    width:42px; height:42px;
+    border:2px solid #000; border-radius:8px;
+    background:var(--green); flex-shrink:0;
+    display:grid; place-items:center;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800; font-size:10px;
+    color:#000;
+    transition:background .15s;
+  }
+  .attach-info{flex:1; min-width:0}
+  .attach-name{
+    font-size:11.5px; font-weight:700;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .attach-size{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px; color:var(--muted);
+    margin-top:1px;
+  }
+  .attach-x{
+    width:28px; height:28px;
+    background:var(--red); color:#000;
+    border:2px solid #000; border-radius:7px;
+    box-shadow:1.5px 1.5px 0 0 #000;
+    display:grid; place-items:center;
+    flex-shrink:0;
+  }
+
+  .composer{display:flex; align-items:flex-end; gap:6px;}
+  .composer-input{
+    flex:1;
+    background:var(--card-2);
+    border:var(--bd); border-radius:var(--r);
+    box-shadow:var(--sh-sm);
+    padding:10px 12px;
+    font-size:14px; font-family:inherit; font-weight:500;
+    resize:none; outline:none;
+    min-height:44px; max-height:140px;
+    transition:transform .15s ease, box-shadow .15s ease;
+    line-height:1.4;
+  }
+  .composer-input:focus{transform:translate(-1px,-1px); box-shadow:var(--sh)}
+  .composer-input::placeholder{color:var(--muted-2); font-weight:500}
+
+  .action-btn{
+    width:42px; height:42px;
+    border-radius:var(--r-sm);
+    background:var(--card);
+    border:var(--bd); box-shadow:var(--sh-sm);
+    display:grid; place-items:center;
+    flex-shrink:0;
+    transition:transform .12s, box-shadow .12s, background .15s;
+  }
+  .action-btn:hover{transform:translate(-1px,-1px); box-shadow:var(--sh)}
+  .action-btn:active{transform:translate(1px,1px); box-shadow:1px 1px 0 0 currentColor}
+  .action-btn svg{width:17px;height:17px; flex-shrink:0}
+  .action-btn.active{background:var(--green); color:#000}
+  .action-btn.send{background:#000; color:#fff; border-color:#000;}
+  [data-theme="dark"] .action-btn.send{background:#FDFBF7; color:#000}
+  .action-btn.send:disabled{opacity:.4; cursor:not-allowed; box-shadow:none}
+  .action-btn.recording{
+    background:#dc2626; color:#fff; border-color:#000;
+    animation:recPulse 1.1s infinite;
+  }
+  @keyframes recPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+
+  .action-btn.search-toggle.active{background:var(--blue); color:#000}
+
+  .composer-info{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:8px; flex-wrap:wrap;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px; font-weight:600;
+    color:var(--muted);
+    padding:0 2px;
+  }
+  .composer-info .tag{display:inline-flex; align-items:center; gap:4px;}
+  .composer-info svg{width:11px;height:11px}
+
+  .offline-banner{
+    display:none;
+    align-items:center; gap:8px;
+    padding:9px 14px;
+    background:var(--orange); color:#000;
+    border:var(--bd-2); border-radius:var(--r-sm);
+    box-shadow:2px 2px 0 0 #000;
+    font-size:11.5px; font-weight:700;
+    flex-shrink:0;
+  }
+  .offline-banner.show{display:flex}
+  .offline-banner svg{width:14px;height:14px; flex-shrink:0}
+
+  .sidebar-backdrop{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:150;
+    opacity:0; pointer-events:none;
+    transition:opacity .22s ease;
+    backdrop-filter:blur(2px);
+  }
+  .sidebar-backdrop.show{opacity:1; pointer-events:auto}
+
+  .sidebar{
+    position:fixed;
+    top:0; left:0; bottom:0;
+    width:290px;
+    max-width:88vw;
+    background:var(--card);
+    border-right:var(--bd-3);
+    z-index:160;
+    display:flex; flex-direction:column;
+    transform:translateX(-105%);
+    transition:transform .3s var(--ease);
+    box-shadow:4px 0 0 0 var(--text);
+  }
+  .sidebar.show{transform:translateX(0)}
+
+  .sidebar-header{
+    padding:14px;
+    border-bottom:var(--bd);
+    flex-shrink:0;
+  }
+  .sidebar-brand{
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:12px;
+  }
+  .sidebar-brand .brand-logo{
+    width:34px; height:34px;
+    border-radius:10px;
+  }
+  .sidebar-brand .brand-logo svg{width:17px;height:17px}
+  .sidebar-brand-text{
+    font-weight:800; font-size:13px;
+    letter-spacing:-.02em;
+    line-height:1.1;
+  }
+  .sidebar-brand-sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:8.5px; font-weight:700;
+    letter-spacing:.15em; opacity:.5;
+    text-transform:uppercase; margin-top:3px;
+  }
+
+  .new-chat-btn{
+    width:100%;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:10px 14px;
+    background:var(--green); color:#000;
+    border:var(--bd-2); border-radius:var(--r-sm);
+    box-shadow:2px 2px 0 0 #000;
+    font-weight:800; font-size:12.5px;
+    transition:transform .12s, box-shadow .12s;
+  }
+  .new-chat-btn:hover{transform:translate(-1px,-1px); box-shadow:3px 3px 0 0 #000}
+  .new-chat-btn:active{transform:translate(1px,1px); box-shadow:1px 1px 0 0 #000}
+  .new-chat-btn svg{width:14px;height:14px}
+
+  .sidebar-list{
+    flex:1; overflow-y:auto;
+    padding:10px;
+    display:flex; flex-direction:column; gap:4px;
+  }
+
+  .session-item{
+    display:flex; align-items:center; gap:6px;
+    padding:9px 10px;
+    border-radius:var(--r-sm);
+    border:1.5px solid transparent;
+    cursor:pointer;
+    transition:background .12s, border-color .12s;
+    position:relative;
+    min-width:0;
+  }
+  .session-item:hover{background:var(--card-3); border-color:rgba(0,0,0,.1)}
+  .session-item.active{
+    background:var(--yellow);
+    border-color:#000;
+    box-shadow:2px 2px 0 0 #000;
+  }
+  [data-theme="dark"] .session-item:hover{background:#222}
+
+  .session-body{flex:1; min-width:0;}
+  .session-title{
+    font-size:12.5px; font-weight:700;
+    overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap;
+    letter-spacing:-.01em;
+  }
+  .session-item.active .session-title{color:#000}
+  .session-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px; opacity:.55;
+    margin-top:2px;
+  }
+  .session-item.active .session-meta{color:#000; opacity:.65}
+
+  .session-menu{
+    width:24px; height:24px;
+    border-radius:6px;
+    background:transparent;
+    display:grid; place-items:center;
+    flex-shrink:0;
+    opacity:.5;
+    transition:opacity .12s, background .12s;
+    color:inherit;
+  }
+  .session-menu:hover{opacity:1; background:rgba(0,0,0,.08)}
+  .session-item.active .session-menu:hover{background:rgba(0,0,0,.12)}
+  .session-menu svg{width:12px;height:12px}
+
+  .sidebar-empty{
+    padding:30px 16px;
+    text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    opacity:.5;
+  }
+
+  .sidebar-footer{
+    padding:10px;
+    border-top:var(--bd);
+    flex-shrink:0;
+    display:flex; flex-direction:column; gap:6px;
+  }
+
+  .sidebar-about{
+    display:flex; align-items:center; gap:8px;
+    padding:9px 12px;
+    border-radius:var(--r-sm);
+    border:1.5px solid transparent;
+    font-size:12.5px; font-weight:700;
+    transition:background .12s, border-color .12s;
+    color:inherit; text-decoration:none;
+    cursor:pointer;
+  }
+  .sidebar-about:hover{background:var(--card-3); border-color:rgba(0,0,0,.1)}
+  [data-theme="dark"] .sidebar-about:hover{background:#222}
+  .sidebar-about svg{width:14px; height:14px; flex-shrink:0; opacity:.7}
+
+  .sidebar-credit{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;
+    opacity:.5;
+    text-align:center;
+    letter-spacing:.05em;
+    padding-top:4px;
+  }
+
+  .ctx-menu{
+    position:fixed;
+    z-index:250;
+    background:var(--card);
+    border:var(--bd-2);
+    border-radius:var(--r-sm);
+    box-shadow:var(--sh);
+    padding:4px;
+    display:none;
+    flex-direction:column;
+    min-width:150px;
+  }
+  .ctx-menu.show{display:flex; animation:msgIn .15s var(--ease)}
+  .ctx-menu button{
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px;
+    border-radius:6px;
+    font-size:12.5px; font-weight:700;
+    text-align:left;
+    color:var(--text);
+    transition:background .12s;
+  }
+  .ctx-menu button:hover{background:var(--card-3)}
+  .ctx-menu button[data-ctx="delete"]{color:#dc2626}
+  .ctx-menu button[data-ctx="delete"]:hover{background:rgba(220,38,38,.1)}
+  .ctx-menu svg{width:13px; height:13px; flex-shrink:0}
+
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:200;
+    opacity:0; pointer-events:none;
+    transition:opacity .22s ease;
+    backdrop-filter:blur(3px);
+  }
+  .modal-backdrop.show{opacity:1; pointer-events:auto}
+
+  .sheet{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    z-index:201;
+    background:var(--card);
+    border-top:var(--bd-3);
+    border-radius:var(--r-xl) var(--r-xl) 0 0;
+    box-shadow:0 -5px 0 0 var(--text);
+    transform:translateY(105%);
+    transition:transform .3s var(--ease);
+    max-height:85vh; overflow-y:auto;
+    padding-bottom:max(18px, env(safe-area-inset-bottom));
+    max-width:960px; margin:0 auto;
+  }
+  .sheet.show{transform:translateY(0)}
+  .sheet-handle{
+    width:44px; height:5px;
+    background:var(--text); opacity:.3;
+    border-radius:3px; margin:10px auto 6px;
+  }
+  .sheet-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 18px 14px;
+    border-bottom:var(--bd);
+  }
+  .sheet-title{font-weight:800; font-size:15px; letter-spacing:-.02em;}
+  .sheet-close{
+    width:32px; height:32px;
+    background:var(--red); color:#000;
+    border:var(--bd-2); border-radius:var(--r-sm);
+    box-shadow:2px 2px 0 0 #000;
+    display:grid; place-items:center;
+  }
+  .sheet-close svg{width:13px;height:13px}
+  .sheet-body{padding:16px 18px}
+
+  .persona-list{display:flex; flex-direction:column; gap:8px}
+  .persona-item{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 14px;
+    background:var(--card-2);
+    border:var(--bd-2); border-radius:var(--r-sm);
+    box-shadow:2px 2px 0 0 currentColor;
+    cursor:pointer;
+    transition:transform .12s, box-shadow .12s, background .15s;
+    text-align:left;
+  }
+  .persona-item:hover{transform:translate(-1px,-1px); box-shadow:3px 3px 0 0 currentColor}
+  .persona-item.active{background:var(--green); color:#000}
+  .persona-icon{
+    width:40px; height:40px; flex-shrink:0;
+    background:var(--yellow); color:#000;
+    border:2px solid #000; border-radius:10px;
+    display:grid; place-items:center;
+    box-shadow:1.5px 1.5px 0 0 #000;
+    font-size:16px;
+  }
+  .persona-item.active .persona-icon{background:#fff}
+  .persona-icon svg{width:18px;height:18px}
+  .persona-info{flex:1; min-width:0}
+  .persona-name{
+    font-size:13px; font-weight:800;
+    letter-spacing:-.01em;
+    margin-bottom:2px;
+  }
+  .persona-desc{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px; color:var(--muted);
+  }
+  .persona-item.active .persona-desc{color:rgba(0,0,0,.6)}
+
+  .settings-grid{display:flex; flex-direction:column; gap:10px}
+  .setting-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px;
+    padding:12px 14px;
+    background:var(--card-2);
+    border:var(--bd-2); border-radius:var(--r-sm);
+    box-shadow:2px 2px 0 0 currentColor;
+  }
+  .setting-row .label{min-width:0;}
+  .setting-row .label h4{
+    font-size:12.5px; font-weight:800;
+    letter-spacing:-.01em; margin-bottom:2px;
+  }
+  .setting-row .label p{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px; color:var(--muted);
+  }
+  .toggle{
+    width:52px; height:30px;
+    background:var(--card);
+    border:var(--bd-2); border-radius:99px;
+    position:relative; flex-shrink:0;
+    transition:background .15s;
+  }
+  .toggle::after{
+    content:'';
+    position:absolute;
+    top:2px; left:2px;
+    width:22px; height:22px;
+    background:#000; border-radius:50%;
+    transition:transform .2s cubic-bezier(.4,1.4,.5,1);
+  }
+  .toggle.on{background:var(--green)}
+  .toggle.on::after{transform:translateX(22px)}
+
+  .toast-host{
+    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+    z-index:300;
+    display:flex; flex-direction:column; gap:8px; align-items:center;
+    pointer-events:none;
+  }
+  .toast{
+    padding:9px 18px;
+    background:var(--green); color:#000;
+    border:var(--bd-2); border-radius:var(--r-pill);
+    box-shadow:var(--sh);
+    font-size:12.5px; font-weight:800;
+    display:flex; align-items:center; gap:7px;
+    animation:msgIn .25s var(--ease);
+    max-width:calc(100vw - 32px);
+  }
+  .toast svg{width:13px;height:13px; flex-shrink:0}
+  .toast.out{animation:toastOut .22s ease forwards}
+  @keyframes toastOut{to{opacity:0; transform:translateY(10px)}}
+
+  @media (max-width:640px){
+    .brand-name{font-size:12px}
+    .brand-sub{display:none}
+    .status-pill.hide-sm{display:none}
+    .clock-uptime{display:none}
+    .clock-box{padding:4px 9px}
+    .clock-live{font-size:11.5px}
+    .msg-body{max-width:88%}
+    .chat-scroll{padding:12px}
+    .composer-wrap{padding:10px 12px 12px}
+    .app{padding:8px; gap:6px}
+    .topbar{padding:8px 10px; gap:6px}
+  }
+
+  @media (max-width:420px){
+    .brand-name{font-size:11px}
+    .icon-btn{width:34px;height:34px}
+    .brand-logo{width:34px;height:34px}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      transition-duration:.001ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sidebar-brand-text">NexusHUB AI</div>
+        <div class="sidebar-brand-sub">Riwayat Chat</div>
+      </div>
+    </div>
+    <button class="new-chat-btn" id="newChatBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Chat Baru
+    </button>
+  </div>
+  <div class="sidebar-list" id="sidebarList"></div>
+  <div class="sidebar-footer">
+    <a href="/about" class="sidebar-about">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Tentang xs0ciety HUB
+    </a>
+    <div class="sidebar-credit" id="sidebarCredit">0 chat</div>
+  </div>
+</aside>
+
+<div class="ctx-menu" id="ctxMenu">
+  <button data-ctx="rename">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+    Ganti nama
+  </button>
+  <button data-ctx="delete">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+    Hapus
+  </button>
+</div>
+
+<div class="app">
+
+  <header class="topbar">
+    <button class="icon-btn" id="sidebarToggleBtn" title="Riwayat chat" aria-label="Riwayat chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <div class="brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">NexusHUB AI</div>
+        <div class="brand-sub">Engine v2 &middot; Free Tier</div>
+      </div>
+    </div>
+
+    <div class="clock-box">
+      <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span class="clock-live" id="clockLive">00.00.00</span>
+      <span class="clock-uptime" id="clockUptime">uptime 0s</span>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="status-pill hide-sm">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">ONLINE</span>
+    </div>
+
+    <button class="icon-btn" id="settingsBtn" title="Pengaturan" aria-label="Pengaturan">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </header>
+
+  <div class="offline-banner" id="offlineBanner">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l22 22"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+    <span>Mode offline &mdash; jawaban dari cache</span>
+  </div>
+
+  <div class="chipbar">
+    <button class="chip" id="chipPersona" title="Ganti persona">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"/></svg>
+      <span>Persona</span>
+      <span class="val" id="personaLabel">Default</span>
+    </button>
+
+    <button class="chip" id="chipLang" title="Bahasa">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>Lang</span>
+      <span class="val" id="langLabel">Auto</span>
+    </button>
+
+    <button class="chip" id="chipWeb" title="Pencarian web real-time">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <span>Web</span>
+      <span class="val" id="webLabel">Off</span>
+    </button>
+  </div>
+
+  <div class="chat-wrap">
+    <div class="chat-scroll" id="chatScroll"></div>
+
+    <div class="composer-wrap">
+      <div class="attach-preview" id="attachPreview">
+        <img class="attach-thumb" id="attachThumb" style="display:none" alt="">
+        <div class="attach-file-icon" id="attachFileIcon" style="display:none">TXT</div>
+        <div class="attach-info">
+          <div class="attach-name" id="attachName">file</div>
+          <div class="attach-size" id="attachSize">0 KB</div>
+        </div>
+        <button class="attach-x" id="attachX" aria-label="Hapus lampiran">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="composer">
+        <input type="file" id="fileInput" hidden multiple accept="image/*,.pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.md,.json,.js,.ts,.py,.html,.css,.log">
+
+        <button class="action-btn" id="attachBtn" title="Lampirkan file" aria-label="Lampirkan file">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+
+        <button class="action-btn search-toggle" id="searchToggleBtn" title="Pencarian web" aria-label="Toggle pencarian web">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/><path d="M11 8v6M8 11h6"/></svg>
+        </button>
+
+        <textarea class="composer-input" id="composerInput" rows="1" placeholder="Tanya apa saja..." aria-label="Pesan"></textarea>
+
+        <button class="action-btn" id="voiceBtn" title="Input suara" aria-label="Input suara">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg>
+        </button>
+
+        <button class="action-btn send" id="sendBtn" disabled aria-label="Kirim">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
+        </button>
+      </div>
+
+      <div class="composer-info">
+        <span class="tag" id="engineTag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span id="engineLabel">Nexus Lightning</span>
+        </span>
+        <span class="tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+          <span id="footerInfo">Siap membantu</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop"></div>
+
+<div class="sheet" id="attachSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Lampirkan File</div>
+    <button class="sheet-close" data-close-sheet aria-label="Tutup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="sheet-body">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; margin-bottom:10px;">Pilih Sumber</div>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;">
+      <button class="action-btn" style="height:auto; flex-direction:column; gap:8px; padding:14px 6px; width:auto;" onclick="pickSource('camera')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        <span style="font-size:11.5px; font-weight:800;">Kamera</span>
+      </button>
+      <button class="action-btn" style="height:auto; flex-direction:column; gap:8px; padding:14px 6px; width:auto;" onclick="pickSource('album')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+        <span style="font-size:11.5px; font-weight:800;">Album</span>
+      </button>
+      <button class="action-btn" style="height:auto; flex-direction:column; gap:8px; padding:14px 6px; width:auto;" onclick="pickSource('doc')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span style="font-size:11.5px; font-weight:800;">Dokumen</span>
+      </button>
+    </div>
+    <div style="margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--muted); line-height:1.5;">
+      Didukung: gambar, PDF, DOCX, XLSX, XLS, CSV, TXT, MD, dan file kode.
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="personaSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Pilih Persona</div>
+    <button class="sheet-close" data-close-sheet aria-label="Tutup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="sheet-body">
+    <div class="persona-list" id="personaList"></div>
+  </div>
+</div>
+
+<div class="sheet" id="settingsSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Pengaturan</div>
+    <button class="sheet-close" data-close-sheet aria-label="Tutup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="sheet-body">
+    <div class="settings-grid">
+      <div class="setting-row">
+        <div class="label">
+          <h4>Pencarian Web</h4>
+          <p>Ambil info terkini dari web</p>
+        </div>
+        <button class="toggle" id="toggleWeb" aria-label="Toggle web search"></button>
+      </div>
+      <div class="setting-row">
+        <div class="label">
+          <h4>Suara AI (TTS)</h4>
+          <p>Bacakan balasan AI</p>
+        </div>
+        <button class="toggle" id="toggleTTS" aria-label="Toggle TTS"></button>
+      </div>
+      <div class="setting-row">
+        <div class="label">
+          <h4>Auto Bahasa</h4>
+          <p>Deteksi &amp; sesuai bahasa user</p>
+        </div>
+        <button class="toggle on" id="toggleLang" aria-label="Toggle auto language"></button>
+      </div>
+      <div class="setting-row">
+        <div class="label">
+          <h4>Mode Gelap</h4>
+          <p>Tema untuk mata</p>
+        </div>
+        <button class="toggle" id="toggleTheme" aria-label="Toggle theme"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="modelSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title">Pilih Engine</div>
+    <button class="sheet-close" data-close-sheet aria-label="Tutup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="sheet-body">
+    <div class="persona-list" id="modelList"></div>
+  </div>
+</div>
+
+<div class="toast-host" id="toastHost"></div>
+
+<script>
+(function () {
+'use strict';
+
+const CONFIG = {
+  CHAT_ENDPOINT: '/api/chat',
+  TAVILY_ENDPOINT: '/api/websearch',
+  FETCH_TIMEOUT_MS: 90000,
+  MAX_IMAGE_MB: 3,
+  MAX_TEXT_KB: 200,
+  MAX_TEXT_CHARS: 20000,
+  MEMORY_TAIL: 12,
+  CACHE_MAX: 60,
+  SESSIONS_MAX: 100
+};
+
+const ENGINES = [
+  { id: 'lightning', label: 'Nexus Lightning', model: 'nvidia/nemotron-3.5-lightning:free',  desc: 'Nemotron 3.5 / 262k / Tool calls',  color: '#86EFAC' },
+  { id: 'inking',    label: 'Nexus Inkling',   model: 'thinkingmachines/inkling-small:free',   desc: 'Inkling Small / 524k / Multimodal', color: '#FDBA74' },
+  { id: 'dots',      label: 'Nexus Dots',      model: 'dots-studio/dots-3-note-preview:free',  desc: 'Dots3 Note / 512k / Coding',        color: '#C4B5FD' },
+  { id: 'lfm',       label: 'Nexus LFM',       model: 'liquid/lfm-2.5-2.6b:free',              desc: 'LFM2.5 / 131k / Reasoning',         color: '#F9A8D4' },
+  { id: 'apodex',    label: 'Nexus Apodex',    model: 'apodex/apodex-1.1-mini:free',           desc: 'Apodex 1.1 / 262k / Reasoning',     color: '#7DD3FC' },
+  { id: 'auto',      label: 'Nexus Auto',      model: 'openrouter/free',                        desc: 'Auto-pick model gratis terbaik',    color: '#FDE047' }
+];
+
+const PERSONAS = [
+  { id: 'default',   name: 'Default',   desc: 'Santai / Profesional / Seimbang',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>',
+    prompt: '' },
+  { id: 'technical', name: 'Technical', desc: 'Ahli / Detail / Kode-heavy',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+    prompt: 'Gaya bicara kamu: technical expert. Fokus pada detail teknis, presisi istilah, dan contoh kode nyata. Sertakan trade-off, edge case, dan praktik terbaik. Jangan basa-basi.' },
+  { id: 'casual',    name: 'Casual',    desc: 'Ramah / Santai / Gaul',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13s1.5 2 4 2 4-2 4-2"/><circle cx="12" cy="12" r="9"/><path d="M9 9h.01M15 9h.01"/></svg>',
+    prompt: 'Gaya bicara kamu: teman ngobrol yang santai, hangat, pakai bahasa sehari-hari. Boleh pakai emoji secukupnya. Hindari bahasa formal/kaku. Tetap jelas dan membantu.' },
+  { id: 'creative',  name: 'Creative',  desc: 'Imajinatif / Brainstorming',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 5.5L19.5 10 14 12l-2 5.5L10 12 4.5 10 10 8.5z"/></svg>',
+    prompt: 'Gaya bicara kamu: kreatif, imajinatif, eksploratif. Berikan banyak alternatif ide, analogi menarik, dan sudut pandang unik. Dorong eksplorasi tanpa batas.' },
+  { id: 'concise',   name: 'Concise',   desc: 'Singkat / To-the-point',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 6 20 12 14 18"/></svg>',
+    prompt: 'Gaya bicara kamu: sangat singkat dan padat. HINDARI basa-basi. Jawab langsung ke inti. Kalau bisa dalam 2-4 baris, jangan lebih. Gunakan bullet kalau perlu.' }
+];
+
+const STORAGE = {
+  sessions: 'nexus.sessions.v1',
+  legacyChats: 'nexus.chats.v1',
+  cache: 'nexus.cache.v1',
+  feedback: 'nexus.feedback.v1',
+  settings: 'nexus.settings.v1',
+  engine: 'nexus.engine.v1',
+  persona: 'nexus.persona.v1'
+};
+
+const state = {
+  sessions: [],
+  activeSessionId: null,
+  messages: [],
+  engine: ENGINES[0],
+  persona: PERSONAS[0],
+  settings: { webSearch: false, tts: false, autoLang: true, darkMode: false },
+  isStreaming: false,
+  abortController: null,
+  pending: null,
+  startTime: Date.now(),
+  responseCache: {},
+  feedback: {},
+  sessionUptime: 0,
+  ctxTargetId: null
+};
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const now = () => Date.now();
+const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtTime = t => { const d = new Date(t); return `${String(d.getHours()).padStart(2,'0')}.${String(d.getMinutes()).padStart(2,'0')}`; };
+const fmtBytes = b => { if (b < 1024) return b + ' B'; if (b < 1048576) return (b / 1024).toFixed(1) + ' KB'; return (b / 1048576).toFixed(2) + ' MB'; };
+const getExt = name => (name.split('.').pop() || '').toLowerCase();
+
+function hashStr(s) {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  return h.toString(36);
+}
+
+function formatRelative(ts) {
+  const diff = Date.now() - ts;
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return 'baru saja';
+  if (m < 60) return `${m} menit lalu`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} jam lalu`;
+  const d = Math.floor(h / 24);
+  if (d < 7) return `${d} hari lalu`;
+  const dt = new Date(ts);
+  return `${dt.getDate()}/${dt.getMonth()+1}/${dt.getFullYear()}`;
+}
+
+const toastHost = $('#toastHost');
+function toast(msg, ms = 2400) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>${esc(msg)}</span>`;
+  toastHost.appendChild(el);
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 240); }, ms);
+}
+
+function renderMD(src) {
+  const codeBlocks = [];
+  let s = esc(src || '');
+  s = s.replace(/```([a-zA-Z0-9+#-]*)\n?([\s\S]*?)```/g, (_, lang, body) => {
+    codeBlocks.push(`<pre data-lang="${esc(lang || 'code')}"><code>${body.replace(/\n$/, '')}</code></pre>`);
+    return `\u0001${codeBlocks.length - 1}\u0001`;
+  });
+  s = s.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  s = s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+  s = s.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+  const out = [];
+  let buf = [], listType = null, para = [];
+  const flushList = () => { if (listType) { out.push(`<${listType}>${buf.join('')}</${listType}>`); buf = []; listType = null; } };
+  const flushPara = () => { if (para.length) { out.push(`<p>${para.join('<br>')}</p>`); para = []; } };
+
+  for (const rawLine of s.split('\n')) {
+    const line = rawLine.trim();
+    if (!line) { flushList(); flushPara(); continue; }
+    if (/^\u0001\d+\u0001$/.test(line)) { flushList(); flushPara(); out.push(line); continue; }
+    let m;
+    if ((m = line.match(/^[-*]\s+(.+)/))) { flushPara(); if (listType !== 'ul') { flushList(); listType = 'ul'; } buf.push(`<li>${m[1]}</li>`); continue; }
+    if ((m = line.match(/^\d+\.\s+(.+)/))) { flushPara(); if (listType !== 'ol') { flushList(); listType = 'ol'; } buf.push(`<li>${m[1]}</li>`); continue; }
+    if ((m = line.match(/^&gt;\s?(.+)/))) { flushList(); flushPara(); out.push(`<blockquote>${m[1]}</blockquote>`); continue; }
+    if ((m = line.match(/^#{1,4}\s+(.+)/))) { flushList(); flushPara(); out.push(`<h4>${m[1]}</h4>`); continue; }
+    flushList(); para.push(line);
+  }
+  flushList(); flushPara();
+  return out.join('').replace(/\u0001(\d+)\u0001/g, (_, i) => codeBlocks[+i]) || '<p></p>';
+}
+
+function deriveTitle(msg) {
+  const text = typeof msg === 'string' ? msg : (msg?.content?.[0]?.text || msg?.content || '');
+  const t = String(text).replace(/\s+/g, ' ').trim();
+  if (!t) return 'Chat Baru';
+  return t.slice(0, 42) + (t.length > 42 ? '...' : '');
+}
+function getActiveSession() { return state.sessions.find(s => s.id === state.activeSessionId) || null; }
+
+function saveSessions() {
+  try {
+    const trimmed = state.sessions.slice().sort((a, b) => (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt)).slice(0, CONFIG.SESSIONS_MAX);
+    state.sessions = trimmed;
+    localStorage.setItem(STORAGE.sessions, JSON.stringify({ list: state.sessions, activeId: state.activeSessionId }));
+  } catch {}
+}
+function saveChats() {
+  const s = getActiveSession();
+  if (s) { s.messages = state.messages; s.updatedAt = now(); }
+  saveSessions();
+}
+function createSession(silent) {
+  const id = uid();
+  const session = { id, title: 'Chat Baru', messages: [], createdAt: now(), updatedAt: now() };
+  state.sessions.unshift(session);
+  state.activeSessionId = id;
+  state.messages = session.messages;
+  saveSessions();
+  renderAll(); renderSidebar();
+  if (!silent) { closeSidebar(); setTimeout(() => input.focus(), 250); }
+  return session;
+}
+function switchSession(id) {
+  if (id === state.activeSessionId) { closeSidebar(); return; }
+  saveChats();
+  const s = state.sessions.find(x => x.id === id);
+  if (!s) return;
+  state.activeSessionId = id;
+  state.messages = s.messages;
+  saveSessions();
+  renderAll(); renderSidebar(); updateUI();
+  closeSidebar();
+}
+function deleteSession(id) {
+  const s = state.sessions.find(x => x.id === id);
+  if (!s) return;
+  if (!confirm(`Hapus chat "${s.title || 'Chat Baru'}"?`)) return;
+  state.sessions = state.sessions.filter(x => x.id !== id);
+  if (state.activeSessionId === id) {
+    if (state.sessions.length) {
+      state.activeSessionId = state.sessions[0].id;
+      state.messages = state.sessions[0].messages;
+    } else {
+      createSession(true);
+    }
+  }
+  saveSessions(); renderAll(); renderSidebar(); updateUI();
+  toast('Chat dihapus');
+}
+function renameSession(id) {
+  const s = state.sessions.find(x => x.id === id);
+  if (!s) return;
+  const next = prompt('Nama chat:', s.title || 'Chat Baru');
+  if (next == null) return;
+  s.title = next.trim().slice(0, 60) || 'Chat Baru';
+  s.updatedAt = now();
+  saveSessions(); renderSidebar();
+  toast('Nama diubah');
+}
+function updateSessionTitleFromMessage(msg) {
+  const s = getActiveSession();
+  if (!s) return;
+  if (s.title && s.title !== 'Chat Baru') return;
+  s.title = deriveTitle(msg);
+  s.updatedAt = now();
+  saveSessions(); renderSidebar();
+}
+
+function renderSidebar() {
+  const list = $('#sidebarList');
+  const credit = $('#sidebarCredit');
+  if (!list) return;
+
+  const sorted = state.sessions.slice().sort((a, b) => (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt));
+
+  if (!sorted.length) {
+    list.innerHTML = `<div class="sidebar-empty">Belum ada chat.<br>Klik "Chat Baru" untuk mulai.</div>`;
+  } else {
+    list.innerHTML = sorted.map(s => `
+      <div class="session-item ${s.id === state.activeSessionId ? 'active' : ''}" data-id="${s.id}">
+        <div class="session-body">
+          <div class="session-title">${esc(s.title || 'Chat Baru')}</div>
+          <div class="session-meta">${formatRelative(s.updatedAt || s.createdAt)}</div>
+        </div>
+        <button class="session-menu" data-menu="${s.id}" title="Menu">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+        </button>
+      </div>
+    `).join('');
+  }
+  credit.textContent = `${state.sessions.length} chat${state.sessions.length === 1 ? '' : 's'}`;
+
+  $$('.session-item').forEach(el => {
+    el.onclick = (e) => {
+      if (e.target.closest('.session-menu')) return;
+      switchSession(el.dataset.id);
+    };
+  });
+  $$('.session-menu').forEach(btn => {
+    btn.onclick = (e) => { e.stopPropagation(); openCtxMenu(btn.dataset.menu, btn); };
+  });
+}
+
+function openSidebar() {
+  $('#sidebar').classList.add('show');
+  $('#sidebarBackdrop').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  renderSidebar();
+}
+function closeSidebar() {
+  $('#sidebar').classList.remove('show');
+  $('#sidebarBackdrop').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function openCtxMenu(sessionId, anchorBtn) {
+  const menu = $('#ctxMenu');
+  state.ctxTargetId = sessionId;
+  const rect = anchorBtn.getBoundingClientRect();
+  menu.classList.add('show');
+  const mw = menu.offsetWidth || 150;
+  const mh = menu.offsetHeight || 80;
+  let left = rect.right - mw;
+  let top = rect.bottom + 4;
+  if (left < 8) left = 8;
+  if (left + mw > window.innerWidth - 8) left = window.innerWidth - mw - 8;
+  if (top + mh > window.innerHeight - 8) top = rect.top - mh - 4;
+  menu.style.left = left + 'px';
+  menu.style.top = top + 'px';
+}
+function closeCtxMenu() { $('#ctxMenu').classList.remove('show'); state.ctxTargetId = null; }
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.ctx-menu') && !e.target.closest('.session-menu')) closeCtxMenu();
+});
+$('#ctxMenu').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-ctx]');
+  if (!btn || !state.ctxTargetId) return;
+  const action = btn.dataset.ctx;
+  const id = state.ctxTargetId;
+  closeCtxMenu();
+  if (action === 'rename') renameSession(id);
+  else if (action === 'delete') deleteSession(id);
+});
+
+function loadFromStorage() {
+  let loaded = false;
+  try {
+    const raw = JSON.parse(localStorage.getItem(STORAGE.sessions) || 'null');
+    if (raw && Array.isArray(raw.list) && raw.list.length) {
+      state.sessions = raw.list;
+      state.activeSessionId = raw.activeId && raw.list.some(s => s.id === raw.activeId) ? raw.activeId : raw.list[0].id;
+      loaded = true;
+    }
+  } catch {}
+
+  if (!loaded) {
+    try {
+      const old = JSON.parse(localStorage.getItem(STORAGE.legacyChats) || 'null');
+      if (old && Array.isArray(old.messages) && old.messages.length) {
+        const id = uid();
+        const firstUser = old.messages.find(m => m.role === 'user');
+        state.sessions = [{ id, title: deriveTitle(firstUser || ''), messages: old.messages, createdAt: old.messages[0]?.ts || now(), updatedAt: now() }];
+        state.activeSessionId = id;
+        loaded = true;
+      }
+    } catch {}
+  }
+
+  if (!state.sessions.length) {
+    const id = uid();
+    state.sessions = [{ id, title: 'Chat Baru', messages: [], createdAt: now(), updatedAt: now() }];
+    state.activeSessionId = id;
+  }
+
+  state.messages = getActiveSession().messages;
+
+  try {
+    const cache = JSON.parse(localStorage.getItem(STORAGE.cache) || '{}');
+    if (cache && typeof cache === 'object') state.responseCache = cache;
+  } catch {}
+  try {
+    const feedback = JSON.parse(localStorage.getItem(STORAGE.feedback) || '{}');
+    if (feedback && typeof feedback === 'object') state.feedback = feedback;
+  } catch {}
+  try {
+    const settings = JSON.parse(localStorage.getItem(STORAGE.settings) || 'null');
+    if (settings) Object.assign(state.settings, settings);
+  } catch {}
+  try {
+    const engineId = localStorage.getItem(STORAGE.engine);
+    if (engineId) { const e = ENGINES.find(x => x.id === engineId); if (e) state.engine = e; }
+  } catch {}
+  try {
+    const personaId = localStorage.getItem(STORAGE.persona);
+    if (personaId) { const p = PERSONAS.find(x => x.id === personaId); if (p) state.persona = p; }
+  } catch {}
+}
+
+function saveSettings() { try { localStorage.setItem(STORAGE.settings, JSON.stringify(state.settings)); } catch {} }
+function saveFeedback() { try { localStorage.setItem(STORAGE.feedback, JSON.stringify(state.feedback)); } catch {} }
+function saveCache() {
+  try {
+    const keys = Object.keys(state.responseCache);
+    if (keys.length > CONFIG.CACHE_MAX) {
+      const sorted = keys.map(k => ({ k, ts: state.responseCache[k].ts })).sort((a, b) => b.ts - a.ts).slice(0, CONFIG.CACHE_MAX);
+      const newCache = {};
+      sorted.forEach(x => { newCache[x.k] = state.responseCache[x.k]; });
+      state.responseCache = newCache;
+    }
+    localStorage.setItem(STORAGE.cache, JSON.stringify(state.responseCache));
+  } catch {}
+}
+
+const chatScroll = $('#chatScroll');
+
+function renderAll() {
+  if (!state.messages.length) {
+    chatScroll.innerHTML = `
+      <div style="text-align:center; padding:40px 20px; color:var(--muted);">
+        <div style="width:64px; height:64px; margin:0 auto 14px; border:var(--bd-2); border-radius:18px; background:var(--green); display:grid; place-items:center; box-shadow:var(--sh);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;">
+            <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+            <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+          </svg>
+        </div>
+        <div style="font-weight:800; font-size:16px; color:var(--text); margin-bottom:6px; letter-spacing:-.02em;">Mulai percakapan</div>
+        <div style="font-size:12.5px; font-weight:500; max-width:36ch; margin:0 auto; line-height:1.6;">Tanyakan apa saja. Aktifkan mode <b>Web</b> untuk info terkini, atau <b>Voice</b> untuk interaksi suara.</div>
+      </div>`;
+    return;
+  }
+  chatScroll.innerHTML = state.messages.map(m => renderMessageHTML(m)).join('');
+  scrollToBottom(false);
+  attachMessageHandlers();
+}
+
+function renderMessageHTML(m) {
+  const isUser = m.role === 'user';
+  const text = Array.isArray(m.content) ? (m.content.find(p => p.type === 'text')?.text || '(gambar)') : String(m.content);
+  const img = Array.isArray(m.content) ? (m.content.find(p => p.type === 'image_url')?.image_url?.url || null) : null;
+  const avatar = isUser ? 'YOU' : `<svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg>`;
+
+  let bodyHTML = '';
+  if (img) bodyHTML += `<img src="${img}" alt="attachment" onclick="window.open(this.src)">`;
+  if (m.web) bodyHTML += `<div class="web-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg> Web Search</div>`;
+  if (isUser) bodyHTML += `<p>${esc(text).replace(/\n/g, '<br>')}</p>`;
+  else bodyHTML += renderMD(text);
+
+  const feedback = state.feedback[m.id] || '';
+
+  return `
+    <div class="msg ${isUser ? 'user' : 'ai'}" data-id="${m.id}">
+      <div class="avatar">${avatar}</div>
+      <div class="msg-body">
+        <div class="bubble">${bodyHTML}</div>
+        <div class="msg-tools">
+          <button class="mini" data-tool="copy" title="Salin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+          ${!isUser ? `
+            <button class="mini ${feedback === 'up' ? 'liked' : ''}" data-tool="like" title="Bagus"><svg viewBox="0 0 24 24" fill="${feedback === 'up' ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12M15 5.88L14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88z"/></svg></button>
+            <button class="mini ${feedback === 'down' ? 'disliked' : ''}" data-tool="dislike" title="Kurang bagus"><svg viewBox="0 0 24 24" fill="${feedback === 'down' ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14V2M9 18.12L10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88z"/></svg></button>
+            <button class="mini" data-tool="speak" title="Bacakan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+            <button class="mini" data-tool="regen" title="Regenerasi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></svg></button>
+          ` : ''}
+          <button class="mini" data-tool="del" title="Hapus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>
+          <span class="msg-time">${fmtTime(m.ts)}</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function attachMessageHandlers() {
+  $$('.msg-tools .mini').forEach(btn => { btn.onclick = () => handleToolClick(btn); });
+}
+
+async function handleToolClick(btn) {
+  const msgEl = btn.closest('.msg');
+  const id = msgEl.dataset.id;
+  const m = state.messages.find(x => x.id === id);
+  if (!m) return;
+  const tool = btn.dataset.tool;
+  const text = Array.isArray(m.content) ? (m.content.find(p => p.type === 'text')?.text || '') : String(m.content);
+
+  if (tool === 'copy') { try { await navigator.clipboard.writeText(text); toast('Tersalin'); } catch { toast('Gagal menyalin'); } }
+  else if (tool === 'like') {
+    state.feedback[id] = state.feedback[id] === 'up' ? '' : 'up';
+    saveFeedback(); toast(state.feedback[id] === 'up' ? 'Terima kasih' : 'Dibatalkan'); renderAll();
+  }
+  else if (tool === 'dislike') {
+    state.feedback[id] = state.feedback[id] === 'down' ? '' : 'down';
+    saveFeedback(); toast(state.feedback[id] === 'down' ? 'Tercatat' : 'Dibatalkan'); renderAll();
+  }
+  else if (tool === 'speak') { speakText(text, btn); }
+  else if (tool === 'regen') {
+    const idx = state.messages.findIndex(x => x.id === id);
+    if (idx < 1) return;
+    let userMsg = null;
+    for (let i = idx - 1; i >= 0; i--) { if (state.messages[i].role === 'user') { userMsg = state.messages[i]; break; } }
+    if (!userMsg) return;
+    state.messages.splice(idx, 1);
+    saveChats(); renderAll();
+    await sendToAI(userMsg.content, null);
+  }
+  else if (tool === 'del') {
+    state.messages = state.messages.filter(x => x.id !== id);
+    saveChats(); renderAll(); toast('Pesan dihapus');
+  }
+}
+
+const statusDot = $('#statusDot');
+const statusText = $('#statusText');
+const personaLabel = $('#personaLabel');
+const langLabel = $('#langLabel');
+const webLabel = $('#webLabel');
+const engineLabel = $('#engineLabel');
+const footerInfo = $('#footerInfo');
+const engineTag = $('#engineTag');
+
+function updateUI() {
+  engineLabel.textContent = state.engine.label;
+  personaLabel.textContent = state.persona.name;
+  webLabel.textContent = state.settings.webSearch ? 'On' : 'Off';
+  $('#chipWeb').classList.toggle('active', state.settings.webSearch);
+  langLabel.textContent = state.settings.autoLang ? 'Auto' : 'Off';
+  footerInfo.textContent = state.settings.webSearch ? 'Web aktif' : 'Siap membantu';
+
+  if (!navigator.onLine) { statusText.textContent = 'OFFLINE'; statusDot.className = 'status-dot offline'; }
+  else if (state.isStreaming) { statusText.textContent = 'THINKING'; statusDot.className = 'status-dot busy'; }
+  else { statusText.textContent = 'ONLINE'; statusDot.className = 'status-dot'; }
+}
+
+const clockLive = $('#clockLive');
+const clockUptime = $('#clockUptime');
+function tickClock() {
+  const d = new Date();
+  clockLive.textContent = `${String(d.getHours()).padStart(2,'0')}.${String(d.getMinutes()).padStart(2,'0')}.${String(d.getSeconds()).padStart(2,'0')}`;
+  const uptime = Math.floor((Date.now() - state.startTime) / 1000);
+  state.sessionUptime = uptime;
+  const h = Math.floor(uptime / 3600), m = Math.floor((uptime % 3600) / 60), s = uptime % 60;
+  clockUptime.textContent = h > 0 ? `uptime ${h}h ${m}m` : m > 0 ? `uptime ${m}m ${s}s` : `uptime ${s}s`;
+}
+setInterval(tickClock, 1000); tickClock();
+
+const input = $('#composerInput');
+const sendBtn = $('#sendBtn');
+const attachBtn = $('#attachBtn');
+const searchToggleBtn = $('#searchToggleBtn');
+const voiceBtn = $('#voiceBtn');
+const fileInput = $('#fileInput');
+const attachPreview = $('#attachPreview');
+const attachThumb = $('#attachThumb');
+const attachFileIcon = $('#attachFileIcon');
+const attachName = $('#attachName');
+const attachSize = $('#attachSize');
+const attachX = $('#attachX');
+
+function autoResize() { input.style.height = 'auto'; input.style.height = clamp(input.scrollHeight, 44, 140) + 'px'; }
+function updateSendState() {
+  const hasText = input.value.trim().length > 0;
+  sendBtn.disabled = state.isStreaming || (!hasText && !state.pending);
+}
+
+input.addEventListener('input', () => { autoResize(); updateSendState(); });
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+    e.preventDefault();
+    if (!sendBtn.disabled) sendBtn.click();
+  }
+});
+
+attachBtn.addEventListener('click', () => openSheet('attachSheet'));
+searchToggleBtn.addEventListener('click', () => {
+  state.settings.webSearch = !state.settings.webSearch;
+  searchToggleBtn.classList.toggle('active', state.settings.webSearch);
+  saveSettings(); updateUI();
+  toast(state.settings.webSearch ? 'Pencarian web aktif' : 'Pencarian web nonaktif');
+});
+
+let recognition = null, isRecording = false;
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.continuous = false; recognition.interimResults = false; recognition.lang = 'id-ID';
+  recognition.onresult = (e) => {
+    const t = e.results[0][0].transcript;
+    input.value = (input.value ? input.value + ' ' : '') + t;
+    autoResize(); updateSendState(); toast('Suara terdeteksi');
+  };
+  recognition.onerror = () => { toast('Gagal mendeteksi suara'); stopRecording(); };
+  recognition.onend = () => stopRecording();
+}
+function startRecording() {
+  if (!recognition) { toast('Voice input tidak didukung'); return; }
+  try { recognition.start(); isRecording = true; voiceBtn.classList.add('recording'); toast('Merekam...'); }
+  catch { toast('Gagal memulai rekaman'); }
+}
+function stopRecording() { isRecording = false; voiceBtn.classList.remove('recording'); try { recognition?.stop(); } catch {} }
+voiceBtn.addEventListener('click', () => { if (isRecording) stopRecording(); else startRecording(); });
+
+window.pickSource = (src) => {
+  closeAllSheets();
+  if (src === 'camera') { fileInput.setAttribute('accept','image/*'); fileInput.setAttribute('capture','environment'); }
+  else if (src === 'album') { fileInput.setAttribute('accept','image/*'); fileInput.removeAttribute('capture'); }
+  else { fileInput.removeAttribute('capture'); fileInput.setAttribute('accept','.pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.md,.json,.js,.ts,.py,.html,.css,.log'); }
+  fileInput.click();
+};
+fileInput.addEventListener('change', async () => {
+  const f = fileInput.files?.[0]; fileInput.value = ''; if (!f) return; await handleFile(f);
+});
+
+const IMG_EXT = ['jpg','jpeg','png','gif','webp','bmp'];
+const TXT_EXT = ['txt','md','json','js','ts','py','html','css','csv','log','yaml','yml','xml','toml'];
+const CODE_EXTS = ['js','ts','py','html','css','json','jsx','tsx','java','cpp','c','go','rs','rb','php','sh','yaml','yml','xml','toml','sql'];
+
+async function extractPDF(file) {
+  if (!window.pdfjsLib) throw new Error('PDF.js belum ke-load');
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  const pages = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const text = content.items.map(it => it.str).join(' ').replace(/\s+/g, ' ').trim();
+    pages.push(`--- Halaman ${i} ---\n${text}`);
+  }
+  return pages.join('\n\n');
+}
+
+async function extractDOCX(file) {
+  if (!window.mammoth) throw new Error('Mammoth.js belum ke-load');
+  const buf = await file.arrayBuffer();
+  const result = await mammoth.extractRawText({ arrayBuffer: buf });
+  return result.value || '';
+}
+
+async function extractXLSX(file) {
+  if (!window.XLSX) throw new Error('SheetJS belum ke-load');
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf, { type: 'array' });
+  const out = [];
+  for (const name of wb.SheetNames) {
+    const sheet = wb.Sheets[name];
+    const csv = XLSX.utils.sheet_to_csv(sheet);
+    out.push(`--- Sheet: ${name} ---\n${csv}`);
+  }
+  return out.join('\n\n');
+}
+
+async function handleFile(f) {
+  const ext = getExt(f.name);
+  const isImg = f.type.startsWith('image/') || IMG_EXT.includes(ext);
+  const isPDF = ext === 'pdf' || f.type === 'application/pdf';
+  const isDOCX = ext === 'docx' || f.type.includes('wordprocessingml');
+  const isXLSX = ['xlsx','xls'].includes(ext);
+  const isCSV = ext === 'csv';
+  const isTxt = f.type.startsWith('text/') || TXT_EXT.includes(ext) || f.type.includes('json') || f.type.includes('javascript');
+
+  if (isImg) {
+    if (f.size > CONFIG.MAX_IMAGE_MB * 1024 * 1024) { toast(`Gambar max ${CONFIG.MAX_IMAGE_MB} MB`); return; }
+    const r = new FileReader();
+    r.onload = e => { state.pending = { type:'image', dataUrl:e.target.result, name:f.name, size:f.size, ext }; renderPending(); };
+    r.readAsDataURL(f);
+    return;
+  }
+
+  if (isPDF) {
+    if (f.size > 15 * 1024 * 1024) { toast('PDF max 15 MB'); return; }
+    toast('Membaca PDF...');
+    const r = new FileReader();
+    r.onload = async e => {
+      state.pending = {
+        type: 'pdf',
+        dataUrl: e.target.result,
+        name: f.name,
+        size: f.size,
+        ext: 'pdf',
+        extracted: null
+      };
+      renderPending();
+      try {
+        const txt = await extractPDF(f);
+        state.pending.extracted = txt;
+        toast('PDF siap dikirim');
+      } catch (err) {
+        console.warn('[pdf fallback]', err);
+        toast('PDF native mode (fallback otomatis kalau model gak support)');
+      }
+    };
+    r.readAsDataURL(f);
+    return;
+  }
+
+  if (isDOCX) {
+    if (f.size > 10 * 1024 * 1024) { toast('DOCX max 10 MB'); return; }
+    try {
+      toast('Membaca DOCX...');
+      const txt = await extractDOCX(f);
+      if (!txt.trim()) { toast('DOCX kosong atau gagal dibaca'); return; }
+      state.pending = { type: 'text', text: txt, name: f.name, size: f.size, ext: 'docx', isExtracted: true };
+      renderPending();
+    } catch (err) { toast('Gagal baca DOCX: ' + err.message); }
+    return;
+  }
+
+  if (isXLSX) {
+    if (f.size > 10 * 1024 * 1024) { toast('Excel max 10 MB'); return; }
+    try {
+      toast('Membaca Excel...');
+      const txt = await extractXLSX(f);
+      if (!txt.trim()) { toast('Excel kosong'); return; }
+      state.pending = { type: 'text', text: txt, name: f.name, size: f.size, ext: ext, isExtracted: true };
+      renderPending();
+    } catch (err) { toast('Gagal baca Excel: ' + err.message); }
+    return;
+  }
+
+  if (isCSV) {
+    if (f.size > CONFIG.MAX_TEXT_KB * 1024) { toast(`File max ${CONFIG.MAX_TEXT_KB} KB`); return; }
+    const r = new FileReader();
+    r.onload = e => { state.pending = { type:'text', text:e.target.result, name:f.name, size:f.size, ext:'csv', isExtracted:false }; renderPending(); };
+    r.readAsText(f);
+    return;
+  }
+
+  if (isTxt) {
+    if (f.size > CONFIG.MAX_TEXT_KB * 1024) { toast(`File max ${CONFIG.MAX_TEXT_KB} KB`); return; }
+    const r = new FileReader();
+    r.onload = e => { state.pending = { type:'text', text:e.target.result, name:f.name, size:f.size, ext, isExtracted:false }; renderPending(); };
+    r.readAsText(f);
+    return;
+  }
+
+  toast('Tipe file tidak didukung. Pakai: gambar, PDF, DOCX, XLSX, CSV, atau teks/kode.');
+}
+
+function renderPending() {
+  if (!state.pending) { attachPreview.classList.remove('show'); updateSendState(); return; }
+  const p = state.pending;
+
+  if (p.type === 'image') {
+    attachThumb.src = p.dataUrl; attachThumb.style.display = 'block'; attachFileIcon.style.display = 'none';
+  } else {
+    attachThumb.style.display = 'none'; attachFileIcon.style.display = 'grid';
+    attachFileIcon.textContent = (p.ext || 'TXT').toUpperCase().slice(0, 4);
+  }
+
+  if (p.type === 'pdf') attachFileIcon.style.background = 'var(--red)';
+  else if (['docx','xlsx','xls'].includes(p.ext)) attachFileIcon.style.background = 'var(--blue)';
+  else if (['csv','md'].includes(p.ext)) attachFileIcon.style.background = 'var(--purple)';
+  else attachFileIcon.style.background = 'var(--green)';
+
+  attachName.textContent = p.name;
+  attachSize.textContent = fmtBytes(p.size);
+  attachPreview.classList.add('show');
+  updateSendState();
+}
+attachX.addEventListener('click', () => { state.pending = null; renderPending(); });
+
+function wrapFileContent(p) {
+  const isCode = CODE_EXTS.includes(p.ext);
+  const header = `[File dilampirkan: ${p.name} (${fmtBytes(p.size)})]`;
+  const footer = `\n[Akhir file: ${p.name}]`;
+
+  if (isCode) return `${header}\n\n\`\`\`${p.ext}\n${p.text}\n\`\`\`${footer}`;
+  return `${header}\n\n${p.text}\n${footer}`;
+}
+
+sendBtn.addEventListener('click', async () => {
+  const text = input.value.trim();
+  if (!text && !state.pending) return;
+  if (state.isStreaming) return;
+
+  let apiContent;
+
+  if (state.pending?.type === 'image') {
+    const parts = [];
+    if (text) parts.push({ type: 'text', text });
+    parts.push({ type: 'image_url', image_url: { url: state.pending.dataUrl } });
+    apiContent = parts;
+  }
+  else if (state.pending?.type === 'pdf') {
+    const parts = [];
+    if (text) parts.push({ type: 'text', text });
+    parts.push({
+      type: 'file',
+      file: {
+        filename: state.pending.name,
+        file_data: state.pending.dataUrl
+      }
+    });
+    apiContent = parts;
+  }
+  else if (state.pending?.type === 'text') {
+    let fileText = state.pending.text;
+    let truncated = false;
+    if (fileText.length > CONFIG.MAX_TEXT_CHARS) {
+      fileText = fileText.slice(0, CONFIG.MAX_TEXT_CHARS);
+      truncated = true;
+    }
+    const wrapped = wrapFileContent({
+      name: state.pending.name,
+      size: state.pending.size,
+      ext: state.pending.ext,
+      text: fileText
+    });
+    const truncNote = truncated ? '\n\n[... file dipotong karena kepanjangan]' : '';
+    apiContent = (text ? text + '\n\n' : '') + wrapped + truncNote;
+  }
+  else { apiContent = text; }
+
+  const um = { id: uid(), role: 'user', content: apiContent, ts: now() };
+  state.messages.push(um);
+  updateSessionTitleFromMessage(um);
+  saveChats();
+  renderAll();
+
+  input.value = '';
+  const savedPending = state.pending;
+  state.pending = null;
+  autoResize();
+  renderPending();
+  updateSendState();
+
+  await sendToAI(apiContent, savedPending);
+});
+
+async function sendToAI(userContent, pendingMeta = null) {
+  if (state.isStreaming) return;
+  state.isStreaming = true;
+  updateUI(); updateSendState();
+
+  const thinkId = uid();
+  const thinkHTML = `
+    <div class="msg ai pending" data-id="${thinkId}">
+      <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg></div>
+      <div class="msg-body"><div class="bubble"><span class="typing"><i></i><i></i><i></i></span></div></div>
+    </div>`;
+  chatScroll.insertAdjacentHTML('beforeend', thinkHTML);
+  scrollToBottom(true);
+  const thinkEl = chatScroll.querySelector(`.msg[data-id="${thinkId}"]`);
+
+  try {
+    if (!navigator.onLine) {
+      const cached = findCachedReply(typeof userContent === 'string' ? userContent : '');
+      if (cached) {
+        await streamText(thinkEl, cached, false);
+        thinkEl.classList.remove('pending');
+        const aiMsg = { id: uid(), role: 'ai', content: cached, ts: now(), web: false };
+        state.messages.push(aiMsg);
+        saveChats(); renderAll();
+      } else {
+        thinkEl.remove();
+        const fallback = 'Mode offline aktif. Belum ada cache untuk pertanyaan ini.';
+        const aiMsg = { id: uid(), role: 'ai', content: fallback, ts: now(), web: false };
+        state.messages.push(aiMsg);
+        saveChats(); renderAll();
+      }
+      state.isStreaming = false; updateUI(); updateSendState(); return;
+    }
+
+    let webContext = '', usedWeb = false;
+    if (state.settings.webSearch && typeof userContent === 'string' && userContent.trim().length > 3) {
+      try { const ctx = await fetchWebContext(userContent); if (ctx) { webContext = ctx; usedWeb = true; } }
+      catch (e) { console.warn('[web]', e); }
+    }
+
+    let reply;
+    try {
+      reply = await callChatAPI(userContent, webContext);
+    } catch (err) {
+      if (pendingMeta?.type === 'pdf' && pendingMeta.extracted) {
+        console.warn('[pdf] native rejected, fallback to text extraction', err);
+        toast('Model gak support PDF native, pakai hasil extract');
+        const baseText = typeof userContent === 'string' ? userContent : '';
+        const fallbackContent = baseText +
+          '\n\n[File dilampirkan: ' + pendingMeta.name + ']\n\n' + pendingMeta.extracted +
+          '\n[Akhir file: ' + pendingMeta.name + ']';
+        reply = await callChatAPI(fallbackContent, webContext);
+      } else {
+        throw err;
+      }
+    }
+
+    if (typeof userContent === 'string') {
+      const key = hashStr(userContent.toLowerCase().trim());
+      state.responseCache[key] = { reply, ts: now() };
+      saveCache();
+    }
+
+    await streamText(thinkEl, reply, usedWeb);
+    thinkEl.classList.remove('pending');
+    const aiMsg = { id: uid(), role: 'ai', content: reply, ts: now(), web: usedWeb, engine: state.engine.id };
+    state.messages.push(aiMsg);
+    saveChats(); renderAll();
+    if (state.settings.tts) speakText(reply);
+  } catch (err) {
+    console.error('[send]', err);
+    thinkEl.remove();
+    const errMsg = `**Gagal mendapat balasan.**\n\n${formatError(err.message)}`;
+    const aiMsg = { id: uid(), role: 'ai', content: errMsg, ts: now() };
+    state.messages.push(aiMsg);
+    saveChats(); renderAll();
+    toast('Gagal mendapat balasan');
+  }
+  state.isStreaming = false;
+  updateUI(); updateSendState();
+}
+
+function formatError(msg = '') {
+  if (/timeout|504/i.test(msg)) return 'Server butuh waktu lama. Coba pesan lebih singkat atau ganti engine.';
+  if (/rate limit|429/i.test(msg)) return 'Model gratis sedang penuh. Tunggu sebentar atau ganti engine lain.';
+  if (/401|403|auth/i.test(msg)) return 'Kunci akses engine bermasalah. Cek OPENROUTER_API_KEY.';
+  if (/unavailable|not found|no endpoints|404/i.test(msg)) return 'Model ini tidak tersedia di OpenRouter. Ganti ke engine lain. (' + String(msg).slice(0,120) + ')';
+  if (/network|fetch/i.test(msg)) return 'Koneksi ke server gagal. Cek internet kamu.';
+  return 'Terjadi kesalahan: ' + String(msg).slice(0,160);
+}
+
+async function streamText(wrapEl, text, showWeb) {
+  const bubble = wrapEl.querySelector('.bubble');
+  bubble.innerHTML = '';
+  if (showWeb) bubble.innerHTML = `<div class="web-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg> Web Search</div>`;
+
+  const textEl = document.createElement('div');
+  bubble.appendChild(textEl);
+
+  const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) { textEl.innerHTML = renderMD(text); scrollToBottom(true); return; }
+
+  const total = text.length;
+  let i = 0, last = performance.now(), acc = 0;
+  const cps = 160;
+
+  return new Promise(resolve => {
+    const step = () => {
+      const t = performance.now(); const dt = t - last; last = t;
+      acc += (dt / 1000) * cps;
+      const adv = Math.floor(acc); acc -= adv;
+      if (adv > 0) {
+        i = Math.min(total, i + adv);
+        textEl.textContent = text.slice(0, i);
+        textEl.classList.add('cursor');
+        scrollToBottom(false);
+      }
+      if (i < total) requestAnimationFrame(step);
+      else {
+        textEl.classList.remove('cursor');
+        textEl.innerHTML = renderMD(text);
+        scrollToBottom(true);
+        resolve();
+      }
+    };
+    requestAnimationFrame(step);
+  });
+}
+
+function scrollToBottom(smooth) {
+  chatScroll.scrollTo({
+    top: chatScroll.scrollHeight,
+    behavior: smooth && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'auto'
+  });
+}
+
+async function callChatAPI(userContent, webContext = '') {
+  if (state.abortController) state.abortController.abort();
+  state.abortController = new AbortController();
+  const timeoutId = setTimeout(() => state.abortController.abort(), CONFIG.FETCH_TIMEOUT_MS);
+
+  const history = state.messages.slice(-CONFIG.MEMORY_TAIL).map(m => ({
+    role: m.role === 'ai' ? 'assistant' : 'user',
+    content: m.content
+  }));
+
+  const sysPrompt = buildSystemPrompt(webContext);
+  const messages = [
+    { role: 'system', content: sysPrompt },
+    ...history,
+    { role: 'user', content: userContent }
+  ];
+
+  const body = { model: state.engine.model, messages, temperature: 0.75, max_tokens: 4096 };
+
+  let res;
+  try {
+    res = await fetch(CONFIG.CHAT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: state.abortController.signal
+    });
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') throw new Error('timeout');
+    throw new Error('network');
+  }
+  clearTimeout(timeoutId);
+
+  const ct = res.headers.get('content-type') || '';
+  if (!ct.includes('json')) throw new Error(`HTTP ${res.status}`);
+
+  let data;
+  try { data = await res.json(); } catch { throw new Error(`HTTP ${res.status}`); }
+  if (!res.ok) { console.error('[chat error]', res.status, data); throw new Error(data?.error?.message || data?.error || `HTTP ${res.status}`); }
+
+  const m0 = data.choices?.[0]?.message;
+  const reply = m0?.content || m0?.reasoning;
+  if (!reply) throw new Error('Empty response');
+  return reply;
+}
+
+function buildSystemPrompt(webContext = '') {
+  const base = `Kamu adalah NexusHUB AI - asisten cerdas yang dikembangkan oleh xs0ciety HUB. Kamu punya akses ke mesin bahasa generasi terbaru dan dirancang untuk membantu pengguna dengan jawaban yang jelas, akurat, dan langsung ke intinya.
+
+Panduan umum:
+- Bersikaplah langsung dan membantu. Hindari disclaimer berlebihan atau peringatan berulang.
+- Kalau pengguna bertanya soal topik sensitif, teknis, atau kontroversial, jawab dengan jujur dan informatif tanpa menggurui.
+- Format jawaban dengan Markdown bila membantu (bullet, heading, code block).
+- Kalau ada file dilampirkan ([File dilampirkan: nama]), baca kontennya dan jawab berdasarkan file tersebut. Jangan mengeluh soal format, langsung proses.
+- Kalau punya konteks hasil pencarian web di bawah, GUNAKAN itu sebagai sumber utama dan jawab berdasarkan konteks tersebut. Jangan bilang "saya tidak bisa akses web" - konteks sudah diberikan ke kamu.
+- Jangan pernah menyebutkan nama penyedia API atau model spesifik di balik layar. Kamu adalah "NexusHUB AI" - titik.`;
+
+  let persona = state.persona.prompt ? `\n\n${state.persona.prompt}` : '';
+  let lang = state.settings.autoLang ? `\n\nDeteksi bahasa user secara otomatis. Kalau user menulis dalam Bahasa Indonesia, balas dalam Bahasa Indonesia. Kalau Inggris, balas Inggris.` : '';
+  let web = webContext ? `\n\n=== KONTEKS HASIL PENCARIAN WEB (gunakan sebagai sumber utama) ===\n${webContext}\n=== AKHIR KONTEKS ===` : '';
+  return base + persona + lang + web;
+}
+
+async function fetchWebContext(query) {
+  try {
+    const r = await fetch(`${CONFIG.TAVILY_ENDPOINT}?q=${encodeURIComponent(query)}`, { method: 'GET' });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) { console.warn('[web] HTTP', r.status, data); toast(`Web search error: ${data.error || r.status}`); return ''; }
+    const ctx = data.context ? String(data.context).slice(0, 3000) : '';
+    if (!ctx) toast('Web search: hasil kosong');
+    return ctx;
+  } catch (e) { console.warn('[web]', e); toast('Web search gagal: ' + e.message); return ''; }
+}
+
+function findCachedReply(query) {
+  if (!query) return null;
+  const key = hashStr(query.toLowerCase().trim());
+  const exact = state.responseCache[key];
+  if (exact?.reply) return exact.reply;
+  const words = query.toLowerCase().split(/\s+/).filter(w => w.length > 3);
+  if (!words.length) return null;
+  let best = null, bestScore = 0;
+  for (const v of Object.values(state.responseCache)) {
+    if (!v.reply) continue;
+    const low = v.reply.toLowerCase();
+    const score = words.filter(w => low.includes(w)).length;
+    if (score > bestScore) { bestScore = score; best = v.reply; }
+  }
+  return bestScore >= 2 ? best : null;
+}
+
+let currentSpeakBtn = null;
+function detectSpeakLang(text) {
+  const idW = (text.match(/\b(yang|dan|di|ke|dari|untuk|dengan|pada|adalah|akan|tidak|bisa|ini|itu|saya|kamu|anda|kita|mereka|juga|sudah|belum|masih|kalau|karena|tapi|atau|saja|aja|banget|gimana|kenapa)\b/gi) || []).length;
+  const enW = (text.match(/\b(the|and|is|are|was|were|of|to|in|for|on|with|this|that|you|i|we|they|have|has|not|but|or|if|when|what|who|how|why)\b/gi) || []).length;
+  return idW >= enW ? 'id-ID' : 'en-US';
+}
+function pickVoice(lang) {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  const exact = voices.find(v => v.lang === lang); if (exact) return exact;
+  const pref = lang.split('-')[0].toLowerCase();
+  return voices.find(v => v.lang.toLowerCase().startsWith(pref)) || null;
+}
+(function preloadVoices() {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+})();
+
+function speakText(text, btnEl = null) {
+  if (!('speechSynthesis' in window)) { toast('TTS tidak didukung'); return; }
+  if (currentSpeakBtn === btnEl && btnEl?.classList.contains('speaking')) {
+    window.speechSynthesis.cancel(); btnEl.classList.remove('speaking'); currentSpeakBtn = null; return;
+  }
+  window.speechSynthesis.cancel();
+  if (currentSpeakBtn) currentSpeakBtn.classList.remove('speaking');
+
+  const clean = String(text || '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/^#+\s+/gm, '')
+    .replace(/[>•\-*_|~`]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim().slice(0, 1500);
+  if (!clean) return;
+
+  const u = new SpeechSynthesisUtterance(clean);
+  const lang = detectSpeakLang(clean);
+  u.lang = lang; u.rate = 0.92; u.pitch = 1.05; u.volume = 1;
+  const v = pickVoice(lang); if (v) u.voice = v;
+  u.onend = () => { if (btnEl) btnEl.classList.remove('speaking'); currentSpeakBtn = null; };
+  u.onerror = () => { if (btnEl) btnEl.classList.remove('speaking'); currentSpeakBtn = null; };
+  currentSpeakBtn = btnEl;
+  if (btnEl) btnEl.classList.add('speaking');
+  window.speechSynthesis.speak(u);
+}
+
+const modalBackdrop = $('#modalBackdrop');
+function openSheet(id) {
+  closeAllSheets();
+  const sheet = document.getElementById(id);
+  if (!sheet) return;
+  modalBackdrop.classList.add('show');
+  sheet.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeAllSheets() {
+  modalBackdrop.classList.remove('show');
+  $$('.sheet').forEach(s => s.classList.remove('show'));
+  document.body.style.overflow = '';
+}
+modalBackdrop.addEventListener('click', closeAllSheets);
+document.addEventListener('click', e => { if (e.target.closest('[data-close-sheet]')) closeAllSheets(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeAllSheets(); closeSidebar(); closeCtxMenu(); }
+});
+
+function renderPersonaList() {
+  const list = $('#personaList');
+  list.innerHTML = PERSONAS.map(p => `
+    <button class="persona-item ${p.id === state.persona.id ? 'active' : ''}" data-persona="${p.id}">
+      <div class="persona-icon">${p.icon}</div>
+      <div class="persona-info">
+        <div class="persona-name">${esc(p.name)}</div>
+        <div class="persona-desc">${esc(p.desc)}</div>
+      </div>
+    </button>
+  `).join('');
+  $$('.persona-item[data-persona]').forEach(el => {
+    el.onclick = () => {
+      const id = el.dataset.persona;
+      const p = PERSONAS.find(x => x.id === id);
+      if (p) {
+        state.persona = p;
+        try { localStorage.setItem(STORAGE.persona, id); } catch {}
+        updateUI(); closeAllSheets();
+        toast(`Persona: ${p.name}`);
+      }
+    };
+  });
+}
+$('#chipPersona').addEventListener('click', () => { renderPersonaList(); openSheet('personaSheet'); });
+$('#chipLang').addEventListener('click', () => {
+  state.settings.autoLang = !state.settings.autoLang; saveSettings(); updateUI();
+  toast(state.settings.autoLang ? 'Auto bahasa aktif' : 'Auto bahasa nonaktif');
+});
+$('#chipWeb').addEventListener('click', () => {
+  state.settings.webSearch = !state.settings.webSearch;
+  searchToggleBtn.classList.toggle('active', state.settings.webSearch);
+  saveSettings(); updateUI();
+  toast(state.settings.webSearch ? 'Pencarian web aktif' : 'Pencarian web nonaktif');
+});
+
+function renderModelList() {
+  const list = $('#modelList');
+  list.innerHTML = ENGINES.map(e => `
+    <button class="persona-item ${e.id === state.engine.id ? 'active' : ''}" data-engine="${e.id}">
+      <div class="persona-icon" style="background:${e.color};">⚡</div>
+      <div class="persona-info">
+        <div class="persona-name">${esc(e.label)}</div>
+        <div class="persona-desc">${esc(e.desc)}</div>
+      </div>
+    </button>
+  `).join('');
+  $$('.persona-item[data-engine]').forEach(el => {
+    el.onclick = () => {
+      const id = el.dataset.engine;
+      const e = ENGINES.find(x => x.id === id);
+      if (e) {
+        state.engine = e;
+        try { localStorage.setItem(STORAGE.engine, id); } catch {}
+        updateUI(); closeAllSheets();
+        toast(`Engine: ${e.label}`);
+      }
+    };
+  });
+}
+engineTag.addEventListener('click', () => { renderModelList(); openSheet('modelSheet'); });
+
+const toggleWeb = $('#toggleWeb');
+const toggleTTS = $('#toggleTTS');
+const toggleLang = $('#toggleLang');
+const toggleTheme = $('#toggleTheme');
+
+function syncToggles() {
+  toggleWeb.classList.toggle('on', state.settings.webSearch);
+  toggleTTS.classList.toggle('on', state.settings.tts);
+  toggleLang.classList.toggle('on', state.settings.autoLang);
+  toggleTheme.classList.toggle('on', state.settings.darkMode);
+}
+toggleWeb.addEventListener('click', () => {
+  state.settings.webSearch = !state.settings.webSearch;
+  syncToggles(); saveSettings(); updateUI();
+  searchToggleBtn.classList.toggle('active', state.settings.webSearch);
+});
+toggleTTS.addEventListener('click', () => {
+  state.settings.tts = !state.settings.tts;
+  syncToggles(); saveSettings();
+  toast(state.settings.tts ? 'TTS aktif' : 'TTS nonaktif');
+});
+toggleLang.addEventListener('click', () => {
+  state.settings.autoLang = !state.settings.autoLang;
+  syncToggles(); saveSettings(); updateUI();
+});
+toggleTheme.addEventListener('click', () => {
+  state.settings.darkMode = !state.settings.darkMode;
+  document.documentElement.dataset.theme = state.settings.darkMode ? 'dark' : 'light';
+  syncToggles(); saveSettings();
+});
+$('#settingsBtn').addEventListener('click', () => { syncToggles(); openSheet('settingsSheet'); });
+
+$('#sidebarToggleBtn').addEventListener('click', openSidebar);
+$('#sidebarBackdrop').addEventListener('click', closeSidebar);
+$('#newChatBtn').addEventListener('click', () => { createSession(false); });
+
+function updateOnlineStatus() {
+  if (!navigator.onLine) {
+    $('#offlineBanner').classList.add('show');
+    statusText.textContent = 'OFFLINE';
+    statusDot.className = 'status-dot offline';
+  } else {
+    $('#offlineBanner').classList.remove('show');
+    updateUI();
+  }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+function init() {
+  loadFromStorage();
+  document.documentElement.dataset.theme = state.settings.darkMode ? 'dark' : 'light';
+  searchToggleBtn.classList.toggle('active', state.settings.webSearch);
+  syncToggles();
+  updateUI();
+  updateOnlineStatus();
+  renderAll();
+  renderSidebar();
+  autoResize();
+  updateSendState();
+}
+
+init();
+
+})();
+</script>
+</body>
+</html>
